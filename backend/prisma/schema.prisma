@@ -1,0 +1,128 @@
+// FinanceFlow — Prisma schema
+// Money is stored as Decimal(14, 2) — never floats.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum AccountType {
+  savings
+  current
+  wallet
+}
+
+enum TransactionType {
+  income
+  expense
+  transfer
+}
+
+enum GoalStatus {
+  active
+  completed
+  paused
+}
+
+enum Role {
+  user
+  admin
+}
+
+model User {
+  id           String   @id @default(cuid())
+  name         String
+  email        String   @unique
+  passwordHash String
+  currency     String   @default("PKR")
+  role         Role     @default(user)
+  createdAt    DateTime @default(now())
+
+  accounts     BankAccount[]
+  transactions Transaction[]
+  budgets      Budget[]
+  goals        Goal[]
+}
+
+model BankAccount {
+  id          String      @id @default(cuid())
+  userId      String
+  bankName    String
+  accountType AccountType
+  balance     Decimal     @default(0) @db.Decimal(14, 2)
+  color       String      @default("#C9A961")
+  icon        String      @default("wallet")
+  createdAt   DateTime    @default(now())
+
+  user         User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  transactions Transaction[]
+
+  @@index([userId])
+}
+
+model Transaction {
+  id            String          @id @default(cuid())
+  userId        String
+  bankAccountId String
+  type          TransactionType
+  amount        Decimal         @db.Decimal(14, 2)
+  category      String
+  description   String?
+  date          DateTime
+  tags          String[]        @default([])
+  createdAt     DateTime        @default(now())
+
+  user    User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  account BankAccount @relation(fields: [bankAccountId], references: [id], onDelete: Cascade)
+
+  @@index([userId, date])
+  @@index([userId, category])
+  @@index([bankAccountId])
+}
+
+model Budget {
+  id           String  @id @default(cuid())
+  userId       String
+  category     String
+  monthlyLimit Decimal @db.Decimal(14, 2)
+  month        Int
+  year         Int
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, category, month, year])
+  @@index([userId, year, month])
+}
+
+model Goal {
+  id           String     @id @default(cuid())
+  userId       String
+  title        String
+  targetAmount Decimal    @db.Decimal(14, 2)
+  savedAmount  Decimal    @default(0) @db.Decimal(14, 2)
+  deadline     DateTime?
+  icon         String     @default("target")
+  status       GoalStatus @default(active)
+  createdAt    DateTime   @default(now())
+
+  user          User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  contributions GoalContribution[]
+
+  @@index([userId])
+}
+
+model GoalContribution {
+  id     String   @id @default(cuid())
+  goalId String
+  amount Decimal  @db.Decimal(14, 2)
+  date   DateTime @default(now())
+  note   String?
+
+  goal Goal @relation(fields: [goalId], references: [id], onDelete: Cascade)
+
+  @@index([goalId])
+}

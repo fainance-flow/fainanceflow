@@ -1,0 +1,25 @@
+// Re-export to allow imports via @utils/types (both .ts and .d.ts paths resolve to here).
+// All types live in types.d.ts per the project convention.
+export type {
+  WalletType,
+  TransactionType,
+  SubscriptionBillingCycle,
+  SubscriptionStatus,
+  LoanDirection,
+  Role,
+  User,
+  Wallet,
+  Transaction,
+  Budget,
+  BudgetStatus,
+  Subscription,
+  Loan,
+  ExpenseByCategoryPoint,
+  DashboardSubscriptionRow,
+  WalletDistributionPoint,
+  DashboardSummary,
+  ChartPoint,
+  GoalStatus,
+  GoalContributionRecord,
+  Goal,
+} from "./types.d";

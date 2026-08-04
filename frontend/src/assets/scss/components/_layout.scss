@@ -1,0 +1,431 @@
+@use "../utils/variables" as *;
+@use "../utils/mixins" as *;
+
+// ─────────────────────────────────────────────────────────────────
+// FinanceFlow — unified layout primitives.
+// Every route uses these to keep page header / filter / tile alignment
+// pixel-consistent across the app.
+// ─────────────────────────────────────────────────────────────────
+
+// ─── Page shell ───────────────────────────────────────────────────
+.ff-page {
+  width: 100%;
+  margin: 0;
+  @include page-gutter;
+  padding-top: $space-6;
+  padding-bottom: $space-12;
+  display: flex;
+  flex-direction: column;
+  gap: $space-6;
+
+  @include media-md {
+    padding-top: $space-8;
+    gap: $space-8;
+  }
+}
+
+.ff-page__header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: $space-5;
+  flex-wrap: wrap;
+  padding-bottom: $space-5;
+  border-bottom: 1px solid rgb(var(--c-line) / 0.6);
+
+  .ff-page__title-block {
+    display: flex;
+    flex-direction: column;
+    gap: $space-2;
+    min-width: 0;
+    flex: 1 1 280px;
+
+    .eyebrow {
+      font-family: var(--font-mono);
+      font-size: 0.625rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgb(var(--c-faint));
+      display: inline-flex;
+      align-items: center;
+      gap: $space-2;
+
+      &::before {
+        content: "";
+        width: 18px;
+        height: 1px;
+        background: rgb(var(--c-primary));
+      }
+    }
+
+    h1 {
+      font-family: var(--font-display);
+      font-size: clamp(1.75rem, 3vw, 2.5rem);
+      line-height: 1.08;
+      letter-spacing: -0.022em;
+      font-weight: 700;
+      color: rgb(var(--c-ink));
+      margin: 0;
+
+      em {
+        font-style: italic;
+        color: rgb(var(--c-primary));
+        font-weight: 400;
+      }
+    }
+
+    .subtitle {
+      font-size: $font-size-sm;
+      line-height: 1.55;
+      color: rgb(var(--c-muted));
+      max-width: 56ch;
+      margin: 0;
+    }
+  }
+
+  .ff-page__actions {
+    display: inline-flex;
+    align-items: center;
+    gap: $space-2;
+    flex-wrap: wrap;
+  }
+}
+
+// ─── Toolbar (search + filters + period) ──────────────────────────
+// One shared toolbar shape across every route. Defaults to a vertical
+// stack on mobile, becomes a horizontal grid on md+. The .ff-toolbar
+// element should wrap a single row of filter controls; for multi-row
+// toolbars use .ff-toolbar--stacked.
+.ff-toolbar {
+  background: rgb(var(--c-surface));
+  border: 1px solid rgb(var(--c-line));
+  border-radius: $radius-xl;
+  padding: $space-4;
+  box-shadow: var(--shadow-card);
+  display: flex;
+  flex-direction: column;
+  gap: $space-3;
+}
+
+.ff-toolbar__row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: $space-3;
+  align-items: end;
+
+  @include media-md {
+    // auto-fit lets filter cells share width evenly without overflow
+    grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  }
+
+  // First row variant — search takes most of the space, period chip auto-width
+  &--search {
+    align-items: center;
+    @include media-md {
+      grid-template-columns: minmax(0, 1fr) auto;
+    }
+  }
+}
+
+.ff-toolbar__search {
+  min-width: 0;
+}
+
+.ff-toolbar__filters {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: $space-3;
+  align-items: end;
+
+  @include media-sm {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  @include media-md {
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  }
+}
+
+.ff-toolbar__cell {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.ff-toolbar__chip-row {
+  display: flex;
+  align-items: center;
+  gap: $space-2;
+  flex-wrap: wrap;
+
+  .label {
+    font-family: var(--font-mono);
+    font-size: 0.625rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgb(var(--c-faint));
+    margin-right: $space-1;
+  }
+}
+
+// ─── KPI tile ─────────────────────────────────────────────────────
+.ff-tile {
+  position: relative;
+  overflow: hidden;
+  background: rgb(var(--c-surface));
+  border: 1px solid rgb(var(--c-line));
+  border-radius: $radius-xl;
+  padding: $space-5;
+  min-height: 118px;
+  display: flex;
+  flex-direction: column;
+  gap: $space-2;
+  box-shadow: var(--shadow-card);
+  transition:
+    border-color 200ms $ease-out-soft,
+    transform 200ms $ease-out-soft,
+    box-shadow 200ms $ease-out-soft;
+
+  &:hover {
+    border-color: rgb(var(--c-line-strong));
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-raised);
+  }
+
+  &__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: $space-3;
+  }
+
+  &__label {
+    font-family: var(--font-mono);
+    font-size: 0.625rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: rgb(var(--c-faint));
+    line-height: 1.2;
+  }
+
+  &__icon {
+    width: 32px;
+    height: 32px;
+    border-radius: $radius-md;
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+  }
+
+  &__value {
+    font-family: var(--font-display);
+    font-size: clamp(1.5rem, 2.4vw, 2rem);
+    font-weight: 700;
+    line-height: 1.05;
+    letter-spacing: -0.022em;
+    color: rgb(var(--c-ink));
+    @include tabular;
+    display: flex;
+    align-items: baseline;
+    gap: 4px;
+
+    .currency {
+      font-size: 0.55em;
+      color: rgb(var(--c-muted));
+      font-weight: 500;
+      margin-right: 2px;
+    }
+
+    .suffix {
+      font-size: 0.5em;
+      color: rgb(var(--c-muted));
+      font-weight: 500;
+      margin-left: 2px;
+    }
+  }
+
+  &__sub {
+    font-family: var(--font-mono);
+    font-size: 0.625rem;
+    letter-spacing: 0.10em;
+    text-transform: uppercase;
+    color: rgb(var(--c-faint));
+    display: flex;
+    align-items: center;
+    gap: $space-1;
+    min-height: 14px;
+  }
+
+  &__delta {
+    margin-top: auto;
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.06em;
+    display: flex;
+    align-items: center;
+    gap: $space-1;
+
+    .up   { color: rgb(var(--c-emerald)); }
+    .down { color: rgb(var(--c-terra)); }
+  }
+
+  // Tone variants — Binance is flat. Color lives on the icon + value (text),
+  // a 2px left-edge marker, and a hairline border. No radial atmospherics.
+  &--income {
+    border-left: 2px solid rgb(var(--c-emerald));
+
+    .ff-tile__icon  { background: rgb(var(--c-emerald) / 0.12); color: rgb(var(--c-emerald)); }
+    .ff-tile__value { color: rgb(var(--c-emerald)); }
+  }
+
+  &--expense {
+    border-left: 2px solid rgb(var(--c-terra));
+
+    .ff-tile__icon  { background: rgb(var(--c-terra) / 0.12); color: rgb(var(--c-terra)); }
+    .ff-tile__value { color: rgb(var(--c-terra)); }
+  }
+
+  &--accent {
+    border-left: 2px solid rgb(var(--c-primary));
+
+    .ff-tile__icon  { background: rgb(var(--c-primary) / 0.12); color: rgb(var(--c-primary)); }
+    .ff-tile__value { color: rgb(var(--c-primary)); }
+  }
+
+  &--warning {
+    border-left: 2px solid rgb(var(--c-warning));
+
+    .ff-tile__icon  { background: rgb(var(--c-warning) / 0.12); color: rgb(var(--c-warning)); }
+    .ff-tile__value { color: rgb(var(--c-warning)); }
+  }
+
+  &--muted {
+    .ff-tile__icon  { background: rgb(var(--c-surface-2)); color: rgb(var(--c-muted)); }
+  }
+
+  &--text {
+    .ff-tile__value {
+      font-size: clamp(1rem, 1.6vw, 1.25rem);
+      letter-spacing: -0.01em;
+    }
+  }
+}
+
+// ─── Tile grid ────────────────────────────────────────────────────
+.ff-tile-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: $space-4;
+
+  &--2 {
+    @include media-sm { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+  &--3 {
+    @include media-sm { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    @include media-lg { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  }
+  &--4 {
+    @include media-sm { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    @include media-lg { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  }
+  &--auto {
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  }
+}
+
+// ─── Big content card grid (wallets, budgets, goals, loans…) ──────
+.ff-card-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: $space-4;
+
+  @include media-md { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  @include media-xl { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+  &--2 {
+    @include media-md { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    @include media-xl { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+  &--auto-md {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  }
+}
+
+// ─── Section ─────────────────────────────────────────────────────
+.ff-section-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: $space-4;
+  margin-bottom: $space-4;
+  flex-wrap: wrap;
+
+  .title-block {
+    display: flex;
+    flex-direction: column;
+    gap: $space-2;
+    min-width: 0;
+  }
+
+  h2, h3 {
+    font-family: var(--font-display);
+    font-size: $font-size-xl;
+    letter-spacing: -0.015em;
+    font-weight: 600;
+    color: rgb(var(--c-ink));
+    margin: 0;
+    line-height: 1.2;
+  }
+
+  .actions {
+    display: inline-flex;
+    align-items: center;
+    gap: $space-2;
+    flex-wrap: wrap;
+  }
+}
+
+// ─── Compact info row (used inside cards) ─────────────────────────
+.ff-meta-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $space-3;
+  padding: $space-2 0;
+  font-size: $font-size-sm;
+
+  dt {
+    color: rgb(var(--c-muted));
+    margin: 0;
+  }
+  dd {
+    color: rgb(var(--c-ink));
+    @include tabular;
+    margin: 0;
+    text-align: right;
+  }
+
+  + .ff-meta-row {
+    border-top: 1px dashed rgb(var(--c-line) / 0.6);
+  }
+}
+
+// ─── Inline progress bar ──────────────────────────────────────────
+.ff-progress {
+  height: 6px;
+  border-radius: $radius-pill;
+  background: rgb(var(--c-surface-2));
+  overflow: hidden;
+  position: relative;
+
+  &__fill {
+    display: block;
+    height: 100%;
+    border-radius: inherit;
+    background: linear-gradient(90deg, rgb(var(--c-primary)), rgb(var(--c-emerald)));
+    transition: width 700ms $ease-out-soft;
+  }
+
+  &--success .ff-progress__fill { background: rgb(var(--c-emerald)); }
+  &--warning .ff-progress__fill { background: rgb(var(--c-warning)); }
+  &--danger  .ff-progress__fill { background: rgb(var(--c-terra)); }
+}

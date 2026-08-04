@@ -1,0 +1,31 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+@layer utilities {
+  /* Binance yellow primary — identical in both modes (no inversion). */
+  .bg-primary {
+    background-color: rgb(var(--c-primary, 252 213 53));
+  }
+  .text-on-primary {
+    color: rgb(var(--c-on-primary, 24 26 32));
+  }
+  .border-primary {
+    border-color: rgb(var(--c-primary, 252 213 53));
+  }
+  .text-primary {
+    color: rgb(var(--c-primary, 252 213 53));
+  }
+
+  /* Trading semantics — always green/red, never inverted by theme. */
+  .text-emerald,
+  .text-up { color: rgb(var(--c-emerald)); }
+  .text-terra,
+  .text-down { color: rgb(var(--c-terra)); }
+}

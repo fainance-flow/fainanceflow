@@ -1,0 +1,174 @@
+@use "../utils/variables" as *;
+@use "../utils/mixins" as *;
+
+.ff-menubar {
+  // No sticky needed — parent is h-screen, sidebar stays in place naturally
+  height: 100vh;
+  width: 240px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  padding: $space-6 $space-3 $space-4;
+  border-right: 1px solid rgb(var(--c-line));
+  background: rgb(var(--c-canvas));
+  z-index: 20;
+  overflow-y: auto; // sidebar itself scrolls if nav items overflow
+  @include scrollbar-thin;
+
+  // Subtle top violet glow
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg,
+      transparent 0%,
+      rgb(var(--c-primary) / 0.5) 50%,
+      transparent 100%
+    );
+  }
+
+  &__section-label {
+    font-family: var(--font-mono);
+    font-size: 0.5625rem;
+    letter-spacing: 0.20em;
+    text-transform: uppercase;
+    color: rgb(var(--c-faint));
+    padding: 0 $space-3;
+    margin: $space-5 0 $space-2;
+  }
+
+  &__item {
+    display: flex;
+    align-items: center;
+    gap: $space-3;
+    padding: 10px $space-3;
+    border-radius: $radius-md;
+    color: rgb(var(--c-muted));
+    font-size: $font-size-sm;
+    font-family: var(--font-sans);
+    font-weight: 500;
+    cursor: pointer;
+    position: relative;
+    transition:
+      color 150ms $ease-out-soft,
+      background-color 150ms $ease-out-soft;
+
+    &:hover {
+      color: rgb(var(--c-ink));
+      background: rgb(var(--c-surface-2));
+    }
+
+    &--active {
+      color: rgb(var(--c-ink));
+      background: rgb(var(--c-surface-2));
+      border: 1px solid rgb(var(--c-line-strong));
+
+      &::before {
+        content: "";
+        position: absolute;
+        left: -$space-3;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 3px;
+        height: 20px;
+        border-radius: 0 2px 2px 0;
+        background: rgb(var(--c-primary));
+      }
+
+      svg {
+        color: rgb(var(--c-primary));
+      }
+    }
+
+    svg {
+      width: 16px;
+      height: 16px;
+      stroke-width: 1.75;
+      flex-shrink: 0;
+      transition: color 150ms $ease-out-soft;
+    }
+  }
+
+  &__footer {
+    margin-top: auto;
+    padding-top: $space-4;
+    border-top: 1px solid rgb(var(--c-line));
+  }
+
+  &__profile {
+    display: flex;
+    align-items: center;
+    gap: $space-3;
+    padding: $space-2 $space-3;
+    border-radius: $radius-md;
+    cursor: pointer;
+    transition: background-color 150ms $ease-out-soft;
+
+    &:hover {
+      background: rgb(var(--c-surface-2));
+    }
+
+    .avatar {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: rgb(var(--c-primary));
+      display: grid;
+      place-items: center;
+      font-family: var(--font-display);
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: rgb(var(--c-on-primary));
+      flex-shrink: 0;
+    }
+
+    .info {
+      flex: 1;
+      min-width: 0;
+
+      .name {
+        font-size: $font-size-sm;
+        font-weight: 500;
+        color: rgb(var(--c-ink));
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .role {
+        font-family: var(--font-mono);
+        font-size: 0.5625rem;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: rgb(var(--c-faint));
+        margin-top: 1px;
+      }
+    }
+
+    .settings-icon {
+      width: 14px;
+      height: 14px;
+      color: rgb(var(--c-faint));
+      flex-shrink: 0;
+    }
+  }
+
+  &__version {
+    font-family: var(--font-mono);
+    font-size: 0.5625rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgb(var(--c-faint));
+    padding: $space-2 $space-3 0;
+  }
+}
+
+// Hide on mobile — bottom nav takes over
+@media (max-width: #{$bp-md - 1px}) {
+  .ff-menubar {
+    display: none;
+  }
+}

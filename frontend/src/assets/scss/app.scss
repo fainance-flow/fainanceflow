@@ -1,0 +1,15 @@
+// FinanceFlow — app-level SCSS entrypoint.
+// Composes design tokens + utils + component partials.
+
+@use "./utils/variables" as *;
+@use "./utils/mixins" as *;
+@use "./utils/animations";
+
+// Component partials
+@use "./components/layout";
+@use "./components/topbar";
+@use "./components/menubar";
+@use "./components/card";
+@use "./components/auth";
+@use "./components/dashboard";
+@use "./components/landing";
