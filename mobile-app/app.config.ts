@@ -2,6 +2,9 @@ import type { ExpoConfig } from "expo/config";
 
 const scheme = "financeflow";
 
+// Matches the dark navy behind the circular brand mark in assets/brand-logo.png
+const canvasDark = "#0b0e11";
+
 const config: ExpoConfig = {
   name: "FinanceFlow",
   slug: "financeflow-mobile",
@@ -11,11 +14,6 @@ const config: ExpoConfig = {
   icon: "./assets/icon.png",
   userInterfaceStyle: "dark",
   newArchEnabled: true,
-  splash: {
-    image: "./assets/splash-icon.png",
-    resizeMode: "contain",
-    backgroundColor: "#181a20",
-  },
   ios: {
     supportsTablet: true,
     bundleIdentifier: "com.financeflow.app",
@@ -24,7 +22,7 @@ const config: ExpoConfig = {
   android: {
     adaptiveIcon: {
       foregroundImage: "./assets/adaptive-icon.png",
-      backgroundColor: "#181a20",
+      backgroundColor: canvasDark,
     },
     package: "com.financeflow.app",
     edgeToEdgeEnabled: true,
@@ -33,7 +31,20 @@ const config: ExpoConfig = {
   web: {
     favicon: "./assets/favicon.png",
   },
-  plugins: ["expo-router", "expo-font"],
+  // SDK 54: splash is configured via the expo-splash-screen plugin, not the
+  // legacy top-level `splash` key.
+  plugins: [
+    "expo-router",
+    "expo-font",
+    [
+      "expo-splash-screen",
+      {
+        image: "./assets/splash-icon.png",
+        resizeMode: "contain",
+        backgroundColor: canvasDark,
+      },
+    ],
+  ],
   extra: {
     scheme,
     apiUrl: process.env.EXPO_PUBLIC_API_URL ?? "http://localhost:4000/api",
