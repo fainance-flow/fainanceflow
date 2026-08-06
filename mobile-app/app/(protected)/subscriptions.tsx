@@ -1,5 +1,11 @@
 import FeaturePlaceholderScreen from "@/components/FeaturePlaceholderScreen";
 
-export default function SubscriptionsStackScreen() {
-  return <FeaturePlaceholderScreen title="Subscriptions" subtitle=" subscriptionsView.tsx" />;
+/** Subscriptions are local-only on web (no cloud API yet). */
+export default function SubscriptionsScreen() {
+  return (
+    <FeaturePlaceholderScreen
+      title="Subscriptions"
+      subtitle="Coming next — recurring bills will sync once the cloud API is ready."
+    />
+  );
 }
