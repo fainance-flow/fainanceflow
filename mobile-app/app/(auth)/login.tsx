@@ -16,7 +16,17 @@ import { useAppDispatch } from "@/hooks/useTypedRedux";
 import { authSuccess } from "@/store/slices/authSlice";
 import { colors, spacing, typography } from "@/constants/theme";
 
-type ApiError = { response?: { data?: { message?: string } } };
+type ApiError = { response?: { data?: { message?: string } }; message?: string; code?: string };
+
+function loginErrorMessage(err: unknown): string {
+  const e = err as ApiError;
+  if (e?.response?.data?.message) return e.response.data.message;
+  if (e?.code === "ECONNABORTED") return "Request timed out. Is the backend running?";
+  if (e?.message === "Network Error" || e?.code === "ERR_NETWORK") {
+    return "Can't reach the server. On a phone, use the same Wi‑Fi as your PC and check EXPO_PUBLIC_API_URL in mobile-app/.env.";
+  }
+  return "Couldn't sign in. Check your credentials.";
+}
 
 export default function LoginScreen() {
   const router = useRouter();
@@ -43,7 +53,7 @@ export default function LoginScreen() {
       dispatch(authSuccess(res.data.user));
       router.replace("/dashboard");
     } catch (err) {
-      const message = (err as ApiError)?.response?.data?.message ?? "Couldn't sign in. Check your credentials.";
+      const message = loginErrorMessage(err);
       setServerError(message);
     } finally {
       setBusy(false);
