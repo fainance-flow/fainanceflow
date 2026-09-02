@@ -100,7 +100,6 @@ const config: Config = {
         "fade-in":     "fade-in 500ms ease-out both",
         "shimmer":     "shimmer 2.4s linear infinite",
         "pulse-soft":  "pulse-soft 2s ease-in-out infinite",
-        "glow-pulse":  "glow-pulse 3s ease-in-out infinite",
         "ledger-tick": "ledger-tick 600ms ease-out both",
         "slide-up":    "slide-up 300ms cubic-bezier(0.22, 1, 0.36, 1) both",
       },
@@ -120,10 +119,6 @@ const config: Config = {
         "pulse-soft": {
           "0%, 100%": { opacity: "0.5" },
           "50%":      { opacity: "1" },
-        },
-        "glow-pulse": {
-          "0%, 100%": { boxShadow: "0 0 0 rgb(252 213 53 / 0)" },
-          "50%":      { boxShadow: "0 0 0 rgb(252 213 53 / 0)" },
         },
         "ledger-tick": {
           "0%":   { opacity: "0", transform: "translateY(-4px)" },
