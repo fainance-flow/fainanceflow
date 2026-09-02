@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useState } from "react";
 import { LogOut, Mail, ShieldCheck, UserCog, Wallet, KeyRound, Eye, EyeOff, Check } from "lucide-react";

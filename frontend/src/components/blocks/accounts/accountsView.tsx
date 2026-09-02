@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useState } from "react";
 import { Plus, Wallet as WalletIcon, Pencil, Trash2, ArrowLeftRight, Lock, Eye, EyeOff } from "lucide-react";

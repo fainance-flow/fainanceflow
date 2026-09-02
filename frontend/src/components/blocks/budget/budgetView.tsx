@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useState } from "react";
 import { PieChart, Plus, Pencil, Trash2 } from "lucide-react";

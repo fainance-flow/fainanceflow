@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from "recharts";
 import { categoryFor } from "@utils/categories";
