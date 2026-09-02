@@ -11,3 +11,6 @@ coverage/
 .vscode/
 .idea/
 *.tsbuildinfo
+__pycache__/
+*.pyc
+*.pyo
