@@ -137,9 +137,7 @@ router.get(
       }),
     ]);
 
-    const spentMap = new Map(
-      spent.map((s) => [s.category, Number(s._sum.amount ?? 0)])
-    );
+    const spentMap = new Map(spent.map((s) => [s.category, Number(s._sum.amount ?? 0)]));
 
     const status = budgets.map((b) => {
       const used = spentMap.get(b.category) ?? 0;

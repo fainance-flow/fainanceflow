@@ -36,11 +36,16 @@ async function main() {
       data: { balance: 0 },
     });
   }
-  console.log(`✔  Reset balance to 0 on ${accounts.length} accounts: ${accounts.map(a => a.bankName).join(", ")}`);
+  console.log(
+    `✔  Reset balance to 0 on ${accounts.length} accounts: ${accounts.map((a) => a.bankName).join(", ")}`
+  );
 
   console.log(`\n✅  Done. Now set the correct opening balance on each account from the app.\n`);
 }
 
 main()
-  .catch((e) => { console.error(e); process.exit(1); })
+  .catch((e) => {
+    console.error(e);
+    process.exit(1);
+  })
   .finally(() => prisma.$disconnect());

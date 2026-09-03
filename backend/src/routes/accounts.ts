@@ -14,7 +14,10 @@ const createSchema = z.object({
   bankName: z.string().min(1).max(80),
   accountType: z.nativeEnum(AccountType),
   balance: z.number().nonnegative().default(0),
-  color: z.string().regex(/^#[0-9a-fA-F]{6}$/).optional(),
+  color: z
+    .string()
+    .regex(/^#[0-9a-fA-F]{6}$/)
+    .optional(),
   icon: z.string().min(1).max(40).optional(),
 });
 

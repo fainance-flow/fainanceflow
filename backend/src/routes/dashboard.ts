@@ -129,8 +129,13 @@ router.get(
   asyncHandler(async (req, res) => {
     const userId = (req as AuthedRequest).userId;
     const now = new Date();
-    const months: { label: string; year: number; month: number; income: number; expense: number }[] =
-      [];
+    const months: {
+      label: string;
+      year: number;
+      month: number;
+      income: number;
+      expense: number;
+    }[] = [];
 
     for (let i = 5; i >= 0; i--) {
       const start = new Date(now.getFullYear(), now.getMonth() - i, 1);

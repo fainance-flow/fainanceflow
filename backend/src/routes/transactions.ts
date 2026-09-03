@@ -204,8 +204,7 @@ router.put(
 
     const newAccountId = data.bankAccountId ?? existing.bankAccountId;
     const newType = data.type ?? existing.type;
-    const newAmount =
-      data.amount !== undefined ? new Prisma.Decimal(data.amount) : existing.amount;
+    const newAmount = data.amount !== undefined ? new Prisma.Decimal(data.amount) : existing.amount;
 
     if (data.bankAccountId && data.bankAccountId !== existing.bankAccountId) {
       const owned = await prisma.bankAccount.findFirst({

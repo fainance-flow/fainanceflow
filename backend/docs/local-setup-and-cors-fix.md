@@ -7,12 +7,14 @@ This document captures everything that was done to get the FinanceFlow backend r
 ## 1. Docker Desktop wasn't starting
 
 ### Symptom
+
 ```
 docker info
 > Error response from daemon: Docker Desktop is unable to start
 ```
 
 ### Root cause
+
 WSL2 had **no installed Linux distributions**. Docker Desktop's default backend on Windows is WSL2 and it needs the WSL kernel + at least its own internal distros to boot. `wsl --list --verbose` confirmed it:
 
 ```
@@ -20,13 +22,17 @@ Windows Subsystem for Linux has no installed distributions.
 ```
 
 ### Fix
+
 1. Updated the WSL kernel:
+
    ```powershell
    wsl --update
    ```
+
    (it was already at the latest — but this is the first thing to try)
 
 2. Killed every Docker process and re-launched Docker Desktop:
+
    ```powershell
    Get-Process | Where-Object { $_.ProcessName -like "*docker*" } | Stop-Process -Force
    Start-Process "$env:ProgramFiles\Docker\Docker\Docker Desktop.exe"
@@ -53,6 +59,7 @@ financeflow-redis      Up (healthy)             0.0.0.0:6379->6379/tcp
 ```
 
 ### Quick health-check commands
+
 ```powershell
 docker exec financeflow-redis redis-cli ping        # -> PONG
 docker exec financeflow-postgres pg_isready -U financeflow -d financeflow
@@ -60,6 +67,7 @@ docker exec financeflow-postgres pg_isready -U financeflow -d financeflow
 ```
 
 ### Stop / start / remove later
+
 ```powershell
 docker compose -f "d:\Practice\fainanceflow\docker-compose.yml" stop postgres redis
 docker compose -f "d:\Practice\fainanceflow\docker-compose.yml" start postgres redis
@@ -72,13 +80,15 @@ docker compose -f "d:\Practice\fainanceflow\docker-compose.yml" down -v         
 ## 3. The "CORS error on login" — actual root cause
 
 ### What looked like the problem
+
 Frontend → `POST http://localhost:4000/api/auth/login` was failing with a CORS error in the browser console.
 
 ### What was really happening
+
 Two other Next.js projects were already using the lower ports:
 
-| Port | Process command line                                                        |
-|------|------------------------------------------------------------------------------|
+| Port | Process command line                                                         |
+| ---- | ---------------------------------------------------------------------------- |
 | 3000 | `D:\BestConnect\bestconnect-ui\node_modules\next\...start-server.js`         |
 | 3001 | `D:\BestConnect\bestconnectadmin\bestconnect-admin-ui\node_modules\next\...` |
 | 4000 | FinanceFlow backend (`tsx watch src/index.ts`)                               |
@@ -86,6 +96,7 @@ Two other Next.js projects were already using the lower ports:
 When FinanceFlow's frontend was started, Next.js saw 3000 and 3001 were taken and **auto-bumped to 3002** (or higher). But the backend's CORS config in [backend/src/app.ts](../src/app.ts) only allowed `http://localhost:3000`, so every request from `http://localhost:3002` was rejected at the preflight.
 
 ### Fix
+
 Updated the CORS middleware in [backend/src/app.ts](../src/app.ts) to use a function-based origin check that, **in dev only**, allows any `http://localhost:<port>` origin. The explicit `CORS_ORIGIN` env list still applies in both dev and prod, so production stays strict.
 
 ```ts
@@ -98,8 +109,8 @@ const isDev = process.env.NODE_ENV !== "production";
 app.use(
   cors({
     origin: (origin, cb) => {
-      if (!origin) return cb(null, true);                            // server-to-server / curl
-      if (allowedOrigins.includes(origin)) return cb(null, true);    // explicit allowlist
+      if (!origin) return cb(null, true); // server-to-server / curl
+      if (allowedOrigins.includes(origin)) return cb(null, true); // explicit allowlist
       if (isDev && /^http:\/\/localhost:\d+$/.test(origin)) return cb(null, true);
       return cb(new Error(`CORS: origin ${origin} not allowed`));
     },
@@ -109,7 +120,9 @@ app.use(
 ```
 
 ### Verification
+
 Preflight from origin `http://localhost:3002`:
+
 ```
 HTTP 204
 Access-Control-Allow-Origin: http://localhost:3002
@@ -130,12 +143,15 @@ docker exec financeflow-postgres psql -U financeflow -d financeflow -c "\dt"
 ```
 
 ### Fix
+
 From `backend/`:
+
 ```powershell
 npx prisma db push --skip-generate
 ```
 
 Then seed the demo data. The seed script doesn't load `.env` itself, so set the env vars inline for the run:
+
 ```powershell
 $env:DATABASE_URL="postgresql://financeflow:financeflow@localhost:5432/financeflow"
 $env:REDIS_URL="redis://localhost:6379"
@@ -143,6 +159,7 @@ npm run seed
 ```
 
 Output:
+
 ```
 ✔  User: demo@financeflow.pk
 ✔  3 bank accounts
@@ -171,6 +188,7 @@ Body: { "email": "demo@financeflow.pk", "password": "demo123" }
 ```
 
 Redis confirmed it stored the refresh token:
+
 ```
 docker exec financeflow-redis redis-cli KEYS "refresh:*"
 # -> refresh:cmp10d7ik0000g168ha41fw1u:97b1d680-6673-49a6-b8da-2fff5dd7ecef
@@ -178,6 +196,7 @@ docker exec financeflow-redis redis-cli KEYS "refresh:*"
 ```
 
 **Demo credentials**
+
 - email: `demo@financeflow.pk`
 - password: `demo123`
 
@@ -192,13 +211,14 @@ This project uses **PostgreSQL**, not MySQL. MySQL Workbench cannot connect to a
 - **Prisma Studio** (already in the repo): `npm run prisma:studio` from `backend/`
 
 ### Connection details
-| Field    | Value          |
-|----------|----------------|
-| Host     | `localhost`    |
-| Port     | `5432`         |
-| Database | `financeflow`  |
-| User     | `financeflow`  |
-| Password | `financeflow`  |
+
+| Field    | Value         |
+| -------- | ------------- |
+| Host     | `localhost`   |
+| Port     | `5432`        |
+| Database | `financeflow` |
+| User     | `financeflow` |
+| Password | `financeflow` |
 
 ---
 

@@ -6,17 +6,6 @@ const prisma = new PrismaClient();
 const DEMO_EMAIL = "demo@financeflow.pk";
 const DEMO_PASSWORD = "demo123";
 
-const expenseCategories = [
-  "Food",
-  "Transport",
-  "Shopping",
-  "Bills",
-  "Healthcare",
-  "Entertainment",
-];
-
-const incomeCategories = ["Salary", "Freelance", "Investment"];
-
 function randomBetween(min: number, max: number): number {
   return Math.round((Math.random() * (max - min) + min) * 100) / 100;
 }
