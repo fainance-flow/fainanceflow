@@ -246,7 +246,7 @@
   &__sub {
     font-family: var(--font-mono);
     font-size: 0.625rem;
-    letter-spacing: 0.10em;
+    letter-spacing: 0.1em;
     text-transform: uppercase;
     color: rgb(var(--c-faint));
     display: flex;
@@ -264,8 +264,12 @@
     align-items: center;
     gap: $space-1;
 
-    .up   { color: rgb(var(--c-emerald)); }
-    .down { color: rgb(var(--c-terra)); }
+    .up {
+      color: rgb(var(--c-emerald));
+    }
+    .down {
+      color: rgb(var(--c-terra));
+    }
   }
 
   // Tone variants — Binance is flat. Color lives on the icon + value (text),
@@ -273,33 +277,56 @@
   &--income {
     border-left: 2px solid rgb(var(--c-emerald));
 
-    .ff-tile__icon  { background: rgb(var(--c-emerald) / 0.12); color: rgb(var(--c-emerald)); }
-    .ff-tile__value { color: rgb(var(--c-emerald)); }
+    .ff-tile__icon {
+      background: rgb(var(--c-emerald) / 0.12);
+      color: rgb(var(--c-emerald));
+    }
+    .ff-tile__value {
+      color: rgb(var(--c-emerald));
+    }
   }
 
   &--expense {
     border-left: 2px solid rgb(var(--c-terra));
 
-    .ff-tile__icon  { background: rgb(var(--c-terra) / 0.12); color: rgb(var(--c-terra)); }
-    .ff-tile__value { color: rgb(var(--c-terra)); }
+    .ff-tile__icon {
+      background: rgb(var(--c-terra) / 0.12);
+      color: rgb(var(--c-terra));
+    }
+    .ff-tile__value {
+      color: rgb(var(--c-terra));
+    }
   }
 
   &--accent {
     border-left: 2px solid rgb(var(--c-primary));
 
-    .ff-tile__icon  { background: rgb(var(--c-primary) / 0.12); color: rgb(var(--c-primary)); }
-    .ff-tile__value { color: rgb(var(--c-primary)); }
+    .ff-tile__icon {
+      background: rgb(var(--c-primary) / 0.12);
+      color: rgb(var(--c-primary));
+    }
+    .ff-tile__value {
+      color: rgb(var(--c-primary));
+    }
   }
 
   &--warning {
     border-left: 2px solid rgb(var(--c-warning));
 
-    .ff-tile__icon  { background: rgb(var(--c-warning) / 0.12); color: rgb(var(--c-warning)); }
-    .ff-tile__value { color: rgb(var(--c-warning)); }
+    .ff-tile__icon {
+      background: rgb(var(--c-warning) / 0.12);
+      color: rgb(var(--c-warning));
+    }
+    .ff-tile__value {
+      color: rgb(var(--c-warning));
+    }
   }
 
   &--muted {
-    .ff-tile__icon  { background: rgb(var(--c-surface-2)); color: rgb(var(--c-muted)); }
+    .ff-tile__icon {
+      background: rgb(var(--c-surface-2));
+      color: rgb(var(--c-muted));
+    }
   }
 
   &--text {
@@ -317,15 +344,25 @@
   gap: $space-4;
 
   &--2 {
-    @include media-sm { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    @include media-sm {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
   }
   &--3 {
-    @include media-sm { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    @include media-lg { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    @include media-sm {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    @include media-lg {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
   }
   &--4 {
-    @include media-sm { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    @include media-lg { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    @include media-sm {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    @include media-lg {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
   }
   &--auto {
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -338,12 +375,20 @@
   grid-template-columns: 1fr;
   gap: $space-4;
 
-  @include media-md { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  @include media-xl { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  @include media-md {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  @include media-xl {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
 
   &--2 {
-    @include media-md { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    @include media-xl { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    @include media-md {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    @include media-xl {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
   }
   &--auto-md {
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -366,7 +411,8 @@
     min-width: 0;
   }
 
-  h2, h3 {
+  h2,
+  h3 {
     font-family: var(--font-display);
     font-size: $font-size-xl;
     letter-spacing: -0.015em;
@@ -425,7 +471,13 @@
     transition: width 700ms $ease-out-soft;
   }
 
-  &--success .ff-progress__fill { background: rgb(var(--c-emerald)); }
-  &--warning .ff-progress__fill { background: rgb(var(--c-warning)); }
-  &--danger  .ff-progress__fill { background: rgb(var(--c-terra)); }
+  &--success .ff-progress__fill {
+    background: rgb(var(--c-emerald));
+  }
+  &--warning .ff-progress__fill {
+    background: rgb(var(--c-warning));
+  }
+  &--danger .ff-progress__fill {
+    background: rgb(var(--c-terra));
+  }
 }

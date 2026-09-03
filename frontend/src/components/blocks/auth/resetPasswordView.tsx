@@ -139,16 +139,24 @@ const ResetPasswordView = () => {
                       className="text-muted hover:text-ink transition-colors cursor-pointer"
                       aria-label={showConfirm ? "Hide password" : "Show password"}
                     >
-                      {showConfirm ? <EyeOff className="h-3.5 w-3.5" /> : <Eye className="h-3.5 w-3.5" />}
+                      {showConfirm ? (
+                        <EyeOff className="h-3.5 w-3.5" />
+                      ) : (
+                        <Eye className="h-3.5 w-3.5" />
+                      )}
                     </button>
                   }
                   error={errors.confirmPassword?.message}
                   {...register("confirmPassword")}
                 />
                 {newPw && confirmPw && (
-                  <p className={`font-mono text-[10px] tracking-wide flex items-center gap-1 ${passwordsMatch ? "text-emerald" : "text-terra"}`}>
+                  <p
+                    className={`font-mono text-[10px] tracking-wide flex items-center gap-1 ${passwordsMatch ? "text-emerald" : "text-terra"}`}
+                  >
                     {passwordsMatch ? (
-                      <><Check className="h-3 w-3" /> Passwords match</>
+                      <>
+                        <Check className="h-3 w-3" /> Passwords match
+                      </>
                     ) : (
                       "Passwords do not match"
                     )}

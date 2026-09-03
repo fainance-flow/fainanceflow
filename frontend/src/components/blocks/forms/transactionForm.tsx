@@ -41,12 +41,7 @@ type Props = {
   onDone?: () => void;
 };
 
-const TransactionForm = ({
-  defaultType = "expense",
-  lockType = false,
-  editing,
-  onDone,
-}: Props) => {
+const TransactionForm = ({ defaultType = "expense", lockType = false, editing, onDone }: Props) => {
   const accountsQuery = useAccounts();
   const wallets = accountsQuery.data ?? [];
   const create = useCreateTransaction();
@@ -68,11 +63,7 @@ const TransactionForm = ({
       walletId: "",
       toWalletId: "",
       category:
-        defaultType === "income"
-          ? "Salary"
-          : defaultType === "transfer"
-            ? "Transfer"
-            : "Food",
+        defaultType === "income" ? "Salary" : defaultType === "transfer" ? "Transfer" : "Food",
       description: "",
       date: todayIso(),
       tagInput: "",
@@ -277,11 +268,7 @@ const TransactionForm = ({
         disabled={currentType === "transfer" || !!editing}
       />
 
-      <Input
-        label="Description (optional)"
-        placeholder="Note…"
-        {...register("description")}
-      />
+      <Input label="Description (optional)" placeholder="Note…" {...register("description")} />
 
       <Input
         label="Tags (optional, comma-separated)"

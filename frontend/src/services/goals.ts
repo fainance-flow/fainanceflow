@@ -1,11 +1,7 @@
 import axios from "@libs/axios";
 import { parseMoney } from "@/lib/finance-api-mappers";
 import { shouldUseCloudFinance } from "@/lib/finance-backend-mode";
-import type {
-  Goal,
-  GoalContributionRecord,
-  GoalStatus,
-} from "@utils/types";
+import type { Goal, GoalContributionRecord, GoalStatus } from "@utils/types";
 
 export type CreateGoalPayload = {
   title: string;
@@ -45,14 +41,12 @@ function mapGoal(g: ApiGoal): Goal {
     deadline: g.deadline ? new Date(g.deadline).toISOString().slice(0, 10) : null,
     icon: g.icon,
     status: g.status,
-    contributions: (g.contributions ?? []).map(
-      (c): GoalContributionRecord => ({
-        id: c.id,
-        amount: parseMoney(c.amount),
-        date: new Date(c.date).toISOString().slice(0, 10),
-        note: c.note,
-      })
-    ),
+    contributions: (g.contributions ?? []).map((c): GoalContributionRecord => ({
+      id: c.id,
+      amount: parseMoney(c.amount),
+      date: new Date(c.date).toISOString().slice(0, 10),
+      note: c.note,
+    })),
   };
 }
 
@@ -62,9 +56,7 @@ export const fetchGoals = async (): Promise<{ data: { goals: Goal[] } }> => {
   return { data: { goals: data.goals.map(mapGoal) } };
 };
 
-export const createGoal = async (
-  payload: CreateGoalPayload
-): Promise<{ data: { goal: Goal } }> => {
+export const createGoal = async (payload: CreateGoalPayload): Promise<{ data: { goal: Goal } }> => {
   if (!shouldUseCloudFinance()) {
     throw new Error("Goals are available after you sign in — data is saved on the server.");
   }

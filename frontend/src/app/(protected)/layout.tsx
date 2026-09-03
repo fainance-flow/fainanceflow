@@ -2,25 +2,18 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import {
-  LayoutDashboard,
-  Wallet,
-  ArrowLeftRight,
-  PieChart,
-  BarChart3,
-  CreditCard,
-} from "lucide-react";
+import { LayoutDashboard, Wallet, ArrowLeftRight, PieChart, BarChart3 } from "lucide-react";
 import Menubar from "@components/layout/Menubar";
 import Topbar from "@components/layout/Topbar";
 import FinanceCloudMigration from "@components/providers/FinanceCloudMigration";
 import { useRequireAuth } from "@hooks/useAuth";
 
 const MOBILE_NAV = [
-  { href: "/dashboard",    label: "Home",     icon: LayoutDashboard },
-  { href: "/accounts",     label: "Wallets",  icon: Wallet },
-  { href: "/transactions", label: "Txns",     icon: ArrowLeftRight },
-  { href: "/budget",       label: "Budget",   icon: PieChart },
-  { href: "/reports",      label: "Reports",  icon: BarChart3 },
+  { href: "/dashboard", label: "Home", icon: LayoutDashboard },
+  { href: "/accounts", label: "Wallets", icon: Wallet },
+  { href: "/transactions", label: "Txns", icon: ArrowLeftRight },
+  { href: "/budget", label: "Budget", icon: PieChart },
+  { href: "/reports", label: "Reports", icon: BarChart3 },
 ];
 
 type Props = {
@@ -36,9 +29,7 @@ const ProtectedLayout = ({ children }: Props) => {
       <main className="min-h-screen grid place-items-center">
         <div className="text-center space-y-3">
           <div className="mx-auto h-10 w-10 rounded-full border-2 border-primary/30 border-t-primary animate-spin" />
-          <p className="font-mono text-[11px] tracking-[0.18em] uppercase text-faint">
-            Loading…
-          </p>
+          <p className="font-mono text-[11px] tracking-[0.18em] uppercase text-faint">Loading…</p>
         </div>
       </main>
     );
@@ -78,14 +69,10 @@ const ProtectedLayout = ({ children }: Props) => {
                 href={href}
                 className={[
                   "relative flex-1 flex flex-col items-center gap-1 py-3 text-[10px] font-mono tracking-wider uppercase transition-colors duration-150",
-                  active
-                    ? "text-primary"
-                    : "text-faint hover:text-muted",
+                  active ? "text-primary" : "text-faint hover:text-muted",
                 ].join(" ")}
               >
-                <Icon
-                  className={["h-5 w-5", active ? "stroke-[2]" : "stroke-[1.5]"].join(" ")}
-                />
+                <Icon className={["h-5 w-5", active ? "stroke-[2]" : "stroke-[1.5]"].join(" ")} />
                 <span>{label}</span>
                 {active && (
                   <span className="absolute top-0 left-1/2 -translate-x-1/2 w-8 h-0.5 rounded-full bg-primary" />

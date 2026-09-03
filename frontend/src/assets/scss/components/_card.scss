@@ -36,9 +36,12 @@
     background: rgb(var(--c-surface-2));
     border-color: rgb(var(--c-line-strong));
 
-    .ff-card__label, .editorial-rule {
+    .ff-card__label,
+    .editorial-rule {
       color: rgb(var(--c-muted));
-      &::before { background: rgb(var(--c-primary)); }
+      &::before {
+        background: rgb(var(--c-primary));
+      }
     }
   }
 
@@ -84,8 +87,12 @@
     align-items: center;
     gap: $space-1;
 
-    .up   { color: rgb(var(--c-emerald)); }
-    .down { color: rgb(var(--c-terra)); }
+    .up {
+      color: rgb(var(--c-emerald));
+    }
+    .down {
+      color: rgb(var(--c-terra));
+    }
   }
 }
 
@@ -100,7 +107,9 @@
   position: relative;
   overflow: hidden;
   cursor: pointer;
-  transition: transform 200ms $ease-out-soft, box-shadow 200ms $ease-out-soft;
+  transition:
+    transform 200ms $ease-out-soft,
+    box-shadow 200ms $ease-out-soft;
   box-shadow: var(--shadow-card);
 
   &:hover {
@@ -128,7 +137,7 @@
     width: 160px;
     height: 160px;
     border-radius: 50%;
-    background: rgb(0 0 0 / 0.10);
+    background: rgb(0 0 0 / 0.1);
     pointer-events: none;
   }
 
@@ -208,9 +217,19 @@
   }
 
   // Gradient variants by account type
-  &--bank     { background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%); }
-  &--cash     { background: linear-gradient(135deg, #059669 0%, #047857 100%); }
-  &--credit   { background: linear-gradient(135deg, #be123c 0%, #9f1239 100%); }
-  &--savings  { background: linear-gradient(135deg, #7c3aed 0%, #5b21b6 100%); }
-  &--default  { background: linear-gradient(135deg, rgb(var(--c-primary)) 0%, #4c46c0 100%); }
+  &--bank {
+    background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%);
+  }
+  &--cash {
+    background: linear-gradient(135deg, #059669 0%, #047857 100%);
+  }
+  &--credit {
+    background: linear-gradient(135deg, #be123c 0%, #9f1239 100%);
+  }
+  &--savings {
+    background: linear-gradient(135deg, #7c3aed 0%, #5b21b6 100%);
+  }
+  &--default {
+    background: linear-gradient(135deg, rgb(var(--c-primary)) 0%, #4c46c0 100%);
+  }
 }

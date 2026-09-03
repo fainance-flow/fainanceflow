@@ -33,14 +33,18 @@
       pointer-events: none;
       background-image:
         linear-gradient(to bottom, rgb(var(--c-line) / 0.5) 1px, transparent 1px),
-        linear-gradient(to right,  rgb(var(--c-line) / 0.3) 1px, transparent 1px);
-      background-size: 100% 40px, 40px 100%;
+        linear-gradient(to right, rgb(var(--c-line) / 0.3) 1px, transparent 1px);
+      background-size:
+        100% 40px,
+        40px 100%;
       mask: linear-gradient(to bottom, transparent 0%, black 20%, black 80%, transparent 100%);
       opacity: 0.6;
     }
 
     // Glow orb — kept as a no-op shell for backward-compat with views.
-    .cover-glow { display: none; }
+    .cover-glow {
+      display: none;
+    }
 
     .cover-brand {
       position: relative;
@@ -154,7 +158,9 @@
         font-weight: 400;
       }
 
-      @include media-lg { display: none; }
+      @include media-lg {
+        display: none;
+      }
     }
 
     h1 {
@@ -180,7 +186,7 @@
     padding: $space-3 $space-4;
     border-radius: $radius-md;
     background: rgb(var(--c-primary) / 0.06);
-    border: 1px dashed rgb(var(--c-primary) / 0.30);
+    border: 1px dashed rgb(var(--c-primary) / 0.3);
     font-family: var(--font-mono);
     font-size: 0.625rem;
     color: rgb(var(--c-muted));
@@ -204,7 +210,9 @@
       text-underline-offset: 4px;
       transition: opacity 150ms $ease-out-soft;
 
-      &:hover { text-decoration: underline; }
+      &:hover {
+        text-decoration: underline;
+      }
     }
   }
 
@@ -217,7 +225,7 @@
     color: rgb(var(--c-faint));
     font-family: var(--font-mono);
     font-size: 0.5625rem;
-    letter-spacing: 0.20em;
+    letter-spacing: 0.2em;
     text-transform: uppercase;
 
     &::before,
@@ -400,7 +408,7 @@
       place-items: center;
       background: rgb(var(--c-primary) / 0.12);
       color: rgb(var(--c-primary));
-      border: 1px solid rgb(var(--c-primary) / 0.20);
+      border: 1px solid rgb(var(--c-primary) / 0.2);
     }
 
     .tx {

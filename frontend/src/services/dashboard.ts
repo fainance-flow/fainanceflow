@@ -56,7 +56,9 @@ function aggregatePeriodFromTransactions(
   return { monthlyIncome, monthlyExpense, expenseByCategory };
 }
 
-function upcomingSubscriptionsFromLocal(wallets: DashboardSummary["wallets"]): DashboardSubscriptionRow[] {
+function upcomingSubscriptionsFromLocal(
+  wallets: DashboardSummary["wallets"]
+): DashboardSubscriptionRow[] {
   const s = readState();
   const walletNames = new Map(wallets.map((w) => [w.id, w.name]));
   const today = format(new Date(), "yyyy-MM-dd");

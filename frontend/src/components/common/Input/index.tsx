@@ -30,7 +30,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
             "relative flex items-center rounded-md border bg-surface transition-colors",
             error
               ? "border-terra focus-within:border-terra"
-              : "border-line-strong focus-within:border-ink focus-within:ring-2 focus-within:ring-info/35",
+              : "border-line-strong focus-within:border-ink focus-within:ring-2 focus-within:ring-info/35"
           )}
         >
           {leading && <span className="pl-3 text-muted">{leading}</span>}

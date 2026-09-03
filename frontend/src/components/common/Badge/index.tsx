@@ -2,14 +2,7 @@ import * as React from "react";
 import { cn } from "@utils/cn";
 
 type Tone =
-  | "neutral"
-  | "primary"
-  | "gold"
-  | "emerald"
-  | "terra"
-  | "muted"
-  | "trading-up"
-  | "trading-down";
+  "neutral" | "primary" | "gold" | "emerald" | "terra" | "muted" | "trading-up" | "trading-down";
 
 type Props = React.HTMLAttributes<HTMLSpanElement> & {
   tone?: Tone;
@@ -18,13 +11,13 @@ type Props = React.HTMLAttributes<HTMLSpanElement> & {
 
 const toneStyles: Record<Tone, string> = {
   // Binance: subtle surface chips with semantic text color.
-  neutral:        "bg-surface-2 text-ink border-line-strong",
-  primary:        "bg-primary/15 text-primary border-primary/40",
-  gold:           "bg-primary/15 text-primary border-primary/40", // alias
-  emerald:        "bg-emerald/12 text-emerald border-emerald/30",
-  terra:          "bg-terra/12 text-terra border-terra/30",
-  muted:          "bg-transparent text-muted border-line-strong",
-  "trading-up":   "bg-transparent text-emerald border-emerald/30",
+  neutral: "bg-surface-2 text-ink border-line-strong",
+  primary: "bg-primary/15 text-primary border-primary/40",
+  gold: "bg-primary/15 text-primary border-primary/40", // alias
+  emerald: "bg-emerald/12 text-emerald border-emerald/30",
+  terra: "bg-terra/12 text-terra border-terra/30",
+  muted: "bg-transparent text-muted border-line-strong",
+  "trading-up": "bg-transparent text-emerald border-emerald/30",
   "trading-down": "bg-transparent text-terra border-terra/30",
 };
 

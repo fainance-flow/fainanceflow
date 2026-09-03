@@ -13,11 +13,7 @@ const AppProviders = ({ children }: Props) => {
   return (
     <StoreProvider>
       <QueryProvider>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="dark"
-          enableSystem
-        >
+        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
           {children}
           <Toaster
             position="bottom-right"

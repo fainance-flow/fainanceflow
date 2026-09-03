@@ -25,9 +25,7 @@ const PageLayout = ({
 }: Props) => {
   return (
     <div className={cn("ff-page", className)}>
-      <header
-        className={cn("ff-page__header", bare && "!border-b-0 !pb-0")}
-      >
+      <header className={cn("ff-page__header", bare && "!border-b-0 !pb-0")}>
         <div className="ff-page__title-block">
           {eyebrow && <span className="eyebrow">{eyebrow}</span>}
           <h1>{title}</h1>

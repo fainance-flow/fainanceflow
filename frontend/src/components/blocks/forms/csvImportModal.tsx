@@ -119,37 +119,94 @@ const CsvImportModal = ({ open, onOpenChange }: Props) => {
         .filter((l) => l.trim())
         .map((line, idx) => {
           const cols = parseCsvLine(line);
-          const [rawDate = "", rawType = "", rawCat = "", rawDesc = "", rawAmt = "", rawWallet = ""] = cols;
+          const [
+            rawDate = "",
+            rawType = "",
+            rawCat = "",
+            rawDesc = "",
+            rawAmt = "",
+            rawWallet = "",
+          ] = cols;
 
           const lineNum = idx + (hasHeader ? 2 : 1);
 
           // Date
           const date = parseDate(rawDate.trim());
-          if (!date) return { line: lineNum, date: "", type: "expense" as const, category: "", description: "", amount: 0, walletName: rawWallet, error: `Row ${lineNum}: invalid date "${rawDate}"` };
+          if (!date)
+            return {
+              line: lineNum,
+              date: "",
+              type: "expense" as const,
+              category: "",
+              description: "",
+              amount: 0,
+              walletName: rawWallet,
+              error: `Row ${lineNum}: invalid date "${rawDate}"`,
+            };
 
           // Check 2-year window
           const parsed2 = new Date(date);
           const twoYearsAgo = new Date();
           twoYearsAgo.setFullYear(twoYearsAgo.getFullYear() - 2);
-          if (parsed2 < twoYearsAgo) return { line: lineNum, date, type: "expense" as const, category: "", description: "", amount: 0, walletName: rawWallet, error: `Row ${lineNum}: date is older than 2 years (${date})` };
+          if (parsed2 < twoYearsAgo)
+            return {
+              line: lineNum,
+              date,
+              type: "expense" as const,
+              category: "",
+              description: "",
+              amount: 0,
+              walletName: rawWallet,
+              error: `Row ${lineNum}: date is older than 2 years (${date})`,
+            };
 
           // Type
           const type = rawType.trim().toLowerCase();
-          if (type !== "income" && type !== "expense") return { line: lineNum, date, type: "expense" as const, category: "", description: "", amount: 0, walletName: rawWallet, error: `Row ${lineNum}: type must be "income" or "expense"` };
+          if (type !== "income" && type !== "expense")
+            return {
+              line: lineNum,
+              date,
+              type: "expense" as const,
+              category: "",
+              description: "",
+              amount: 0,
+              walletName: rawWallet,
+              error: `Row ${lineNum}: type must be "income" or "expense"`,
+            };
 
           // Amount
           const amount = parseFloat(rawAmt.replace(/[^0-9.]/g, ""));
-          if (isNaN(amount) || amount <= 0) return { line: lineNum, date, type: type as "income" | "expense", category: "", description: "", amount: 0, walletName: rawWallet, error: `Row ${lineNum}: invalid amount "${rawAmt}"` };
+          if (isNaN(amount) || amount <= 0)
+            return {
+              line: lineNum,
+              date,
+              type: type as "income" | "expense",
+              category: "",
+              description: "",
+              amount: 0,
+              walletName: rawWallet,
+              error: `Row ${lineNum}: invalid amount "${rawAmt}"`,
+            };
 
           // Category
           const cat = rawCat.trim();
-          const category = (ALL_CATEGORIES.find((c) => c.toLowerCase() === cat.toLowerCase()) ?? cat) || "Other";
+          const category =
+            (ALL_CATEGORIES.find((c) => c.toLowerCase() === cat.toLowerCase()) ?? cat) || "Other";
 
           // Wallet
           const wName = rawWallet.trim();
           const wallet = walletLookup.get(wName.toLowerCase());
           if (wallets.length > 0 && !wallet && wName) {
-            return { line: lineNum, date, type: type as "income" | "expense", category, description: rawDesc.trim(), amount, walletName: wName, error: `Row ${lineNum}: wallet "${wName}" not found` };
+            return {
+              line: lineNum,
+              date,
+              type: type as "income" | "expense",
+              category,
+              description: rawDesc.trim(),
+              amount,
+              walletName: wName,
+              error: `Row ${lineNum}: wallet "${wName}" not found`,
+            };
           }
 
           return {
@@ -220,21 +277,33 @@ const CsvImportModal = ({ open, onOpenChange }: Props) => {
               <p className="text-xs text-faint mt-1">Supports up to 2 years of records</p>
             </div>
           </button>
-          <input ref={fileRef} type="file" accept=".csv,text/csv" className="hidden" onChange={handleFile} />
+          <input
+            ref={fileRef}
+            type="file"
+            accept=".csv,text/csv"
+            className="hidden"
+            onChange={handleFile}
+          />
 
           {/* Format hint */}
           <div className="rounded-xl border border-line-strong bg-surface-2/50 p-4 space-y-2">
-            <p className="font-mono text-[10px] tracking-[0.16em] uppercase text-faint">Expected CSV format</p>
+            <p className="font-mono text-[10px] tracking-[0.16em] uppercase text-faint">
+              Expected CSV format
+            </p>
             <code className="block text-xs text-muted font-mono leading-relaxed">
-              date,type,category,description,amount,wallet<br />
-              2025-05-01,expense,Food,Lunch at cafe,450,HBL Checking<br />
+              date,type,category,description,amount,wallet
+              <br />
+              2025-05-01,expense,Food,Lunch at cafe,450,HBL Checking
+              <br />
               2025-05-02,income,Salary,May salary,50000,HBL Checking
             </code>
             <p className="text-xs text-faint">
-              · <strong className="text-muted">date</strong>: YYYY-MM-DD or DD/MM/YYYY<br />
-              · <strong className="text-muted">type</strong>: <code>income</code> or <code>expense</code><br />
-              · <strong className="text-muted">wallet</strong>: must match an existing wallet name<br />
-              · Records older than 2 years are skipped
+              · <strong className="text-muted">date</strong>: YYYY-MM-DD or DD/MM/YYYY
+              <br />· <strong className="text-muted">type</strong>: <code>income</code> or{" "}
+              <code>expense</code>
+              <br />· <strong className="text-muted">wallet</strong>: must match an existing wallet
+              name
+              <br />· Records older than 2 years are skipped
             </p>
           </div>
         </div>
@@ -246,7 +315,11 @@ const CsvImportModal = ({ open, onOpenChange }: Props) => {
           <div className="flex items-center gap-2 text-sm">
             <FileText className="h-4 w-4 text-muted" />
             <span className="text-muted truncate flex-1">{fileName}</span>
-            <button type="button" onClick={reset} className="text-faint hover:text-terra cursor-pointer">
+            <button
+              type="button"
+              onClick={reset}
+              className="text-faint hover:text-terra cursor-pointer"
+            >
               <X className="h-4 w-4" />
             </button>
           </div>
@@ -269,7 +342,9 @@ const CsvImportModal = ({ open, onOpenChange }: Props) => {
           {errorRows.length > 0 && (
             <div className="rounded-xl border border-terra/20 bg-terra/5 p-3 space-y-1 max-h-32 overflow-y-auto">
               {errorRows.map((r) => (
-                <p key={r.line} className="text-xs text-terra font-mono">{r.error}</p>
+                <p key={r.line} className="text-xs text-terra font-mono">
+                  {r.error}
+                </p>
               ))}
             </div>
           )}
@@ -281,22 +356,36 @@ const CsvImportModal = ({ open, onOpenChange }: Props) => {
                 <thead>
                   <tr className="border-b border-line-strong bg-surface-2">
                     {["Date", "Type", "Category", "Description", "Amount", "Wallet"].map((h) => (
-                      <th key={h} className="text-left px-3 py-2 font-mono text-[10px] tracking-wider uppercase text-faint">{h}</th>
+                      <th
+                        key={h}
+                        className="text-left px-3 py-2 font-mono text-[10px] tracking-wider uppercase text-faint"
+                      >
+                        {h}
+                      </th>
                     ))}
                   </tr>
                 </thead>
                 <tbody>
                   {validRows.slice(0, 50).map((r) => (
-                    <tr key={r.line} className="border-b border-line/40 hover:bg-surface-2/50 transition-colors">
+                    <tr
+                      key={r.line}
+                      className="border-b border-line/40 hover:bg-surface-2/50 transition-colors"
+                    >
                       <td className="px-3 py-2 font-mono text-muted">{r.date}</td>
                       <td className="px-3 py-2">
-                        <span className={`font-mono uppercase tracking-wider ${r.type === "income" ? "text-emerald" : "text-terra"}`}>
+                        <span
+                          className={`font-mono uppercase tracking-wider ${r.type === "income" ? "text-emerald" : "text-terra"}`}
+                        >
                           {r.type}
                         </span>
                       </td>
                       <td className="px-3 py-2 text-ink">{r.category}</td>
-                      <td className="px-3 py-2 text-muted max-w-[120px] truncate">{r.description || "—"}</td>
-                      <td className="px-3 py-2 font-mono font-semibold text-ink">{r.amount.toLocaleString()}</td>
+                      <td className="px-3 py-2 text-muted max-w-[120px] truncate">
+                        {r.description || "—"}
+                      </td>
+                      <td className="px-3 py-2 font-mono font-semibold text-ink">
+                        {r.amount.toLocaleString()}
+                      </td>
                       <td className="px-3 py-2 text-muted">{r.walletName || "—"}</td>
                     </tr>
                   ))}
@@ -313,7 +402,9 @@ const CsvImportModal = ({ open, onOpenChange }: Props) => {
           )}
 
           <div className="flex justify-end gap-2 pt-1">
-            <Button variant="ghost" onClick={reset}>Back</Button>
+            <Button variant="ghost" onClick={reset}>
+              Back
+            </Button>
             <Button
               variant="primary"
               loading={importing}
@@ -335,10 +426,13 @@ const CsvImportModal = ({ open, onOpenChange }: Props) => {
           <div>
             <p className="font-display text-xl font-semibold text-ink">Import complete</p>
             <p className="text-sm text-muted mt-1">
-              {validRows.length} transaction{validRows.length !== 1 ? "s" : ""} imported successfully.
+              {validRows.length} transaction{validRows.length !== 1 ? "s" : ""} imported
+              successfully.
             </p>
           </div>
-          <Button variant="primary" onClick={close}>Done</Button>
+          <Button variant="primary" onClick={close}>
+            Done
+          </Button>
         </div>
       )}
     </Modal>

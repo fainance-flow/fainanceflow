@@ -5,12 +5,7 @@ import {
   type ApiBankAccount,
 } from "@/lib/finance-api-mappers";
 import { shouldUseCloudFinance } from "@/lib/finance-backend-mode";
-import {
-  createWallet,
-  deleteWallet,
-  listWallets,
-  updateWallet,
-} from "@/lib/finance-store";
+import { createWallet, deleteWallet, listWallets, updateWallet } from "@/lib/finance-store";
 import type { Wallet, WalletType } from "@utils/types";
 
 export type CreateAccountPayload = {

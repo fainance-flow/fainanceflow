@@ -9,13 +9,13 @@ type Props = LucideProps & {
 };
 
 const ICON_MAP: Record<string, IconName> = {
-  "wallet": "Wallet",
-  "landmark": "Landmark",
+  wallet: "Wallet",
+  landmark: "Landmark",
   "building-2": "Building2",
-  "car": "Car",
-  "shield": "Shield",
-  "target": "Target",
-  "home": "Home",
+  car: "Car",
+  shield: "Shield",
+  target: "Target",
+  home: "Home",
 };
 
 export const resolveIcon = (name: string): IconName => ICON_MAP[name] ?? "Circle";

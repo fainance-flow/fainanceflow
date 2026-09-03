@@ -34,9 +34,7 @@ const Modal = ({
     <Dialog.Root open={open} onOpenChange={onOpenChange}>
       <Dialog.Portal>
         {/* Backdrop — always dark regardless of theme */}
-        <Dialog.Overlay
-          className="fixed inset-0 z-[100] bg-black/55 backdrop-blur-sm data-[state=open]:animate-fade-in"
-        />
+        <Dialog.Overlay className="fixed inset-0 z-[100] bg-black/55 backdrop-blur-sm data-[state=open]:animate-fade-in" />
         {/* Content — fixed full-screen flex container so the inner card is always
             perfectly centered regardless of viewport size or scroll position */}
         <Dialog.Content

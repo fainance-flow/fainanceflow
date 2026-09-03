@@ -6,7 +6,10 @@
  * All money in this app flows through this helper — never call toLocaleString
  * directly on monetary values.
  */
-export function formatPKR(value: number | string | undefined | null, opts?: { showSymbol?: boolean; signed?: boolean }): string {
+export function formatPKR(
+  value: number | string | undefined | null,
+  opts?: { showSymbol?: boolean; signed?: boolean }
+): string {
   const showSymbol = opts?.showSymbol ?? true;
   const signed = opts?.signed ?? false;
 
@@ -27,9 +30,7 @@ export function formatPKR(value: number | string | undefined | null, opts?: { sh
   // Pakistani grouping: last 3, then every 2
   const lastThree = intPart.slice(-3);
   const rest = intPart.slice(0, -3);
-  const grouped = rest
-    ? rest.replace(/\B(?=(\d{2})+(?!\d))/g, ",") + "," + lastThree
-    : lastThree;
+  const grouped = rest ? rest.replace(/\B(?=(\d{2})+(?!\d))/g, ",") + "," + lastThree : lastThree;
 
   const dec = decPart && decPart !== "00" ? `.${decPart}` : "";
   const out = `${sign}${grouped}${dec}`;
@@ -45,7 +46,8 @@ export function formatPKRCompact(value: number): string {
   const abs = Math.abs(value);
   const sign = value < 0 ? "-" : "";
 
-  if (abs >= 1_00_00_000) return `${sign}${(abs / 1_00_00_000).toFixed(abs >= 1_00_00_00_000 ? 0 : 1)}Cr`;
+  if (abs >= 1_00_00_000)
+    return `${sign}${(abs / 1_00_00_000).toFixed(abs >= 1_00_00_00_000 ? 0 : 1)}Cr`;
   if (abs >= 1_00_000) return `${sign}${(abs / 1_00_000).toFixed(abs >= 10_00_000 ? 0 : 1)}L`;
   if (abs >= 1_000) return `${sign}${(abs / 1_000).toFixed(abs >= 10_000 ? 0 : 1)}K`;
   return `${sign}${abs.toFixed(0)}`;

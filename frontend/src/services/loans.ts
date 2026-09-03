@@ -39,9 +39,7 @@ export const fetchLoans = async (): Promise<{ data: { loans: Loan[] } }> => ({
   data: { loans: listLoans().map(mapLoan) },
 });
 
-export const createLoan = async (
-  payload: CreateLoanPayload
-): Promise<{ data: { loan: Loan } }> => {
+export const createLoan = async (payload: CreateLoanPayload): Promise<{ data: { loan: Loan } }> => {
   const row = storeCreateLoan({
     name: payload.name,
     principalAmount: payload.principalAmount,

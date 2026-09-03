@@ -19,7 +19,10 @@ const transferSchema = z
     date: z.string().min(1),
     description: z.string().max(280).optional(),
   })
-  .refine((d) => d.fromWalletId !== d.toWalletId, { message: "Wallets must differ", path: ["toWalletId"] });
+  .refine((d) => d.fromWalletId !== d.toWalletId, {
+    message: "Wallets must differ",
+    path: ["toWalletId"],
+  });
 
 type TransferValues = z.infer<typeof transferSchema>;
 
@@ -68,7 +71,10 @@ const TransferForm = ({ onDone }: Props) => {
     }
   };
 
-  const opts = [{ value: "", label: "— Select —" }, ...wallets.map((w) => ({ value: w.id, label: w.name }))];
+  const opts = [
+    { value: "", label: "— Select —" },
+    ...wallets.map((w) => ({ value: w.id, label: w.name })),
+  ];
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
@@ -77,7 +83,9 @@ const TransferForm = ({ onDone }: Props) => {
         <p className="text-[10px] font-mono text-terra">{errors.fromWalletId.message}</p>
       )}
       <Select label="To" options={opts} {...register("toWalletId")} />
-      {errors.toWalletId && <p className="text-[10px] font-mono text-terra">{errors.toWalletId.message}</p>}
+      {errors.toWalletId && (
+        <p className="text-[10px] font-mono text-terra">{errors.toWalletId.message}</p>
+      )}
 
       <Input
         label="Amount"
@@ -90,7 +98,9 @@ const TransferForm = ({ onDone }: Props) => {
       <Controller
         control={control}
         name="date"
-        render={({ field }) => <DatePicker value={field.value} onChange={field.onChange} label="Date" />}
+        render={({ field }) => (
+          <DatePicker value={field.value} onChange={field.onChange} label="Date" />
+        )}
       />
 
       <Input label="Note (optional)" {...register("description")} />

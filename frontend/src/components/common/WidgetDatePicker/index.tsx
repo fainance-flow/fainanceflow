@@ -12,13 +12,13 @@ type Props = {
 
 const fmt = (iso: string) => {
   const [y, m, d] = iso.split("-");
-  return `${d} ${["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"][Number(m)-1]} ${y}`;
+  return `${d} ${["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"][Number(m) - 1]} ${y}`;
 };
 
 const WidgetDatePicker = ({ value, onChange }: Props) => {
   const [open, setOpen] = useState(false);
   const [from, setFrom] = useState(value?.from ?? "");
-  const [to,   setTo]   = useState(value?.to   ?? "");
+  const [to, setTo] = useState(value?.to ?? "");
   const ref = useRef<HTMLDivElement>(null);
 
   // Close on outside click
@@ -32,7 +32,10 @@ const WidgetDatePicker = ({ value, onChange }: Props) => {
 
   // Sync if parent resets
   useEffect(() => {
-    if (!value) { setFrom(""); setTo(""); }
+    if (!value) {
+      setFrom("");
+      setTo("");
+    }
   }, [value]);
 
   const apply = () => {
@@ -43,7 +46,8 @@ const WidgetDatePicker = ({ value, onChange }: Props) => {
   };
 
   const clear = () => {
-    setFrom(""); setTo("");
+    setFrom("");
+    setTo("");
     onChange(undefined);
     setOpen(false);
   };
@@ -55,7 +59,7 @@ const WidgetDatePicker = ({ value, onChange }: Props) => {
       {/* Trigger */}
       <button
         type="button"
-        onClick={() => setOpen(v => !v)}
+        onClick={() => setOpen((v) => !v)}
         className={[
           "flex items-center gap-1.5 rounded-lg px-2 py-1 text-[10px] font-mono transition-colors cursor-pointer",
           active
@@ -68,7 +72,10 @@ const WidgetDatePicker = ({ value, onChange }: Props) => {
         {active && (
           <span
             role="button"
-            onClick={(e) => { e.stopPropagation(); clear(); }}
+            onClick={(e) => {
+              e.stopPropagation();
+              clear();
+            }}
             className="ml-0.5 hover:text-terra cursor-pointer"
           >
             <X className="h-2.5 w-2.5" />
@@ -79,7 +86,9 @@ const WidgetDatePicker = ({ value, onChange }: Props) => {
       {/* Dropdown */}
       {open && (
         <div className="absolute right-0 top-full mt-1.5 z-50 bg-surface border border-line-strong rounded-xl shadow-xl p-3 w-64">
-          <p className="font-mono text-[9px] tracking-[0.16em] uppercase text-muted mb-2">Date range</p>
+          <p className="font-mono text-[9px] tracking-[0.16em] uppercase text-muted mb-2">
+            Date range
+          </p>
           <div className="space-y-2">
             <div>
               <label className="text-[10px] text-faint block mb-0.5">From</label>
@@ -87,7 +96,7 @@ const WidgetDatePicker = ({ value, onChange }: Props) => {
                 type="date"
                 value={from}
                 max={to || undefined}
-                onChange={e => setFrom(e.target.value)}
+                onChange={(e) => setFrom(e.target.value)}
                 className="w-full text-xs rounded-lg border border-line-strong bg-surface-2 px-2 py-1.5 text-ink focus:outline-none focus:border-primary/50"
               />
             </div>
@@ -97,7 +106,7 @@ const WidgetDatePicker = ({ value, onChange }: Props) => {
                 type="date"
                 value={to}
                 min={from || undefined}
-                onChange={e => setTo(e.target.value)}
+                onChange={(e) => setTo(e.target.value)}
                 className="w-full text-xs rounded-lg border border-line-strong bg-surface-2 px-2 py-1.5 text-ink focus:outline-none focus:border-primary/50"
               />
             </div>

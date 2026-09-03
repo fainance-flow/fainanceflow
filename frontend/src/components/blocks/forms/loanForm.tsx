@@ -116,9 +116,15 @@ const LoanForm = ({ editing, onDone }: Props) => {
       <Controller
         control={control}
         name="nextDueDate"
-        render={({ field }) => <DatePicker value={field.value} onChange={field.onChange} label="Next due date" />}
+        render={({ field }) => (
+          <DatePicker value={field.value} onChange={field.onChange} label="Next due date" />
+        )}
       />
-      <Input label="Lender / borrower name" {...register("lenderName")} error={errors.lenderName?.message} />
+      <Input
+        label="Lender / borrower name"
+        {...register("lenderName")}
+        error={errors.lenderName?.message}
+      />
       <Select
         label="Type"
         options={[

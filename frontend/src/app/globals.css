@@ -25,7 +25,11 @@
 
   /* Trading semantics — always green/red, never inverted by theme. */
   .text-emerald,
-  .text-up { color: rgb(var(--c-emerald)); }
+  .text-up {
+    color: rgb(var(--c-emerald));
+  }
   .text-terra,
-  .text-down { color: rgb(var(--c-terra)); }
+  .text-down {
+    color: rgb(var(--c-terra));
+  }
 }

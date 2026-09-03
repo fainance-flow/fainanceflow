@@ -106,7 +106,9 @@ const LandingView = () => {
         <div className="ff-landing__nav-inner">
           <Link href="/" className="brand" aria-label="FinanceFlow home">
             <span className="mark">f</span>
-            <span>Finance<em>Flow</em></span>
+            <span>
+              Finance<em>Flow</em>
+            </span>
           </Link>
 
           <nav className="links" aria-label="Primary">
@@ -160,8 +162,8 @@ const LandingView = () => {
             Every rupee, <em>accounted for</em>.
           </h1>
           <p className="lede">
-            Track accounts, budgets, goals and subscriptions in one calm ledger — PKR-first,
-            private by default, and beautiful on every screen.
+            Track accounts, budgets, goals and subscriptions in one calm ledger — PKR-first, private
+            by default, and beautiful on every screen.
           </p>
           <div className="hero-cta">
             <Button asChild size="lg" variant="primary">
@@ -247,7 +249,7 @@ const LandingView = () => {
       {/* ── Features ───────────────────────────────────────── */}
       <section id="features" className="ff-landing__section">
         <div className="section-head">
-          <span className="editorial-rule">What's inside</span>
+          <span className="editorial-rule">What&apos;s inside</span>
           <h2>
             Everything to run your money, <em>nothing you don&rsquo;t need</em>.
           </h2>
@@ -338,7 +340,9 @@ const LandingView = () => {
           <div className="foot-brand">
             <Link href="/" className="brand">
               <span className="mark">f</span>
-              <span>Finance<em>Flow</em></span>
+              <span>
+                Finance<em>Flow</em>
+              </span>
             </Link>
             <p>Your money, elevated — a calm, PKR-first personal finance tracker.</p>
           </div>

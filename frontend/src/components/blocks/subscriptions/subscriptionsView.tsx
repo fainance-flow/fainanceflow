@@ -44,8 +44,8 @@ const SubscriptionsView = () => {
         s.billingCycle === "yearly"
           ? s.amount / 12
           : s.billingCycle === "weekly"
-          ? s.amount * 4.33
-          : s.amount;
+            ? s.amount * 4.33
+            : s.amount;
       return sum + Number(m || 0);
     }, 0);
   const dueSoon = list.filter((s) => {
@@ -112,7 +112,9 @@ const SubscriptionsView = () => {
               <span className="ff-tile__label">Due within 7 days</span>
             </div>
             <p className="ff-tile__value">{dueSoon}</p>
-            <span className="ff-tile__sub">{dueSoon === 0 ? "Nothing renewing soon" : "Heads up — pay or pause"}</span>
+            <span className="ff-tile__sub">
+              {dueSoon === 0 ? "Nothing renewing soon" : "Heads up — pay or pause"}
+            </span>
           </div>
         </div>
       )}
@@ -184,7 +186,12 @@ const SubscriptionsView = () => {
         </div>
       )}
 
-      <Modal open={open} onOpenChange={setOpen} title="New subscription" description="Recurring charge from a wallet.">
+      <Modal
+        open={open}
+        onOpenChange={setOpen}
+        title="New subscription"
+        description="Recurring charge from a wallet."
+      >
         <SubscriptionForm onDone={() => setOpen(false)} />
       </Modal>
 

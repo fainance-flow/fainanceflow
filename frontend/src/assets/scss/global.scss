@@ -16,89 +16,97 @@
 
 :root {
   // ─── Light theme (transactional / forms / dialogs) ───────────
-  --c-canvas:      255 255 255;   // #FFFFFF  page floor
-  --c-surface:     255 255 255;   // #FFFFFF  card surface (flat on canvas)
-  --c-surface-2:   245 245 245;   // #F5F5F5  input bg, elevated soft
-  --c-surface-3:   250 250 250;   // #FAFAFA  footer / disabled
-  --c-line:        234 236 239;   // #EAECEF  hairline-on-light
-  --c-line-strong: 205 209 214;   // #CDD1D6  border-strong
+  --c-canvas: 255 255 255; // #FFFFFF  page floor
+  --c-surface: 255 255 255; // #FFFFFF  card surface (flat on canvas)
+  --c-surface-2: 245 245 245; // #F5F5F5  input bg, elevated soft
+  --c-surface-3: 250 250 250; // #FAFAFA  footer / disabled
+  --c-line: 234 236 239; // #EAECEF  hairline-on-light
+  --c-line-strong: 205 209 214; // #CDD1D6  border-strong
 
-  --c-ink:          24  26  32;   // #181A20  display + body on light
-  --c-muted:       112 122 138;   // #707A8A  captions, table headers
-  --c-faint:       146 154 165;   // #929AA5  muted-strong (less contrast)
+  --c-ink: 24 26 32; // #181A20  display + body on light
+  --c-muted: 112 122 138; // #707A8A  captions, table headers
+  --c-faint: 146 154 165; // #929AA5  muted-strong (less contrast)
 
   // Binance yellow — single brand accent, identical in both modes
-  --c-primary:     252 213  53;   // #FCD535
-  --c-primary-active: 240 185  11; // #F0B90B  press/hover-darker
-  --c-on-primary:   24  26  32;   // #181A20  black on yellow
-  --c-gold:        var(--c-primary);
+  --c-primary: 252 213 53; // #FCD535
+  --c-primary-active: 240 185 11; // #F0B90B  press/hover-darker
+  --c-on-primary: 24 26 32; // #181A20  black on yellow
+  --c-gold: var(--c-primary);
 
   // Trading semantics (shared across modes)
-  --c-emerald:      14 203 129;   // #0ECB81  trading-up
-  --c-terra:       246  70  93;   // #F6465D  trading-down
-  --c-warning:     240 185  11;   // #F0B90B  warning / amber
-  --c-info:         59 130 246;   // #3B82F6  focus ring base
+  --c-emerald: 14 203 129; // #0ECB81  trading-up
+  --c-terra: 246 70 93; // #F6465D  trading-down
+  --c-warning: 240 185 11; // #F0B90B  warning / amber
+  --c-info: 59 130 246; // #3B82F6  focus ring base
 
-  --c-accent:    var(--c-primary);
-  --c-positive:  var(--c-emerald);
-  --c-negative:  var(--c-terra);
+  --c-accent: var(--c-primary);
+  --c-positive: var(--c-emerald);
+  --c-negative: var(--c-terra);
 
   --font-display: var(--font-inter);
-  --font-sans:    var(--font-inter);
-  --font-mono:    var(--font-jetbrains);
+  --font-sans: var(--font-inter);
+  --font-mono: var(--font-jetbrains);
   --font-numeric: var(--font-jetbrains);
 
   // Flat surfaces — Binance uses contrast not shadow.
-  --shadow-card:    none;
-  --shadow-raised:  0 1px 2px rgb(0 0 0 / 0.04), 0 4px 12px rgb(0 0 0 / 0.06);
-  --shadow-glow:    none;
+  --shadow-card: none;
+  --shadow-raised: 0 1px 2px rgb(0 0 0 / 0.04), 0 4px 12px rgb(0 0 0 / 0.06);
+  --shadow-glow: none;
   --shadow-glow-success: none;
-  --shadow-glow-danger:  none;
-  --shadow-focus:   0 0 0 2px rgb(59 130 246 / 0.35);
+  --shadow-glow-danger: none;
+  --shadow-focus: 0 0 0 2px rgb(59 130 246 / 0.35);
 }
 
 // ─── Dark theme — overrides :root ────────────────────────────
 .dark {
-  --c-canvas:       11  14  17;   // #0B0E11  canvas-dark
-  --c-surface:      30  35  41;   // #1E2329  surface-card-dark
-  --c-surface-2:    43  49  57;   // #2B3139  surface-elevated-dark
-  --c-surface-3:    24  28  33;   // #181C21  subtle elevated
-  --c-line:         43  49  57;   // #2B3139  hairline-on-dark (= surface-2)
-  --c-line-strong:  71  77  87;   // #474D57  stronger hairline
+  --c-canvas: 11 14 17; // #0B0E11  canvas-dark
+  --c-surface: 30 35 41; // #1E2329  surface-card-dark
+  --c-surface-2: 43 49 57; // #2B3139  surface-elevated-dark
+  --c-surface-3: 24 28 33; // #181C21  subtle elevated
+  --c-line: 43 49 57; // #2B3139  hairline-on-dark (= surface-2)
+  --c-line-strong: 71 77 87; // #474D57  stronger hairline
 
-  --c-ink:         255 255 255;   // #FFFFFF  on-dark headings
-  --c-muted:       234 236 239;   // #EAECEF  body on dark (slightly cool)
-  --c-faint:       146 154 165;   // #929AA5  muted on dark
+  --c-ink: 255 255 255; // #FFFFFF  on-dark headings
+  --c-muted: 234 236 239; // #EAECEF  body on dark (slightly cool)
+  --c-faint: 146 154 165; // #929AA5  muted on dark
 
   // Yellow stays identical across themes (per Binance spec)
-  --c-primary:     252 213  53;   // #FCD535
-  --c-primary-active: 240 185  11;
-  --c-on-primary:   24  26  32;   // #181A20  black on yellow
-  --c-gold:        var(--c-primary);
+  --c-primary: 252 213 53; // #FCD535
+  --c-primary-active: 240 185 11;
+  --c-on-primary: 24 26 32; // #181A20  black on yellow
+  --c-gold: var(--c-primary);
 
-  --c-emerald:      14 203 129;
-  --c-terra:       246  70  93;
-  --c-warning:     240 185  11;
-  --c-info:         59 130 246;
+  --c-emerald: 14 203 129;
+  --c-terra: 246 70 93;
+  --c-warning: 240 185 11;
+  --c-info: 59 130 246;
 
   // Flat — no glow, no card shadow. Contrast handles depth.
-  --shadow-card:    none;
-  --shadow-raised:  0 2px 6px rgb(0 0 0 / 0.32), 0 12px 28px rgb(0 0 0 / 0.36);
-  --shadow-glow:    none;
+  --shadow-card: none;
+  --shadow-raised: 0 2px 6px rgb(0 0 0 / 0.32), 0 12px 28px rgb(0 0 0 / 0.36);
+  --shadow-glow: none;
   --shadow-glow-success: none;
-  --shadow-glow-danger:  none;
-  --shadow-focus:   0 0 0 2px rgb(59 130 246 / 0.50);
+  --shadow-glow-danger: none;
+  --shadow-focus: 0 0 0 2px rgb(59 130 246 / 0.5);
 }
 
 // ─── Base ─────────────────────────────────────────────────────
-*, *::before, *::after { box-sizing: border-box; }
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
 
 // ─── Reduced motion (WCAG 2.3.3) ─────────────────────────────
 // Honour the OS "reduce motion" setting globally: collapse animations,
 // transitions, and smooth scrolling for users who opt out.
 @media (prefers-reduced-motion: reduce) {
-  html { scroll-behavior: auto; }
-  *, *::before, *::after {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
@@ -130,36 +138,60 @@
   }
 }
 
-html, body {
+html,
+body {
   margin: 0;
   padding: 0;
   background: rgb(var(--c-canvas));
   color: rgb(var(--c-ink));
-  font-family: var(--font-sans), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-family:
+    var(--font-sans),
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    sans-serif;
   font-size: 14px;
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
-  transition: background-color 200ms ease, color 200ms ease;
+  transition:
+    background-color 200ms ease,
+    color 200ms ease;
 }
 
-body { min-height: 100vh; }
+body {
+  min-height: 100vh;
+}
 
-a { color: inherit; text-decoration: none; }
-button { font: inherit; cursor: pointer; }
+a {
+  color: inherit;
+  text-decoration: none;
+}
+button {
+  font: inherit;
+  cursor: pointer;
+}
 
 ::selection {
-  background: rgb(var(--c-primary) / 0.40);
+  background: rgb(var(--c-primary) / 0.4);
   color: rgb(var(--c-on-primary));
 }
 
 // ─── Scrollbar ────────────────────────────────────────────────
-::-webkit-scrollbar { width: 8px; height: 8px; }
-::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
 ::-webkit-scrollbar-thumb {
   background: rgb(var(--c-line-strong));
   border-radius: 4px;
-  &:hover { background: rgb(var(--c-muted)); }
+  &:hover {
+    background: rgb(var(--c-muted));
+  }
 }
 
 // ─── Financial number ─────────────────────────────────────────
@@ -179,7 +211,7 @@ button { font: inherit; cursor: pointer; }
   gap: 0.5rem;
   font-family: var(--font-mono);
   font-size: 0.6875rem;
-  letter-spacing: 0.10em;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   color: rgb(var(--c-muted));
   font-weight: 500;
@@ -206,20 +238,30 @@ button { font: inherit; cursor: pointer; }
 }
 
 @keyframes shimmer {
-  0%   { background-position: 200% 0; }
-  100% { background-position: -200% 0; }
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
 }
 
 // Glow utilities — kept as no-ops for backward compat; Binance is flat.
 .glow-primary,
 .glow-success,
-.glow-danger { box-shadow: none; }
+.glow-danger {
+  box-shadow: none;
+}
 
 // ─── Trading semantics (text-only, never card surface fills) ──
 .text-up,
 .price-up,
-.trading-up { color: rgb(var(--c-emerald)); }
+.trading-up {
+  color: rgb(var(--c-emerald));
+}
 
 .text-down,
 .price-down,
-.trading-down { color: rgb(var(--c-terra)); }
+.trading-down {
+  color: rgb(var(--c-terra));
+}

@@ -50,7 +50,9 @@ export function downloadFullFinanceCsv(): void {
   lines.push("SECTION,budgets");
   lines.push("id,category,monthlyLimit,month,year");
   for (const b of s.budgets) {
-    lines.push([b.id, b.category, b.monthlyLimit, b.month, b.year].map((x) => esc(String(x))).join(","));
+    lines.push(
+      [b.id, b.category, b.monthlyLimit, b.month, b.year].map((x) => esc(String(x))).join(",")
+    );
   }
 
   lines.push("");

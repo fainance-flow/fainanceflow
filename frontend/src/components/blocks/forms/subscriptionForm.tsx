@@ -64,7 +64,12 @@ const SubscriptionForm = ({ editing, onDone }: Props) => {
 
   if (isLoading) return <p className="text-sm text-muted py-4">Loading wallets…</p>;
   if (wallets.length === 0) {
-    return <FallBackState title="Add a wallet first" description="Subscriptions debit a wallet when marked paid." />;
+    return (
+      <FallBackState
+        title="Add a wallet first"
+        description="Subscriptions debit a wallet when marked paid."
+      />
+    );
   }
 
   const onSubmit = async (values: SubscriptionFormValues): Promise<void> => {
@@ -110,7 +115,9 @@ const SubscriptionForm = ({ editing, onDone }: Props) => {
       <Controller
         control={control}
         name="nextRenewal"
-        render={({ field }) => <DatePicker value={field.value} onChange={field.onChange} label="Next renewal" />}
+        render={({ field }) => (
+          <DatePicker value={field.value} onChange={field.onChange} label="Next renewal" />
+        )}
       />
       <Select
         label="Category"
@@ -119,7 +126,10 @@ const SubscriptionForm = ({ editing, onDone }: Props) => {
       />
       <Select
         label="Wallet"
-        options={[{ value: "", label: "— Pick wallet —" }, ...wallets.map((w) => ({ value: w.id, label: w.name }))]}
+        options={[
+          { value: "", label: "— Pick wallet —" },
+          ...wallets.map((w) => ({ value: w.id, label: w.name })),
+        ]}
         {...register("walletId")}
       />
       {errors.walletId && <p className="text-terra text-xs">{errors.walletId.message}</p>}

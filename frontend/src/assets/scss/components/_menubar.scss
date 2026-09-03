@@ -23,7 +23,8 @@
     left: 0;
     right: 0;
     height: 1px;
-    background: linear-gradient(90deg,
+    background: linear-gradient(
+      90deg,
       transparent 0%,
       rgb(var(--c-primary) / 0.5) 50%,
       transparent 100%
@@ -33,7 +34,7 @@
   &__section-label {
     font-family: var(--font-mono);
     font-size: 0.5625rem;
-    letter-spacing: 0.20em;
+    letter-spacing: 0.2em;
     text-transform: uppercase;
     color: rgb(var(--c-faint));
     padding: 0 $space-3;

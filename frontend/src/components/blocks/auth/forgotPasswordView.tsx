@@ -124,7 +124,8 @@ const ForgotPasswordView = () => {
               </div>
 
               <p className="text-xs text-muted">
-                This token expires in <strong className="text-ink">1 hour</strong>. Paste it on the reset screen below.
+                This token expires in <strong className="text-ink">1 hour</strong>. Paste it on the
+                reset screen below.
               </p>
 
               <Link href={`/reset-password?token=${resetToken}`}>

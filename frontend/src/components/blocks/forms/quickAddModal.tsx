@@ -1,13 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import {
-  ArrowDownRight,
-  ArrowUpRight,
-  Repeat,
-  PieChart,
-  Wallet,
-} from "lucide-react";
+import { ArrowDownRight, ArrowUpRight, Repeat, PieChart, Wallet } from "lucide-react";
 import Modal from "@components/common/Modal";
 import AccountForm from "@components/blocks/forms/accountForm";
 import TransactionForm from "@components/blocks/forms/transactionForm";
@@ -102,7 +96,9 @@ const QuickAddModal = ({ open, onOpenChange, initial = "expense" }: Props) => {
       <div className="border-t border-line-strong pt-5">
         {active === "expense" && <TransactionForm defaultType="expense" lockType onDone={close} />}
         {active === "income" && <TransactionForm defaultType="income" lockType onDone={close} />}
-        {active === "transfer" && <TransactionForm defaultType="transfer" lockType onDone={close} />}
+        {active === "transfer" && (
+          <TransactionForm defaultType="transfer" lockType onDone={close} />
+        )}
         {active === "budget" && <BudgetForm onDone={close} />}
         {active === "account" && <AccountForm onDone={close} />}
       </div>

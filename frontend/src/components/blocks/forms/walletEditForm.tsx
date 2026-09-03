@@ -4,7 +4,18 @@ import { useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
-import { Wallet, Landmark, Building2, Car, Home, Shield, Lock, LockOpen, Eye, EyeOff } from "lucide-react";
+import {
+  Wallet,
+  Landmark,
+  Building2,
+  Car,
+  Home,
+  Shield,
+  Lock,
+  LockOpen,
+  Eye,
+  EyeOff,
+} from "lucide-react";
 import Input from "@components/common/Input";
 import Select from "@components/common/Select";
 import Button from "@components/common/Button";
@@ -128,7 +139,9 @@ const WalletEditForm = ({ wallet, onDone }: Props) => {
                   aria-pressed={field.value === c}
                   className={cn(
                     "h-8 w-8 rounded-full border-2 transition-transform",
-                    field.value === c ? "border-gold scale-110 shadow-soft" : "border-line-strong hover:scale-105"
+                    field.value === c
+                      ? "border-gold scale-110 shadow-soft"
+                      : "border-line-strong hover:scale-105"
                   )}
                   style={{ background: c }}
                 />
@@ -170,7 +183,11 @@ const WalletEditForm = ({ wallet, onDone }: Props) => {
       {/* PIN protection */}
       <div className="space-y-2 pt-1">
         <p className="font-mono text-[10px] tracking-[0.16em] uppercase text-muted flex items-center gap-1.5">
-          {wallet.hasPin ? <Lock className="h-3 w-3 text-primary" /> : <LockOpen className="h-3 w-3" />}
+          {wallet.hasPin ? (
+            <Lock className="h-3 w-3 text-primary" />
+          ) : (
+            <LockOpen className="h-3 w-3" />
+          )}
           Wallet PIN {wallet.hasPin ? "(currently set)" : "(optional)"}
         </p>
 
@@ -179,7 +196,10 @@ const WalletEditForm = ({ wallet, onDone }: Props) => {
             <input
               type="checkbox"
               checked={clearPin}
-              onChange={(e) => { setClearPin(e.target.checked); setNewPin(""); }}
+              onChange={(e) => {
+                setClearPin(e.target.checked);
+                setNewPin("");
+              }}
               className="accent-terra"
             />
             Remove existing PIN

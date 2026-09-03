@@ -32,8 +32,8 @@ const Table = <T,>({ data, columns, emptyState, rowKey, onRowClick }: Props<T>) 
                   c.align === "right"
                     ? "text-right"
                     : c.align === "center"
-                    ? "text-center"
-                    : "text-left",
+                      ? "text-center"
+                      : "text-left",
                   c.className
                 )}
               >
@@ -60,8 +60,8 @@ const Table = <T,>({ data, columns, emptyState, rowKey, onRowClick }: Props<T>) 
                     c.align === "right"
                       ? "text-right tabular"
                       : c.align === "center"
-                      ? "text-center"
-                      : "text-left",
+                        ? "text-center"
+                        : "text-left",
                     c.className
                   )}
                 >

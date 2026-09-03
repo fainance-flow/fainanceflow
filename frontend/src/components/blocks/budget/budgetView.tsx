@@ -102,11 +102,14 @@ const BudgetView = () => {
               b.state === "over"
                 ? { tone: "terra" as const, label: "Over limit" }
                 : b.state === "warn"
-                ? { tone: "gold" as const, label: "Nearing limit" }
-                : { tone: "emerald" as const, label: "On track" };
+                  ? { tone: "gold" as const, label: "Nearing limit" }
+                  : { tone: "emerald" as const, label: "On track" };
 
             return (
-              <article key={b.id} className="rounded-2xl border border-line-strong bg-surface p-6 group">
+              <article
+                key={b.id}
+                className="rounded-2xl border border-line-strong bg-surface p-6 group"
+              >
                 <div className="flex items-center justify-between mb-4">
                   <span
                     className="h-10 w-10 rounded-lg grid place-items-center"
@@ -123,11 +126,15 @@ const BudgetView = () => {
                   Spent {formatPKR(b.spent, { showSymbol: false })} of{" "}
                   {formatPKR(b.limit, { showSymbol: false })}
                 </p>
-                <div className={`ff-progress mt-4 ${
-                  b.state === "over" ? "ff-progress--danger"
-                  : b.state === "warn" ? "ff-progress--warning"
-                  : "ff-progress--success"
-                }`}>
+                <div
+                  className={`ff-progress mt-4 ${
+                    b.state === "over"
+                      ? "ff-progress--danger"
+                      : b.state === "warn"
+                        ? "ff-progress--warning"
+                        : "ff-progress--success"
+                  }`}
+                >
                   <span
                     className="ff-progress__fill"
                     style={{ width: `${Math.min(b.pct, 100)}%` }}
@@ -202,10 +209,20 @@ const BudgetView = () => {
               onChange={(e) => setEditLimit(e.target.value)}
             />
             <div className="flex justify-end gap-2">
-              <Button type="button" variant="ghost" onClick={() => setEditing(null)} disabled={update.isPending}>
+              <Button
+                type="button"
+                variant="ghost"
+                onClick={() => setEditing(null)}
+                disabled={update.isPending}
+              >
                 Cancel
               </Button>
-              <Button type="button" variant="gold" loading={update.isPending} onClick={() => void saveEdit()}>
+              <Button
+                type="button"
+                variant="gold"
+                loading={update.isPending}
+                onClick={() => void saveEdit()}
+              >
                 Save
               </Button>
             </div>
@@ -226,10 +243,20 @@ const BudgetView = () => {
               {monthName(month)} {year}?
             </p>
             <div className="flex justify-end gap-2">
-              <Button type="button" variant="ghost" onClick={() => setDeleting(null)} disabled={del.isPending}>
+              <Button
+                type="button"
+                variant="ghost"
+                onClick={() => setDeleting(null)}
+                disabled={del.isPending}
+              >
                 Cancel
               </Button>
-              <Button type="button" variant="danger" loading={del.isPending} onClick={() => void confirmDelete()}>
+              <Button
+                type="button"
+                variant="danger"
+                loading={del.isPending}
+                onClick={() => void confirmDelete()}
+              >
                 Delete
               </Button>
             </div>

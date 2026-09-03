@@ -38,19 +38,17 @@ type StatCardProps = {
 
 const StatCard = ({ label, value, icon, tone, footer }: StatCardProps) => {
   const colors = {
-    income:  { bg: "bg-emerald/10",  text: "text-emerald",  border: "border-emerald/15" },
-    expense: { bg: "bg-terra/10",    text: "text-terra",    border: "border-terra/15" },
-    savings: { bg: "bg-primary/10",  text: "text-primary",  border: "border-primary/15" },
-    neutral: { bg: "bg-surface-2",   text: "text-muted",    border: "border-line-strong" },
+    income: { bg: "bg-emerald/10", text: "text-emerald", border: "border-emerald/15" },
+    expense: { bg: "bg-terra/10", text: "text-terra", border: "border-terra/15" },
+    savings: { bg: "bg-primary/10", text: "text-primary", border: "border-primary/15" },
+    neutral: { bg: "bg-surface-2", text: "text-muted", border: "border-line-strong" },
   }[tone];
 
   return (
     <div className={`ff-dashboard__stat ${colors.border}`} style={{ borderColor: undefined }}>
       <div className="flex items-center justify-between mb-3">
         <span className="stat-label">{label}</span>
-        <span className={`stat-icon ${colors.bg} ${colors.text}`}>
-          {icon}
-        </span>
+        <span className={`stat-icon ${colors.bg} ${colors.text}`}>{icon}</span>
       </div>
       <div className="stat-value">
         <span className="currency">₨</span>
@@ -213,7 +211,9 @@ const DashboardView = () => {
         <article className="ff-dashboard__panel">
           <div className="panel-head">
             <div>
-              <span className="editorial-rule">{chartRange ? "Custom range" : "Six-month ledger"}</span>
+              <span className="editorial-rule">
+                {chartRange ? "Custom range" : "Six-month ledger"}
+              </span>
               <h3 className="mt-2">Income vs Expense</h3>
             </div>
             <WidgetDatePicker value={chartRange} onChange={setChartRange} />
@@ -228,7 +228,9 @@ const DashboardView = () => {
         <article className="ff-dashboard__panel">
           <div className="panel-head">
             <div>
-              <span className="editorial-rule">{summaryRange ? "Filtered period" : "This month"}</span>
+              <span className="editorial-rule">
+                {summaryRange ? "Filtered period" : "This month"}
+              </span>
               <h3 className="mt-2">Where it went</h3>
             </div>
             <WidgetDatePicker value={summaryRange} onChange={setSummaryRange} />
@@ -322,7 +324,9 @@ const DashboardView = () => {
         <article className="ff-dashboard__panel">
           <div className="panel-head">
             <div>
-              <span className="editorial-rule">{summaryRange ? "Filtered period" : "Latest entries"}</span>
+              <span className="editorial-rule">
+                {summaryRange ? "Filtered period" : "Latest entries"}
+              </span>
               <h3 className="mt-2">Recent transactions</h3>
             </div>
             <div className="flex items-center gap-2">
@@ -354,8 +358,7 @@ const DashboardView = () => {
                 const def = categoryFor(tx.category);
                 const CatIcon = def.icon;
                 const income =
-                  tx.type === "income" ||
-                  (tx.type === "transfer" && tx.transferDirection === "in");
+                  tx.type === "income" || (tx.type === "transfer" && tx.transferDirection === "in");
                 return (
                   <li key={tx.id} className="ff-dashboard__tx-row">
                     <span
@@ -424,8 +427,7 @@ const DashboardView = () => {
                     <div className="flex items-center justify-between text-xs mb-1.5">
                       <span className="text-ink font-medium">{b.category}</span>
                       <span className="font-mono text-faint tabular">
-                        {formatPKRCompact(b.spent)}{" "}
-                        <span className="text-faint">/</span>{" "}
+                        {formatPKRCompact(b.spent)} <span className="text-faint">/</span>{" "}
                         {formatPKRCompact(b.limit)}
                       </span>
                     </div>
@@ -435,9 +437,8 @@ const DashboardView = () => {
                         style={{
                           width: `${Math.min(b.pct, 100)}%`,
                           background: fillColor,
-                          boxShadow: b.state === "over"
-                            ? "0 0 8px rgb(var(--c-terra) / 0.5)"
-                            : undefined,
+                          boxShadow:
+                            b.state === "over" ? "0 0 8px rgb(var(--c-terra) / 0.5)" : undefined,
                         }}
                       />
                     </div>

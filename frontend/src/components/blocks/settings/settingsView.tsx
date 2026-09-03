@@ -1,7 +1,17 @@
 "use client";
 
 import { useState } from "react";
-import { LogOut, Mail, ShieldCheck, UserCog, Wallet, KeyRound, Eye, EyeOff, Check } from "lucide-react";
+import {
+  LogOut,
+  Mail,
+  ShieldCheck,
+  UserCog,
+  Wallet,
+  KeyRound,
+  Eye,
+  EyeOff,
+  Check,
+} from "lucide-react";
 import Badge from "@components/common/Badge";
 import Button from "@components/common/Button";
 import Avatar from "@components/common/Avatar";
@@ -155,16 +165,26 @@ const SettingsView = () => {
             <p className="font-display text-2xl leading-tight truncate">{user?.name ?? "—"}</p>
             <p className="text-sm text-muted truncate">{user?.email ?? "—"}</p>
             <div className="mt-2 flex flex-wrap items-center gap-2">
-              <Badge tone={isAdmin ? "gold" : "emerald"} dot>{user?.role ?? "user"}</Badge>
+              <Badge tone={isAdmin ? "gold" : "emerald"} dot>
+                {user?.role ?? "user"}
+              </Badge>
               <Badge tone="muted">since {joined}</Badge>
             </div>
           </div>
         </div>
 
         <div className="mt-6">
-          <Row icon={<UserCog className="h-3.5 w-3.5" />} label="Full name" value={user?.name ?? "—"} />
+          <Row
+            icon={<UserCog className="h-3.5 w-3.5" />}
+            label="Full name"
+            value={user?.name ?? "—"}
+          />
           <Row icon={<Mail className="h-3.5 w-3.5" />} label="Email" value={user?.email ?? "—"} />
-          <Row icon={<Wallet className="h-3.5 w-3.5" />} label="Currency" value={user?.currency ?? "PKR"} />
+          <Row
+            icon={<Wallet className="h-3.5 w-3.5" />}
+            label="Currency"
+            value={user?.currency ?? "PKR"}
+          />
           <Row
             icon={<ShieldCheck className="h-3.5 w-3.5" />}
             label="Role"

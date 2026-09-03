@@ -41,7 +41,9 @@ const Tile = ({ label, value, tone }: TileProps) => (
   </div>
 );
 
-const allCategories = Array.from(new Set([...EXPENSE_CATEGORIES, ...INCOME_CATEGORIES, "Transfer"]));
+const allCategories = Array.from(
+  new Set([...EXPENSE_CATEGORIES, ...INCOME_CATEGORIES, "Transfer"])
+);
 
 const TransactionsView = () => {
   const [q, setQ] = useState<string>("");
@@ -64,13 +66,13 @@ const TransactionsView = () => {
     const now = Date.now();
     const d = new Date();
     const cutoffMs: Record<PeriodValue, number> = {
-      "7d":  now - 7  * 86_400_000,
+      "7d": now - 7 * 86_400_000,
       "30d": now - 30 * 86_400_000,
-      mtd:   new Date(d.getFullYear(), d.getMonth(), 1).getTime(),
-      "6m":  new Date(d.getFullYear(), d.getMonth() - 6, 1).getTime(),
-      ytd:   new Date(d.getFullYear(), 0, 1).getTime(),
-      "2y":  new Date(d.getFullYear() - 2, d.getMonth(), 1).getTime(),
-      all:   0,
+      mtd: new Date(d.getFullYear(), d.getMonth(), 1).getTime(),
+      "6m": new Date(d.getFullYear(), d.getMonth() - 6, 1).getTime(),
+      ytd: new Date(d.getFullYear(), 0, 1).getTime(),
+      "2y": new Date(d.getFullYear() - 2, d.getMonth(), 1).getTime(),
+      all: 0,
     };
     let rows = all.filter((t) => new Date(t.date).getTime() >= cutoffMs[period]);
     if (q.trim()) {
@@ -88,8 +90,12 @@ const TransactionsView = () => {
     return rows;
   }, [all, q, period, walletId, category, minAmount, maxAmount]);
 
-  const totalIn = filtered.filter((t) => t.type === "income").reduce((s, t) => s + Number(t.amount), 0);
-  const totalOut = filtered.filter((t) => t.type === "expense").reduce((s, t) => s + Number(t.amount), 0);
+  const totalIn = filtered
+    .filter((t) => t.type === "income")
+    .reduce((s, t) => s + Number(t.amount), 0);
+  const totalOut = filtered
+    .filter((t) => t.type === "expense")
+    .reduce((s, t) => s + Number(t.amount), 0);
 
   const exportCsv = (): void => {
     const header = ["date", "type", "category", "description", "amount", "wallet", "tags"];
@@ -160,13 +166,19 @@ const TransactionsView = () => {
         <div className="ff-toolbar__filters">
           <Select
             label="Wallet"
-            options={[{ value: "", label: "All wallets" }, ...wallets.map((w) => ({ value: w.id, label: w.name }))]}
+            options={[
+              { value: "", label: "All wallets" },
+              ...wallets.map((w) => ({ value: w.id, label: w.name })),
+            ]}
             value={walletId}
             onChange={(e) => setWalletId(e.target.value)}
           />
           <Select
             label="Category"
-            options={[{ value: "", label: "All categories" }, ...allCategories.map((c) => ({ value: c, label: c }))]}
+            options={[
+              { value: "", label: "All categories" },
+              ...allCategories.map((c) => ({ value: c, label: c })),
+            ]}
             value={category}
             onChange={(e) => setCategory(e.target.value)}
           />
@@ -209,7 +221,9 @@ const TransactionsView = () => {
             {
               key: "date",
               header: "Date",
-              cell: (r) => <span className="font-mono text-xs text-muted">{formatDate(r.date)}</span>,
+              cell: (r) => (
+                <span className="font-mono text-xs text-muted">{formatDate(r.date)}</span>
+              ),
             },
             {
               key: "type",
@@ -260,7 +274,9 @@ const TransactionsView = () => {
                 const inflow =
                   r.type === "income" || (r.type === "transfer" && r.transferDirection === "in");
                 return (
-                  <span className={`font-display text-base ${inflow ? "text-emerald" : "text-ink"}`}>
+                  <span
+                    className={`font-display text-base ${inflow ? "text-emerald" : "text-ink"}`}
+                  >
                     {inflow ? "+" : "−"}
                     {formatPKR(r.amount, { showSymbol: false })}
                   </span>
@@ -331,13 +347,26 @@ const TransactionsView = () => {
           <div className="space-y-4">
             <p className="text-sm text-muted">
               Remove this {deleting.type} of{" "}
-              <strong className="text-ink">{formatPKR(deleting.amount, { showSymbol: false })}</strong>?
+              <strong className="text-ink">
+                {formatPKR(deleting.amount, { showSymbol: false })}
+              </strong>
+              ?
             </p>
             <div className="flex justify-end gap-2">
-              <Button type="button" variant="ghost" onClick={() => setDeleting(null)} disabled={del.isPending}>
+              <Button
+                type="button"
+                variant="ghost"
+                onClick={() => setDeleting(null)}
+                disabled={del.isPending}
+              >
                 Cancel
               </Button>
-              <Button type="button" variant="danger" loading={del.isPending} onClick={() => void confirmDelete()}>
+              <Button
+                type="button"
+                variant="danger"
+                loading={del.isPending}
+                onClick={() => void confirmDelete()}
+              >
                 Delete
               </Button>
             </div>

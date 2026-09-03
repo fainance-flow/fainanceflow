@@ -55,9 +55,8 @@ function applyTxFilters(rows: Transaction[], filters?: TransactionListFilters): 
   }
   if (filters.q?.trim()) {
     const q = filters.q.trim().toLowerCase();
-    out = out.filter(
-      (t) =>
-        `${t.description ?? ""} ${t.category} ${(t.tags ?? []).join(" ")}`.toLowerCase().includes(q)
+    out = out.filter((t) =>
+      `${t.description ?? ""} ${t.category} ${(t.tags ?? []).join(" ")}`.toLowerCase().includes(q)
     );
   }
   if (filters.limit) out = out.slice(0, filters.limit);
@@ -186,10 +185,7 @@ export const updateTransaction = async (
   if (payload.date !== undefined) body.date = new Date(`${payload.date.slice(0, 10)}T12:00:00`);
   if (payload.tags !== undefined) body.tags = payload.tags;
 
-  const { data } = await axios.put<{ transaction: ApiTransaction }>(
-    `/transactions/${id}`,
-    body
-  );
+  const { data } = await axios.put<{ transaction: ApiTransaction }>(`/transactions/${id}`, body);
   return { data: { transaction: mapApiTransactionToUi(data.transaction) } };
 };
 

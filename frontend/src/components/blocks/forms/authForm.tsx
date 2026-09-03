@@ -5,11 +5,24 @@ import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
-import { ArrowRight, Mail, Lock, User as UserIcon, Eye, EyeOff, HardDriveDownload } from "lucide-react";
+import {
+  ArrowRight,
+  Mail,
+  Lock,
+  User as UserIcon,
+  Eye,
+  EyeOff,
+  HardDriveDownload,
+} from "lucide-react";
 import Link from "next/link";
 import Input from "@components/common/Input";
 import Button from "@components/common/Button";
-import { loginSchema, registerSchema, type LoginFormValues, type RegisterFormValues } from "@schemas/auth";
+import {
+  loginSchema,
+  registerSchema,
+  type LoginFormValues,
+  type RegisterFormValues,
+} from "@schemas/auth";
 import { login, register } from "@services/auth";
 import { tokenStore } from "@libs/axios";
 import { useAppDispatch } from "@hooks/useTypedRedux";
@@ -109,11 +122,7 @@ const AuthForm = ({ mode = "login", demoEmail, demoPassword }: Props) => {
               className="text-muted hover:text-ink transition-colors cursor-pointer"
               aria-label={showPassword ? "Hide password" : "Show password"}
             >
-              {showPassword ? (
-                <EyeOff className="h-3.5 w-3.5" />
-              ) : (
-                <Eye className="h-3.5 w-3.5" />
-              )}
+              {showPassword ? <EyeOff className="h-3.5 w-3.5" /> : <Eye className="h-3.5 w-3.5" />}
             </button>
           }
           error={errors.password?.message}

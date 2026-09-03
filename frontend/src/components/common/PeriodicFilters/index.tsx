@@ -3,12 +3,12 @@
 import { cn } from "@utils/cn";
 
 const PERIODS = [
-  { value: "7d",  label: "7d" },
+  { value: "7d", label: "7d" },
   { value: "30d", label: "30d" },
   { value: "mtd", label: "MTD" },
-  { value: "6m",  label: "6M" },
+  { value: "6m", label: "6M" },
   { value: "ytd", label: "YTD" },
-  { value: "2y",  label: "2Y" },
+  { value: "2y", label: "2Y" },
   { value: "all", label: "All" },
 ] as const;
 
@@ -40,9 +40,7 @@ const PeriodicFilters = ({ value, onChange, className }: Props) => {
             onClick={() => onChange(p.value)}
             className={cn(
               "px-3 h-7 rounded-sm text-xs font-mono font-medium tracking-wider uppercase transition-colors",
-              active
-                ? "bg-primary text-on-primary"
-                : "text-muted hover:text-ink hover:bg-surface-2"
+              active ? "bg-primary text-on-primary" : "text-muted hover:text-ink hover:bg-surface-2"
             )}
           >
             {p.label}

@@ -10,16 +10,16 @@ import Tooltip from "@components/common/Tooltip";
 import QuickAddModal from "@components/blocks/forms/quickAddModal";
 
 const PAGE_META: Record<string, { title: string; subtitle: string }> = {
-  "/dashboard":     { title: "Dashboard",     subtitle: "Overview · this month" },
-  "/accounts":      { title: "Wallets",        subtitle: "All accounts" },
-  "/transactions":  { title: "Transactions",   subtitle: "Income & expenses" },
-  "/expenses":      { title: "Expenses",       subtitle: "Outflow tracker" },
-  "/budget":        { title: "Budget",         subtitle: "Monthly limits" },
-  "/goals":         { title: "Goals",          subtitle: "Financial targets" },
-  "/subscriptions": { title: "Subscriptions",  subtitle: "Recurring charges" },
-  "/loans":         { title: "Loans",          subtitle: "Debt tracker" },
-  "/reports":       { title: "Reports",        subtitle: "Analytics & exports" },
-  "/settings":      { title: "Settings",       subtitle: "Preferences & profile" },
+  "/dashboard": { title: "Dashboard", subtitle: "Overview · this month" },
+  "/accounts": { title: "Wallets", subtitle: "All accounts" },
+  "/transactions": { title: "Transactions", subtitle: "Income & expenses" },
+  "/expenses": { title: "Expenses", subtitle: "Outflow tracker" },
+  "/budget": { title: "Budget", subtitle: "Monthly limits" },
+  "/goals": { title: "Goals", subtitle: "Financial targets" },
+  "/subscriptions": { title: "Subscriptions", subtitle: "Recurring charges" },
+  "/loans": { title: "Loans", subtitle: "Debt tracker" },
+  "/reports": { title: "Reports", subtitle: "Analytics & exports" },
+  "/settings": { title: "Settings", subtitle: "Preferences & profile" },
 };
 
 const Topbar = () => {

@@ -25,11 +25,9 @@ const buttonVariants = cva(
     variants: {
       variant: {
         // Binance signature — yellow background, black text, both modes
-        primary:
-          "bg-primary text-on-primary hover:bg-primary-active",
+        primary: "bg-primary text-on-primary hover:bg-primary-active",
         // Yellow + black at pill radius — top-of-page CTA
-        pill:
-          "bg-primary text-on-primary hover:bg-primary-active",
+        pill: "bg-primary text-on-primary hover:bg-primary-active",
         // Surface card with hairline — light + dark aware
         secondary:
           "bg-surface text-ink border border-line-strong hover:border-muted hover:bg-surface-2",
@@ -37,16 +35,12 @@ const buttonVariants = cva(
         outline:
           "bg-transparent text-ink border border-line-strong hover:border-muted hover:bg-surface-2",
         // No background, no border
-        ghost:
-          "bg-transparent text-muted hover:text-ink hover:bg-surface-2",
+        ghost: "bg-transparent text-muted hover:text-ink hover:bg-surface-2",
         // Inline text link — yellow on both modes, no underline by default
-        link:
-          "bg-transparent text-primary hover:underline underline-offset-4 px-0 py-0 h-auto",
+        link: "bg-transparent text-primary hover:underline underline-offset-4 px-0 py-0 h-auto",
         // Semantic trading buttons — used only for Buy/Sell / Long/Short
-        "trading-up":
-          "bg-emerald text-white hover:brightness-110",
-        "trading-down":
-          "bg-terra text-white hover:brightness-110",
+        "trading-up": "bg-emerald text-white hover:brightness-110",
+        "trading-down": "bg-terra text-white hover:brightness-110",
         // Destructive — subdued red tonal fill
         danger:
           "bg-terra/10 text-terra border border-terra/30 hover:bg-terra/15 hover:border-terra/45",
@@ -54,15 +48,14 @@ const buttonVariants = cva(
         success:
           "bg-emerald/10 text-emerald border border-emerald/30 hover:bg-emerald/15 hover:border-emerald/45",
         // Legacy gold alias — same as primary
-        gold:
-          "bg-primary text-on-primary hover:bg-primary-active",
+        gold: "bg-primary text-on-primary hover:bg-primary-active",
       },
       size: {
-        xs:   "h-7  px-2.5 text-xs   rounded-sm",
-        sm:   "h-8  px-3   text-xs   rounded-md",
-        md:   "h-10 px-4   text-sm   rounded-md",
-        lg:   "h-12 px-6   text-[15px] rounded-lg",
-        xl:   "h-14 px-8   text-base rounded-lg",
+        xs: "h-7  px-2.5 text-xs   rounded-sm",
+        sm: "h-8  px-3   text-xs   rounded-md",
+        md: "h-10 px-4   text-sm   rounded-md",
+        lg: "h-12 px-6   text-[15px] rounded-lg",
+        xl: "h-14 px-8   text-base rounded-lg",
         icon: "h-9  w-9    rounded-md",
         "icon-sm": "h-7 w-7 rounded-sm",
       },
@@ -71,7 +64,7 @@ const buttonVariants = cva(
       // Pill variant always overrides size radius to full pill
       { variant: "pill", className: "rounded-pill px-7" },
       // Trading buttons default to tighter shape per Binance spec
-      { variant: "trading-up",   size: "md", className: "rounded-sm" },
+      { variant: "trading-up", size: "md", className: "rounded-sm" },
       { variant: "trading-down", size: "md", className: "rounded-sm" },
     ],
     defaultVariants: { variant: "primary", size: "md" },

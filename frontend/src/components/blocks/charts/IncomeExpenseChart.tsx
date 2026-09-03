@@ -38,10 +38,7 @@ const CustomTooltip = ({ active, payload, label }: TooltipProps) => {
         {payload.map((p) => (
           <div key={p.dataKey} className="flex items-center justify-between gap-3 text-xs">
             <span className="flex items-center gap-1.5">
-              <span
-                className="h-2 w-2 rounded-sm"
-                style={{ background: p.color }}
-              />
+              <span className="h-2 w-2 rounded-sm" style={{ background: p.color }} />
               <span className="capitalize text-ink">{p.dataKey}</span>
             </span>
             <span className="font-display text-sm tabular">{formatPKR(p.value)}</span>

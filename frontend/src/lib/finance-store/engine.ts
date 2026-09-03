@@ -186,7 +186,10 @@ export type TransactionListFilters = {
   maxAmount?: number;
 };
 
-function enrichTransaction(t: TransactionStored, walletMap: Map<string, WalletStored>): Transaction {
+function enrichTransaction(
+  t: TransactionStored,
+  walletMap: Map<string, WalletStored>
+): Transaction {
   const w = walletMap.get(t.walletId);
   return {
     id: t.id,
@@ -198,9 +201,7 @@ function enrichTransaction(t: TransactionStored, walletMap: Map<string, WalletSt
     tags: t.tags,
     transferGroupId: t.transferGroupId,
     transferDirection: t.transferDirection,
-    wallet: w
-      ? { id: w.id, name: w.name, color: w.color, icon: w.icon }
-      : undefined,
+    wallet: w ? { id: w.id, name: w.name, color: w.color, icon: w.icon } : undefined,
   };
 }
 
@@ -231,9 +232,8 @@ export function listTransactions(filters?: TransactionListFilters): Transaction[
   }
   if (filters?.q?.trim()) {
     const q = filters.q.trim().toLowerCase();
-    rows = rows.filter(
-      (t) =>
-        `${t.description ?? ""} ${t.category} ${(t.tags ?? []).join(" ")}`.toLowerCase().includes(q)
+    rows = rows.filter((t) =>
+      `${t.description ?? ""} ${t.category} ${(t.tags ?? []).join(" ")}`.toLowerCase().includes(q)
     );
   }
   if (filters?.limit) rows = rows.slice(0, filters.limit);
@@ -465,7 +465,9 @@ export function updateWallet(
 export function deleteWallet(id: string): void {
   const s = readState();
   if (s.transactions.some((t) => t.walletId === id)) {
-    throw new Error("Cannot delete a wallet that still has transactions. Remove or reassign them first.");
+    throw new Error(
+      "Cannot delete a wallet that still has transactions. Remove or reassign them first."
+    );
   }
   if (s.subscriptions.some((x) => x.walletId === id)) {
     throw new Error("Cannot delete a wallet linked to a subscription.");
@@ -599,10 +601,7 @@ export function createBudget(payload: {
   let result!: BudgetStored;
   mutate((draft) => {
     const idx = draft.budgets.findIndex(
-      (b) =>
-        b.month === payload.month &&
-        b.year === payload.year &&
-        b.category === payload.category
+      (b) => b.month === payload.month && b.year === payload.year && b.category === payload.category
     );
     if (idx >= 0) {
       draft.budgets[idx]!.monthlyLimit = payload.monthlyLimit;
@@ -717,7 +716,10 @@ export function createLoan(payload: Omit<LoanStored, "id" | "createdAt">): LoanS
   return row;
 }
 
-export function updateLoan(id: string, patch: Partial<Omit<LoanStored, "id" | "createdAt">>): LoanStored | undefined {
+export function updateLoan(
+  id: string,
+  patch: Partial<Omit<LoanStored, "id" | "createdAt">>
+): LoanStored | undefined {
   let out: LoanStored | undefined;
   mutate((draft) => {
     const L = draft.loans.find((x) => x.id === id);

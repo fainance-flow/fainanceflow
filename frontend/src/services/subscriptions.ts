@@ -32,7 +32,9 @@ export type CreateSubscriptionPayload = {
   status: SubscriptionStatus;
 };
 
-export const fetchSubscriptions = async (): Promise<{ data: { subscriptions: Subscription[] } }> => ({
+export const fetchSubscriptions = async (): Promise<{
+  data: { subscriptions: Subscription[] };
+}> => ({
   data: { subscriptions: listSubscriptions().map(mapRow) },
 });
 

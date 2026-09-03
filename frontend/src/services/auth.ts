@@ -25,11 +25,12 @@ export const login = (payload: LoginPayload): Promise<AxiosResponse<AuthResponse
 export const register = (payload: RegisterPayload): Promise<AxiosResponse<AuthResponse>> =>
   axios.post<AuthResponse>("/auth/register", payload);
 
-export const refresh = (refreshToken: string): Promise<AxiosResponse<{ accessToken: string; refreshToken: string }>> =>
+export const refresh = (
+  refreshToken: string
+): Promise<AxiosResponse<{ accessToken: string; refreshToken: string }>> =>
   axios.post("/auth/refresh", { refreshToken });
 
-export const logout = (): Promise<AxiosResponse<{ ok: true }>> =>
-  axios.post("/auth/logout");
+export const logout = (): Promise<AxiosResponse<{ ok: true }>> => axios.post("/auth/logout");
 
 export const me = (): Promise<AxiosResponse<{ user: User }>> =>
   axios.get<{ user: User }>("/auth/me");
@@ -45,5 +46,4 @@ export const forgotPassword = (email: string): Promise<AxiosResponse<ForgotPassw
 export const resetPassword = (payload: {
   token: string;
   newPassword: string;
-}): Promise<AxiosResponse<{ message: string }>> =>
-  axios.post("/auth/reset-password", payload);
+}): Promise<AxiosResponse<{ message: string }>> => axios.post("/auth/reset-password", payload);

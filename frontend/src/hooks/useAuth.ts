@@ -7,7 +7,12 @@ import { me, logout as logoutRequest } from "@services/auth";
 import { tokenStore } from "@libs/axios";
 import { useAppDispatch, useAppSelector } from "@hooks/useTypedRedux";
 import { authClear, authStart, authSuccess } from "@store/slices/authSlice";
-import { clearLocalSession, isLocalSession, LOCAL_OFFLINE_USER, setLocalSession } from "@/lib/local-session";
+import {
+  clearLocalSession,
+  isLocalSession,
+  LOCAL_OFFLINE_USER,
+  setLocalSession,
+} from "@/lib/local-session";
 
 export const useHydrateUser = (): void => {
   const dispatch = useAppDispatch();

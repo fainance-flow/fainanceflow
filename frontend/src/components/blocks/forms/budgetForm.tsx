@@ -52,9 +52,7 @@ const BudgetForm = ({
   const onSubmit = async (values: BudgetFormValues): Promise<void> => {
     try {
       await create.mutateAsync(values);
-      toast.success(
-        `Budget set · ${values.category} · ${monthName(values.month)} ${values.year}`
-      );
+      toast.success(`Budget set · ${values.category} · ${monthName(values.month)} ${values.year}`);
       onDone?.();
     } catch (err) {
       toast.error(
@@ -91,11 +89,7 @@ const BudgetForm = ({
           options={monthOptions}
           {...register("month", { valueAsNumber: true })}
         />
-        <Select
-          label="Year"
-          options={yearOptions}
-          {...register("year", { valueAsNumber: true })}
-        />
+        <Select label="Year" options={yearOptions} {...register("year", { valueAsNumber: true })} />
       </div>
 
       <p className="font-mono text-[10px] tracking-[0.14em] uppercase text-muted">

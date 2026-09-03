@@ -5,7 +5,11 @@ import AuthForm from "@components/blocks/forms/authForm";
 const FEATURES = [
   { icon: Wallet, label: "Add all your wallets", sub: "Banks, cash & mobile money" },
   { icon: Target, label: "Set goals & budgets", sub: "Save with intent, month by month" },
-  { icon: ShieldCheck, label: "No account required", sub: "Start offline — sync later if you want" },
+  {
+    icon: ShieldCheck,
+    label: "No account required",
+    sub: "Start offline — sync later if you want",
+  },
 ];
 
 const RegisterView = () => {
@@ -17,7 +21,9 @@ const RegisterView = () => {
 
         <div className="cover-brand">
           <span className="mark">f</span>
-          <span>Finance<em>Flow</em></span>
+          <span>
+            Finance<em>Flow</em>
+          </span>
         </div>
 
         <div className="cover-hero">
@@ -30,7 +36,9 @@ const RegisterView = () => {
           <div className="cover-preview" aria-hidden>
             <div className="cover-preview__head">
               <span className="k">Projected savings · 6 months</span>
-              <span className="tag"><ArrowUpRight className="h-3 w-3" /> on track</span>
+              <span className="tag">
+                <ArrowUpRight className="h-3 w-3" /> on track
+              </span>
             </div>
             <div className="cover-preview__figure">
               <span className="cur">₨</span>
@@ -42,8 +50,12 @@ const RegisterView = () => {
               ))}
             </div>
             <div className="cover-preview__pills">
-              <span className="pill"><i style={{ background: "#fcd535" }} /> Emergency · 120k</span>
-              <span className="pill"><i style={{ background: "#0ecb81" }} /> Umrah · 80k</span>
+              <span className="pill">
+                <i style={{ background: "#fcd535" }} /> Emergency · 120k
+              </span>
+              <span className="pill">
+                <i style={{ background: "#0ecb81" }} /> Umrah · 80k
+              </span>
             </div>
           </div>
         </div>
@@ -52,7 +64,9 @@ const RegisterView = () => {
           <ul className="cover-features">
             {FEATURES.map(({ icon: Icon, label, sub }) => (
               <li key={label}>
-                <span className="ic"><Icon className="h-4 w-4" /></span>
+                <span className="ic">
+                  <Icon className="h-4 w-4" />
+                </span>
                 <span className="tx">
                   <strong>{label}</strong>
                   <em>{sub}</em>
@@ -68,7 +82,9 @@ const RegisterView = () => {
         <div className="ff-auth__form animate-fade-up">
           <div className="brand-mobile">
             <span className="mark">f</span>
-            <span>Finance<em>Flow</em></span>
+            <span>
+              Finance<em>Flow</em>
+            </span>
           </div>
 
           <span className="editorial-rule">New account</span>
@@ -79,8 +95,7 @@ const RegisterView = () => {
           </p>
           <AuthForm mode="register" />
           <p className="ff-auth__switch">
-            Already have an account?{" "}
-            <Link href="/login">Sign in</Link>
+            Already have an account? <Link href="/login">Sign in</Link>
           </p>
         </div>
       </section>

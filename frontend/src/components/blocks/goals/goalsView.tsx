@@ -122,8 +122,8 @@ const GoalsView = () => {
                         g.status === "completed"
                           ? "emerald"
                           : g.status === "paused"
-                          ? "muted"
-                          : "gold"
+                            ? "muted"
+                            : "gold"
                       }
                       dot
                     >
@@ -163,10 +163,7 @@ const GoalsView = () => {
                   </p>
 
                   <div className="ff-progress mt-3" style={{ height: 8 }}>
-                    <span
-                      className="ff-progress__fill"
-                      style={{ width: `${pct}%` }}
-                    />
+                    <span className="ff-progress__fill" style={{ width: `${pct}%` }} />
                   </div>
 
                   <div className="mt-3 flex items-center justify-between font-mono text-[10px] tracking-[0.14em] uppercase text-muted">
@@ -214,7 +211,9 @@ const GoalsView = () => {
         title="Edit goal"
         description="Tweak the title, target, deadline, or icon."
       >
-        {editGoal && <GoalForm key={editGoal.id} goal={editGoal} onDone={() => setEditGoal(null)} />}
+        {editGoal && (
+          <GoalForm key={editGoal.id} goal={editGoal} onDone={() => setEditGoal(null)} />
+        )}
       </Modal>
 
       <Modal

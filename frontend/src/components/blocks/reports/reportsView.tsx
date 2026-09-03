@@ -224,7 +224,9 @@ const ReportsView = () => {
                       }}
                     >
                       <span className="font-mono text-[10px] text-muted">{h.label}</span>
-                      <span className="font-display text-xs tabular">{formatPKRCompact(h.total)}</span>
+                      <span className="font-display text-xs tabular">
+                        {formatPKRCompact(h.total)}
+                      </span>
                     </div>
                   </div>
                 ))}
@@ -237,16 +239,20 @@ const ReportsView = () => {
               <div className="space-y-4">
                 <div className="flex justify-between items-baseline">
                   <span className="text-muted text-sm">Weekend (SatSun)</span>
-                  <span className="font-display text-xl tabular">{formatPKR(weekendSplit.weekend)}</span>
+                  <span className="font-display text-xl tabular">
+                    {formatPKR(weekendSplit.weekend)}
+                  </span>
                 </div>
                 <div className="flex justify-between items-baseline">
                   <span className="text-muted text-sm">Weekday (MonFri)</span>
-                  <span className="font-display text-xl tabular">{formatPKR(weekendSplit.weekday)}</span>
+                  <span className="font-display text-xl tabular">
+                    {formatPKR(weekendSplit.weekday)}
+                  </span>
                 </div>
                 {weekendSplit.total > 0 && (
                   <p className="text-xs text-muted font-mono">
-                    Weekend share ·{" "}
-                    {Math.round((weekendSplit.weekend / weekendSplit.total) * 100)}% of tracked spend
+                    Weekend share · {Math.round((weekendSplit.weekend / weekendSplit.total) * 100)}%
+                    of tracked spend
                   </p>
                 )}
               </div>
@@ -290,7 +296,13 @@ const ReportsView = () => {
                     }}
                     formatter={(v: number) => `${v}%`}
                   />
-                  <Line type="monotone" dataKey="rate" stroke="rgb(var(--c-gold))" strokeWidth={2} dot={{ r: 3 }} />
+                  <Line
+                    type="monotone"
+                    dataKey="rate"
+                    stroke="rgb(var(--c-gold))"
+                    strokeWidth={2}
+                    dot={{ r: 3 }}
+                  />
                 </LineChart>
               </ResponsiveContainer>
             </div>

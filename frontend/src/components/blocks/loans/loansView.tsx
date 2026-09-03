@@ -7,7 +7,6 @@ import Button from "@components/common/Button";
 import Modal from "@components/common/Modal";
 import Input from "@components/common/Input";
 import Select from "@components/common/Select";
-import DatePicker from "@components/common/DatePicker";
 import FallBackState from "@components/common/FallBackState";
 import LoadingOverlay from "@components/common/LoadingOverlay";
 import LoanForm from "@components/blocks/forms/loanForm";
@@ -108,7 +107,8 @@ const LoansView = () => {
               {formatPKR(totalOwed, { showSymbol: false })}
             </p>
             <span className="ff-tile__sub">
-              {loans.filter((L) => L.type === "taken" && L.remainingBalance > 0).length} active loans
+              {loans.filter((L) => L.type === "taken" && L.remainingBalance > 0).length} active
+              loans
             </span>
           </div>
           <div className="ff-tile ff-tile--income">
@@ -222,7 +222,12 @@ const LoansView = () => {
         </div>
       )}
 
-      <Modal open={open} onOpenChange={setOpen} title="New loan" description="Principal, EMI, and who holds the note.">
+      <Modal
+        open={open}
+        onOpenChange={setOpen}
+        title="New loan"
+        description="Principal, EMI, and who holds the note."
+      >
         <LoanForm onDone={() => setOpen(false)} />
       </Modal>
 
@@ -269,7 +274,12 @@ const LoansView = () => {
               <Button type="button" variant="ghost" onClick={() => setPaying(null)}>
                 Cancel
               </Button>
-              <Button type="button" variant="gold" loading={payLoan.isPending} onClick={() => void submitPay()}>
+              <Button
+                type="button"
+                variant="gold"
+                loading={payLoan.isPending}
+                onClick={() => void submitPay()}
+              >
                 Pay
               </Button>
             </div>

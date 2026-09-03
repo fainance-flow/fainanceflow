@@ -19,11 +19,15 @@
     margin-inline: auto;
     padding-inline: $space-5;
 
-    @include media-md { padding-inline: $space-8; }
+    @include media-md {
+      padding-inline: $space-8;
+    }
   }
 
   // Section anchors clear the sticky nav
-  section[id] { scroll-margin-top: calc(var(--nav-h) + #{$space-6}); }
+  section[id] {
+    scroll-margin-top: calc(var(--nav-h) + #{$space-6});
+  }
 
   // ─── Navbar ──────────────────────────────────────────────────
   &__nav {
@@ -65,7 +69,10 @@
         font-size: 0.9375rem;
         font-weight: 700;
       }
-      em { font-style: normal; color: rgb(var(--c-primary)); }
+      em {
+        font-style: normal;
+        color: rgb(var(--c-primary));
+      }
     }
 
     .links {
@@ -73,14 +80,18 @@
       align-items: center;
       gap: $space-6;
 
-      @include media-lg { display: flex; }
+      @include media-lg {
+        display: flex;
+      }
 
       a {
         font-size: $font-size-sm;
         font-weight: 500;
         color: rgb(var(--c-muted));
         transition: color 150ms $ease-out-soft;
-        &:hover { color: rgb(var(--c-ink)); }
+        &:hover {
+          color: rgb(var(--c-ink));
+        }
       }
     }
 
@@ -99,7 +110,9 @@
       border: 1px solid rgb(var(--c-line-strong));
       background: rgb(var(--c-surface));
       color: rgb(var(--c-ink));
-      @include media-lg { display: none; }
+      @include media-lg {
+        display: none;
+      }
     }
   }
 
@@ -117,10 +130,15 @@
       font-size: $font-size-base;
       font-weight: 500;
       color: rgb(var(--c-muted));
-      &:hover { background: rgb(var(--c-surface-2)); color: rgb(var(--c-ink)); }
+      &:hover {
+        background: rgb(var(--c-surface-2));
+        color: rgb(var(--c-ink));
+      }
     }
 
-    @include media-lg { display: none; }
+    @include media-lg {
+      display: none;
+    }
   }
 
   // ─── Hero ────────────────────────────────────────────────────
@@ -206,7 +224,9 @@
           text-transform: uppercase;
           color: rgb(var(--c-faint));
 
-          svg { color: rgb(var(--c-emerald)); }
+          svg {
+            color: rgb(var(--c-emerald));
+          }
         }
       }
     }
@@ -227,7 +247,9 @@
     transform: perspective(1400px) rotateY(-4deg) rotateX(2deg);
     transform-origin: center;
 
-    @include media-lg { margin-left: $space-4; }
+    @include media-lg {
+      margin-left: $space-4;
+    }
 
     &__bar {
       display: flex;
@@ -242,9 +264,15 @@
         height: 10px;
         border-radius: 50%;
         background: rgb(var(--c-line-strong));
-        &:nth-child(1) { background: rgb(var(--c-terra) / 0.7); }
-        &:nth-child(2) { background: rgb(var(--c-warning) / 0.7); }
-        &:nth-child(3) { background: rgb(var(--c-emerald) / 0.7); }
+        &:nth-child(1) {
+          background: rgb(var(--c-terra) / 0.7);
+        }
+        &:nth-child(2) {
+          background: rgb(var(--c-warning) / 0.7);
+        }
+        &:nth-child(3) {
+          background: rgb(var(--c-emerald) / 0.7);
+        }
       }
 
       .title {
@@ -323,7 +351,7 @@
           flex: 1;
           min-height: 6px;
           border-radius: 3px 3px 0 0;
-          background: linear-gradient(to top, rgb(var(--c-primary) / 0.30), rgb(var(--c-primary)));
+          background: linear-gradient(to top, rgb(var(--c-primary) / 0.3), rgb(var(--c-primary)));
         }
       }
 
@@ -356,9 +384,24 @@
             @include tabular;
           }
 
-          &.up    { border-left: 2px solid rgb(var(--c-emerald)); strong { color: rgb(var(--c-emerald)); } }
-          &.down  { border-left: 2px solid rgb(var(--c-terra));   strong { color: rgb(var(--c-terra)); } }
-          &.accent{ border-left: 2px solid rgb(var(--c-primary)); strong { color: rgb(var(--c-primary)); } }
+          &.up {
+            border-left: 2px solid rgb(var(--c-emerald));
+            strong {
+              color: rgb(var(--c-emerald));
+            }
+          }
+          &.down {
+            border-left: 2px solid rgb(var(--c-terra));
+            strong {
+              color: rgb(var(--c-terra));
+            }
+          }
+          &.accent {
+            border-left: 2px solid rgb(var(--c-primary));
+            strong {
+              color: rgb(var(--c-primary));
+            }
+          }
         }
       }
     }
@@ -421,7 +464,11 @@
         font-weight: 700;
         color: rgb(var(--c-ink));
 
-        em { font-style: italic; font-weight: 400; color: rgb(var(--c-primary)); }
+        em {
+          font-style: italic;
+          font-weight: 400;
+          color: rgb(var(--c-primary));
+        }
       }
 
       p {
@@ -440,8 +487,12 @@
     grid-template-columns: 1fr;
     gap: $space-4;
 
-    @include media-sm { grid-template-columns: repeat(2, 1fr); }
-    @include media-lg { grid-template-columns: repeat(3, 1fr); }
+    @include media-sm {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    @include media-lg {
+      grid-template-columns: repeat(3, 1fr);
+    }
   }
 
   .feature-card {
@@ -449,7 +500,9 @@
     border-radius: $radius-xl;
     background: rgb(var(--c-surface));
     padding: $space-6;
-    transition: border-color 200ms $ease-out-soft, transform 200ms $ease-out-soft;
+    transition:
+      border-color 200ms $ease-out-soft,
+      transform 200ms $ease-out-soft;
 
     &:hover {
       border-color: rgb(var(--c-line-strong));
@@ -464,7 +517,7 @@
       place-items: center;
       background: rgb(var(--c-primary) / 0.12);
       color: rgb(var(--c-primary));
-      border: 1px solid rgb(var(--c-primary) / 0.20);
+      border: 1px solid rgb(var(--c-primary) / 0.2);
     }
 
     h3 {
@@ -490,7 +543,9 @@
     grid-template-columns: 1fr;
     gap: $space-4;
 
-    @include media-md { grid-template-columns: repeat(3, 1fr); }
+    @include media-md {
+      grid-template-columns: repeat(3, 1fr);
+    }
   }
 
   .step-card {
@@ -525,17 +580,27 @@
   }
 
   // ─── Values ──────────────────────────────────────────────────
-  &__values { background: rgb(var(--c-surface-3)); max-width: none; }
+  &__values {
+    background: rgb(var(--c-surface-3));
+    max-width: none;
+  }
   &__values .section-head,
-  &__values .values-grid { max-width: 1200px; margin-inline: auto; }
-  &__values .section-head { margin-bottom: $space-10; }
+  &__values .values-grid {
+    max-width: 1200px;
+    margin-inline: auto;
+  }
+  &__values .section-head {
+    margin-bottom: $space-10;
+  }
 
   .values-grid {
     display: grid;
     grid-template-columns: 1fr;
     gap: $space-4;
 
-    @include media-md { grid-template-columns: repeat(3, 1fr); }
+    @include media-md {
+      grid-template-columns: repeat(3, 1fr);
+    }
   }
 
   .value-card {
@@ -555,7 +620,7 @@
       place-items: center;
       background: rgb(var(--c-primary) / 0.12);
       color: rgb(var(--c-primary));
-      border: 1px solid rgb(var(--c-primary) / 0.20);
+      border: 1px solid rgb(var(--c-primary) / 0.2);
     }
 
     h3 {
@@ -600,7 +665,9 @@
         pointer-events: none;
       }
 
-      .editorial-rule { justify-content: center; }
+      .editorial-rule {
+        justify-content: center;
+      }
 
       h2 {
         position: relative;
@@ -612,7 +679,11 @@
         font-weight: 800;
         color: rgb(var(--c-ink));
 
-        em { font-style: italic; font-weight: 400; color: rgb(var(--c-primary)); }
+        em {
+          font-style: italic;
+          font-weight: 400;
+          color: rgb(var(--c-primary));
+        }
       }
 
       p {
@@ -646,7 +717,9 @@
       gap: $space-8;
       padding-block: $space-10;
 
-      @include media-md { grid-template-columns: 1.4fr 1fr; }
+      @include media-md {
+        grid-template-columns: 1.4fr 1fr;
+      }
     }
 
     .foot-brand {
@@ -671,7 +744,10 @@
           font-size: 0.875rem;
           font-weight: 700;
         }
-        em { font-style: normal; color: rgb(var(--c-primary)); }
+        em {
+          font-style: normal;
+          color: rgb(var(--c-primary));
+        }
       }
 
       p {
@@ -706,7 +782,9 @@
           font-size: $font-size-sm;
           color: rgb(var(--c-muted));
           transition: color 150ms $ease-out-soft;
-          &:hover { color: rgb(var(--c-primary)); }
+          &:hover {
+            color: rgb(var(--c-primary));
+          }
         }
       }
     }

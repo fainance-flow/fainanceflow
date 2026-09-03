@@ -18,7 +18,9 @@ const LoginView = () => {
         {/* Brand */}
         <div className="cover-brand">
           <span className="mark">f</span>
-          <span>Finance<em>Flow</em></span>
+          <span>
+            Finance<em>Flow</em>
+          </span>
         </div>
 
         {/* Editorial hero + product preview */}
@@ -33,7 +35,9 @@ const LoginView = () => {
           <div className="cover-preview" aria-hidden>
             <div className="cover-preview__head">
               <span className="k">Total balance · all wallets</span>
-              <span className="tag"><ArrowUpRight className="h-3 w-3" /> +12.4%</span>
+              <span className="tag">
+                <ArrowUpRight className="h-3 w-3" /> +12.4%
+              </span>
             </div>
             <div className="cover-preview__figure">
               <span className="cur">₨</span>
@@ -45,9 +49,15 @@ const LoginView = () => {
               ))}
             </div>
             <div className="cover-preview__pills">
-              <span className="pill"><i style={{ background: "#1d4ed8" }} /> HBL · 312k</span>
-              <span className="pill"><i style={{ background: "#0ecb81" }} /> Cash · 96k</span>
-              <span className="pill"><i style={{ background: "#7c3aed" }} /> Savings · 74k</span>
+              <span className="pill">
+                <i style={{ background: "#1d4ed8" }} /> HBL · 312k
+              </span>
+              <span className="pill">
+                <i style={{ background: "#0ecb81" }} /> Cash · 96k
+              </span>
+              <span className="pill">
+                <i style={{ background: "#7c3aed" }} /> Savings · 74k
+              </span>
             </div>
           </div>
         </div>
@@ -57,7 +67,9 @@ const LoginView = () => {
           <ul className="cover-features">
             {FEATURES.map(({ icon: Icon, label, sub }) => (
               <li key={label}>
-                <span className="ic"><Icon className="h-4 w-4" /></span>
+                <span className="ic">
+                  <Icon className="h-4 w-4" />
+                </span>
                 <span className="tx">
                   <strong>{label}</strong>
                   <em>{sub}</em>
@@ -74,7 +86,9 @@ const LoginView = () => {
           {/* Mobile brand (cover is hidden on small screens) */}
           <div className="brand-mobile">
             <span className="mark">f</span>
-            <span>Finance<em>Flow</em></span>
+            <span>
+              Finance<em>Flow</em>
+            </span>
           </div>
 
           <span className="editorial-rule">Welcome back</span>
@@ -85,8 +99,7 @@ const LoginView = () => {
           </p>
           <AuthForm mode="login" />
           <p className="ff-auth__switch">
-            New here?{" "}
-            <Link href="/register">Create an account</Link>
+            New here? <Link href="/register">Create an account</Link>
           </p>
         </div>
       </section>

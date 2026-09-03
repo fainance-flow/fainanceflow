@@ -1,7 +1,16 @@
 "use client";
 
 import { useState } from "react";
-import { Plus, Wallet as WalletIcon, Pencil, Trash2, ArrowLeftRight, Lock, Eye, EyeOff } from "lucide-react";
+import {
+  Plus,
+  Wallet as WalletIcon,
+  Pencil,
+  Trash2,
+  ArrowLeftRight,
+  Lock,
+  Eye,
+  EyeOff,
+} from "lucide-react";
 import PageLayout from "@components/common/PageLayout";
 import Button from "@components/common/Button";
 import Badge from "@components/common/Badge";
@@ -49,7 +58,8 @@ const PinModal = ({
           <Lock className="h-6 w-6 text-primary" />
         </div>
         <p className="text-sm text-muted text-center">
-          <strong className="text-ink">{wallet.name}</strong> is PIN-protected.<br />
+          <strong className="text-ink">{wallet.name}</strong> is PIN-protected.
+          <br />
           Enter your PIN to view balance and details.
         </p>
       </div>
@@ -62,7 +72,10 @@ const PinModal = ({
           autoFocus
           placeholder="Enter PIN"
           value={pin}
-          onChange={(e) => { setPin(e.target.value.replace(/\D/g, "").slice(0, 6)); setError(""); }}
+          onChange={(e) => {
+            setPin(e.target.value.replace(/\D/g, "").slice(0, 6));
+            setError("");
+          }}
           onKeyDown={(e) => e.key === "Enter" && verify()}
           className={[
             "w-full h-12 px-4 pr-12 text-center text-xl rounded-xl border bg-canvas text-ink font-mono tracking-[0.4em]",
@@ -83,7 +96,9 @@ const PinModal = ({
       {error && <p className="text-xs text-terra text-center">{error}</p>}
 
       <div className="flex gap-2">
-        <Button variant="ghost" className="flex-1" onClick={onClose}>Cancel</Button>
+        <Button variant="ghost" className="flex-1" onClick={onClose}>
+          Cancel
+        </Button>
         <Button variant="primary" className="flex-1" onClick={verify} disabled={pin.length < 4}>
           Unlock
         </Button>
@@ -152,11 +167,20 @@ const AccountsView = () => {
   return (
     <PageLayout
       eyebrow="Where your money lives"
-      title={<>Your <em className="italic text-primary">wallets</em></>}
+      title={
+        <>
+          Your <em className="italic text-primary">wallets</em>
+        </>
+      }
       subtitle="Bank, cash, credit, and savings — balances update live from your ledger."
       actions={
         <div className="flex flex-wrap gap-2">
-          <Button variant="outline" size="md" onClick={() => setTransferOpen(true)} disabled={wallets.length < 2}>
+          <Button
+            variant="outline"
+            size="md"
+            onClick={() => setTransferOpen(true)}
+            disabled={wallets.length < 2}
+          >
             <ArrowLeftRight className="h-4 w-4" />
             Transfer
           </Button>
@@ -237,7 +261,9 @@ const AccountsView = () => {
                     {a.hasPin && (
                       <button
                         type="button"
-                        onClick={() => locked ? setPinTarget(a) : setUnlocked((p) => ({ ...p, [a.id]: false }))}
+                        onClick={() =>
+                          locked ? setPinTarget(a) : setUnlocked((p) => ({ ...p, [a.id]: false }))
+                        }
                         className="h-8 w-8 flex items-center justify-center rounded-md text-muted hover:text-primary cursor-pointer transition-colors"
                         title={locked ? "Unlock wallet" : "Lock wallet"}
                       >
@@ -279,16 +305,16 @@ const AccountsView = () => {
                     className="mt-2 flex items-center gap-3 cursor-pointer"
                     onClick={() => setPinTarget(a)}
                   >
-                    <p className="font-display text-3xl tabular blur-sm select-none">
-                      ₨ ••••••
-                    </p>
+                    <p className="font-display text-3xl tabular blur-sm select-none">₨ ••••••</p>
                     <span className="flex items-center gap-1 text-xs text-primary font-mono uppercase tracking-wider">
                       <Lock className="h-3 w-3" /> Tap to unlock
                     </span>
                   </div>
                 ) : (
                   <p className="font-display text-3xl tabular mt-2">
-                    <span className="text-muted text-lg mr-1">{a.currency === "PKR" ? "₨" : `${a.currency} `}</span>
+                    <span className="text-muted text-lg mr-1">
+                      {a.currency === "PKR" ? "₨" : `${a.currency} `}
+                    </span>
                     {formatPKR(a.balance, { showSymbol: false })}
                   </p>
                 )}
@@ -299,7 +325,12 @@ const AccountsView = () => {
       )}
 
       {/* Add wallet modal */}
-      <Modal open={open} onOpenChange={setOpen} title="Add wallet" description="Track a bank account, cash, or card.">
+      <Modal
+        open={open}
+        onOpenChange={setOpen}
+        title="Add wallet"
+        description="Track a bank account, cash, or card."
+      >
         <AccountForm onDone={() => setOpen(false)} />
       </Modal>
 
@@ -326,8 +357,22 @@ const AccountsView = () => {
               Permanently remove <strong className="text-ink">{deleting.name}</strong>?
             </p>
             <div className="flex justify-end gap-2">
-              <Button type="button" variant="ghost" onClick={() => setDeleting(null)} disabled={del.isPending}>Cancel</Button>
-              <Button type="button" variant="danger" loading={del.isPending} onClick={() => void confirmDelete()}>Delete</Button>
+              <Button
+                type="button"
+                variant="ghost"
+                onClick={() => setDeleting(null)}
+                disabled={del.isPending}
+              >
+                Cancel
+              </Button>
+              <Button
+                type="button"
+                variant="danger"
+                loading={del.isPending}
+                onClick={() => void confirmDelete()}
+              >
+                Delete
+              </Button>
             </div>
           </div>
         )}
@@ -353,7 +398,10 @@ const AccountsView = () => {
           <PinModal
             wallet={pinTarget}
             onSuccess={handlePinSuccess}
-            onClose={() => { setPinTarget(null); setPendingAction(null); }}
+            onClose={() => {
+              setPinTarget(null);
+              setPendingAction(null);
+            }}
           />
         )}
       </Modal>
