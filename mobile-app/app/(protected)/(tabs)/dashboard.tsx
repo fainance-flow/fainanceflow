@@ -69,7 +69,13 @@ export default function DashboardScreen() {
       <ScrollView
         contentContainerStyle={styles.scroll}
         showsVerticalScrollIndicator={false}
-        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} tintColor={colors.primary} />}
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={onRefresh}
+            tintColor={colors.primary}
+          />
+        }
       >
         <View style={styles.header}>
           <View style={{ flex: 1 }}>
@@ -86,7 +92,12 @@ export default function DashboardScreen() {
           <Button size="md" onPress={() => openQuick("expense")} style={{ flex: 1 }}>
             + Expense
           </Button>
-          <Button size="md" variant="outline" onPress={() => openQuick("income")} style={{ flex: 1 }}>
+          <Button
+            size="md"
+            variant="outline"
+            onPress={() => openQuick("income")}
+            style={{ flex: 1 }}
+          >
             + Income
           </Button>
           <Pressable style={styles.moreBtn} onPress={() => openQuick("transfer")} hitSlop={8}>
@@ -105,7 +116,9 @@ export default function DashboardScreen() {
         ) : null}
 
         {!summaryQuery.isLoading && !summaryQuery.isError && data && data.wallets.length === 0 ? (
-          <Banner variant="error">No wallets yet. Tap + Expense and create a Wallet first — or open More.</Banner>
+          <Banner variant="error">
+            No wallets yet. Tap + Expense and create a Wallet first — or open More.
+          </Banner>
         ) : null}
 
         {data ? (
@@ -114,7 +127,11 @@ export default function DashboardScreen() {
               <Text style={styles.heroLabel}>Total balance · all wallets</Text>
               <Text style={styles.heroAmount}>{formatPKR(data.totalBalance)}</Text>
               {data.wallets.length > 0 ? (
-                <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.pills}>
+                <ScrollView
+                  horizontal
+                  showsHorizontalScrollIndicator={false}
+                  contentContainerStyle={styles.pills}
+                >
                   {data.wallets.map((w) => (
                     <View key={w.id} style={styles.pill}>
                       <View style={[styles.pillDot, { backgroundColor: w.color }]} />
@@ -130,8 +147,18 @@ export default function DashboardScreen() {
             </View>
 
             <View style={styles.stats}>
-              <StatCard label="Income" value={formatPKR(data.monthlyIncome)} tone="emerald" hint="This month" />
-              <StatCard label="Expense" value={formatPKR(data.monthlyExpense)} tone="terra" hint="This month" />
+              <StatCard
+                label="Income"
+                value={formatPKR(data.monthlyIncome)}
+                tone="emerald"
+                hint="This month"
+              />
+              <StatCard
+                label="Expense"
+                value={formatPKR(data.monthlyExpense)}
+                tone="terra"
+                hint="This month"
+              />
               <StatCard
                 label="Net"
                 value={formatPKR(data.monthlySavings, { signed: true })}
@@ -173,7 +200,9 @@ export default function DashboardScreen() {
             </View>
             <View style={styles.txList}>
               {data.recentTransactions.length === 0 ? (
-                <Text style={styles.empty}>No transactions yet — add an expense or income above.</Text>
+                <Text style={styles.empty}>
+                  No transactions yet — add an expense or income above.
+                </Text>
               ) : (
                 data.recentTransactions.map((t) => (
                   <View key={t.id} style={styles.txRow}>
@@ -188,7 +217,11 @@ export default function DashboardScreen() {
                         styles.txAmt,
                         {
                           color:
-                            t.type === "income" ? colors.emerald : t.type === "expense" ? colors.terra : colors.ink,
+                            t.type === "income"
+                              ? colors.emerald
+                              : t.type === "expense"
+                                ? colors.terra
+                                : colors.ink,
                         },
                       ]}
                     >
@@ -218,7 +251,11 @@ export default function DashboardScreen() {
                           {
                             width: `${Math.min(b.pct, 100)}%` as `${number}%`,
                             backgroundColor:
-                              b.state === "over" ? colors.terra : b.state === "warn" ? colors.warning : colors.emerald,
+                              b.state === "over"
+                                ? colors.terra
+                                : b.state === "warn"
+                                  ? colors.warning
+                                  : colors.emerald,
                           },
                         ]}
                       />
@@ -249,8 +286,18 @@ export default function DashboardScreen() {
 
 const styles = StyleSheet.create({
   safe: { flex: 1, backgroundColor: colors.canvas },
-  scroll: { paddingHorizontal: spacing.lg, paddingBottom: spacing.xl, paddingTop: spacing.md, gap: spacing.md },
-  header: { flexDirection: "row", alignItems: "flex-start", justifyContent: "space-between", gap: spacing.md },
+  scroll: {
+    paddingHorizontal: spacing.lg,
+    paddingBottom: spacing.xl,
+    paddingTop: spacing.md,
+    gap: spacing.md,
+  },
+  header: {
+    flexDirection: "row",
+    alignItems: "flex-start",
+    justifyContent: "space-between",
+    gap: spacing.md,
+  },
   eyebrow: {
     color: colors.faint,
     fontFamily: typography.family.mono,
@@ -291,7 +338,11 @@ const styles = StyleSheet.create({
     textTransform: "uppercase",
     letterSpacing: 0.8,
   },
-  heroAmount: { fontFamily: typography.family.sansBold, fontSize: typography.size.xxxl, color: colors.ink },
+  heroAmount: {
+    fontFamily: typography.family.sansBold,
+    fontSize: typography.size.xxxl,
+    color: colors.ink,
+  },
   pills: { gap: spacing.sm, paddingTop: spacing.xs },
   pill: {
     flexDirection: "row",
@@ -303,7 +354,11 @@ const styles = StyleSheet.create({
     paddingVertical: spacing.xs,
   },
   pillDot: { width: 8, height: 8, borderRadius: 4 },
-  pillText: { fontFamily: typography.family.sans, fontSize: typography.size.xs, color: colors.muted },
+  pillText: {
+    fontFamily: typography.family.sans,
+    fontSize: typography.size.xs,
+    color: colors.muted,
+  },
   stats: { flexDirection: "row", flexWrap: "wrap", gap: spacing.sm },
   section: {
     marginTop: spacing.sm,
@@ -319,7 +374,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
   },
-  link: { fontFamily: typography.family.sansSemiBold, fontSize: typography.size.sm, color: colors.primary },
+  link: {
+    fontFamily: typography.family.sansSemiBold,
+    fontSize: typography.size.sm,
+    color: colors.primary,
+  },
   catList: { gap: spacing.sm },
   catRow: {
     flexDirection: "row",
@@ -330,7 +389,11 @@ const styles = StyleSheet.create({
     borderColor: colors.line,
     padding: spacing.md,
   },
-  catName: { fontFamily: typography.family.sansSemiBold, fontSize: typography.size.sm, color: colors.ink },
+  catName: {
+    fontFamily: typography.family.sansSemiBold,
+    fontSize: typography.size.sm,
+    color: colors.ink,
+  },
   catAmt: { fontFamily: typography.family.sans, fontSize: typography.size.sm, color: colors.muted },
   txList: { gap: spacing.sm },
   txRow: {
@@ -343,8 +406,17 @@ const styles = StyleSheet.create({
     padding: spacing.md,
     gap: spacing.md,
   },
-  txCat: { fontFamily: typography.family.sansSemiBold, fontSize: typography.size.sm, color: colors.ink },
-  txMeta: { fontFamily: typography.family.sans, fontSize: typography.size.xs, color: colors.faint, marginTop: 2 },
+  txCat: {
+    fontFamily: typography.family.sansSemiBold,
+    fontSize: typography.size.sm,
+    color: colors.ink,
+  },
+  txMeta: {
+    fontFamily: typography.family.sans,
+    fontSize: typography.size.xs,
+    color: colors.faint,
+    marginTop: 2,
+  },
   txAmt: { fontFamily: typography.family.sansBold, fontSize: typography.size.sm },
   empty: { color: colors.faint, fontFamily: typography.family.sans, fontSize: typography.size.sm },
   budgetCard: {
@@ -356,7 +428,12 @@ const styles = StyleSheet.create({
     gap: spacing.sm,
   },
   budgetHead: { flexDirection: "row", justifyContent: "space-between" },
-  barTrack: { height: 6, backgroundColor: colors.surface2, borderRadius: radii.pill, overflow: "hidden" },
+  barTrack: {
+    height: 6,
+    backgroundColor: colors.surface2,
+    borderRadius: radii.pill,
+    overflow: "hidden",
+  },
   barFill: { height: 6, borderRadius: radii.pill },
   viewMore: {
     marginTop: spacing.md,
@@ -370,5 +447,9 @@ const styles = StyleSheet.create({
     borderRadius: radii.xl,
     backgroundColor: colors.surface,
   },
-  viewMoreText: { fontFamily: typography.family.sansSemiBold, fontSize: typography.size.sm, color: colors.primary },
+  viewMoreText: {
+    fontFamily: typography.family.sansSemiBold,
+    fontSize: typography.size.sm,
+    color: colors.primary,
+  },
 });

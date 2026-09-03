@@ -1,4 +1,11 @@
-import { ActivityIndicator, Pressable, StyleSheet, Text, type StyleProp, type ViewStyle } from "react-native";
+import {
+  ActivityIndicator,
+  Pressable,
+  StyleSheet,
+  Text,
+  type StyleProp,
+  type ViewStyle,
+} from "react-native";
 import { colors, radii, spacing, typography } from "@/constants/theme";
 
 type Variant = "primary" | "outline";
@@ -43,7 +50,9 @@ export default function Button({
       {loading ? (
         <ActivityIndicator color={variant === "primary" ? colors.onPrimary : colors.primary} />
       ) : typeof children === "string" ? (
-        <Text style={[styles.label, variant === "primary" ? styles.labelPrimary : styles.labelOutline]}>
+        <Text
+          style={[styles.label, variant === "primary" ? styles.labelPrimary : styles.labelOutline]}
+        >
           {children}
         </Text>
       ) : (

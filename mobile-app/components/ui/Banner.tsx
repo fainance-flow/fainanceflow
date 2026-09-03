@@ -14,7 +14,15 @@ export default function Banner({ variant, children }: Props) {
   const tint = isError ? colors.terra : colors.emerald;
 
   return (
-    <View style={[styles.base, { borderColor: tint, backgroundColor: isError ? "rgba(246,70,93,0.08)" : "rgba(14,203,129,0.08)" }]}>
+    <View
+      style={[
+        styles.base,
+        {
+          borderColor: tint,
+          backgroundColor: isError ? "rgba(246,70,93,0.08)" : "rgba(14,203,129,0.08)",
+        },
+      ]}
+    >
       <Text style={[styles.text, { color: tint }]}>{children}</Text>
     </View>
   );

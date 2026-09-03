@@ -8,7 +8,14 @@
     "ios": "expo run:ios",
     "web": "expo start --web",
     "typecheck": "tsc --noEmit",
-    "generate-icons": "node scripts/generate-icons.js"
+    "generate-icons": "node scripts/generate-icons.js",
+    "lint": "expo lint",
+    "lint:fix": "expo lint --fix",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
+  },
+  "engines": {
+    "node": ">=20"
   },
   "dependencies": {
     "@expo-google-fonts/inter": "^0.4.2",
@@ -45,6 +52,10 @@
   "devDependencies": {
     "@types/react": "~19.1.0",
     "babel-preset-expo": "^55.0.21",
+    "eslint": "^9.0.0",
+    "eslint-config-expo": "~10.0.0",
+    "eslint-config-prettier": "^9.1.2",
+    "prettier": "^3.9.6",
     "sharp": "^0.33.5",
     "typescript": "~5.9.2"
   },

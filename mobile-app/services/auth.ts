@@ -32,7 +32,8 @@ export const refresh = (
 
 export const logout = (): Promise<AxiosResponse<{ ok: true }>> => axios.post("/auth/logout");
 
-export const me = (): Promise<AxiosResponse<{ user: User }>> => axios.get<{ user: User }>("/auth/me");
+export const me = (): Promise<AxiosResponse<{ user: User }>> =>
+  axios.get<{ user: User }>("/auth/me");
 
 export type ForgotPasswordResponse = {
   message: string;

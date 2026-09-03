@@ -1,12 +1,5 @@
 import { useState } from "react";
-import {
-  ActivityIndicator,
-  FlatList,
-  RefreshControl,
-  StyleSheet,
-  Text,
-  View,
-} from "react-native";
+import { ActivityIndicator, FlatList, RefreshControl, StyleSheet, Text, View } from "react-native";
 import { useQuery } from "@tanstack/react-query";
 import Banner from "@/components/ui/Banner";
 import Button from "@/components/ui/Button";
@@ -42,7 +35,11 @@ export default function ExpensesScreen() {
           keyExtractor={(i) => i.id}
           contentContainerStyle={styles.list}
           refreshControl={
-            <RefreshControl refreshing={query.isRefetching} onRefresh={() => query.refetch()} tintColor={colors.primary} />
+            <RefreshControl
+              refreshing={query.isRefetching}
+              onRefresh={() => query.refetch()}
+              tintColor={colors.primary}
+            />
           }
           ListEmptyComponent={<Text style={styles.empty}>No expenses yet.</Text>}
           renderItem={({ item }: { item: Transaction }) => (
@@ -84,8 +81,21 @@ const styles = StyleSheet.create({
     padding: spacing.md,
     marginBottom: spacing.sm,
   },
-  cat: { fontFamily: typography.family.sansSemiBold, color: colors.ink, fontSize: typography.size.sm },
-  meta: { fontFamily: typography.family.sans, color: colors.faint, fontSize: typography.size.xs, marginTop: 2 },
-  amt: { fontFamily: typography.family.sansBold, fontSize: typography.size.sm, color: colors.terra },
+  cat: {
+    fontFamily: typography.family.sansSemiBold,
+    color: colors.ink,
+    fontSize: typography.size.sm,
+  },
+  meta: {
+    fontFamily: typography.family.sans,
+    color: colors.faint,
+    fontSize: typography.size.xs,
+    marginTop: 2,
+  },
+  amt: {
+    fontFamily: typography.family.sansBold,
+    fontSize: typography.size.sm,
+    color: colors.terra,
+  },
   empty: { textAlign: "center", color: colors.faint, marginTop: spacing.xl },
 });

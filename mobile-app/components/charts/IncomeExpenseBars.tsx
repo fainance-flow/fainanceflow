@@ -43,7 +43,14 @@ export default function IncomeExpenseBars({ data, height = 140 }: Props) {
           const expH = (d.expense / max) * (height - 28);
           return (
             <React.Fragment key={`${d.year}-${d.month}`}>
-              <Rect x={x} y={height - 20 - incH} width={barW} height={Math.max(incH, 1)} rx={2} fill={colors.emerald} />
+              <Rect
+                x={x}
+                y={height - 20 - incH}
+                width={barW}
+                height={Math.max(incH, 1)}
+                rx={2}
+                fill={colors.emerald}
+              />
               <Rect
                 x={x + barW + 4}
                 y={height - 20 - expH}

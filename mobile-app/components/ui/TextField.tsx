@@ -19,7 +19,9 @@ const TextField = forwardRef<TextInput, Props>(function TextField(
   return (
     <View style={styles.wrap}>
       <Text style={styles.label}>{label}</Text>
-      <View style={[styles.field, focused && styles.fieldFocused, error ? styles.fieldError : null]}>
+      <View
+        style={[styles.field, focused && styles.fieldFocused, error ? styles.fieldError : null]}
+      >
         {leading ? <View style={styles.leading}>{leading}</View> : null}
         <TextInput
           ref={ref}

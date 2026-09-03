@@ -40,12 +40,48 @@ type TxForm = {
 type BudgetFormValues = { category: string; monthlyLimit: string };
 type AccountFormValues = { name: string; balance: string; type: WalletType };
 
-const TILES: { key: QuickAddKind; label: string; hint: string; icon: keyof typeof Ionicons.glyphMap; tone: string }[] = [
-  { key: "expense", label: "Expense", hint: "Money out", icon: "arrow-up-outline", tone: colors.terra },
-  { key: "income", label: "Income", hint: "Money in", icon: "arrow-down-outline", tone: colors.emerald },
-  { key: "transfer", label: "Transfer", hint: "Between wallets", icon: "swap-horizontal-outline", tone: colors.primary },
-  { key: "budget", label: "Budget", hint: "Monthly limit", icon: "pie-chart-outline", tone: colors.muted },
-  { key: "account", label: "Wallet", hint: "New wallet", icon: "wallet-outline", tone: colors.muted },
+const TILES: {
+  key: QuickAddKind;
+  label: string;
+  hint: string;
+  icon: keyof typeof Ionicons.glyphMap;
+  tone: string;
+}[] = [
+  {
+    key: "expense",
+    label: "Expense",
+    hint: "Money out",
+    icon: "arrow-up-outline",
+    tone: colors.terra,
+  },
+  {
+    key: "income",
+    label: "Income",
+    hint: "Money in",
+    icon: "arrow-down-outline",
+    tone: colors.emerald,
+  },
+  {
+    key: "transfer",
+    label: "Transfer",
+    hint: "Between wallets",
+    icon: "swap-horizontal-outline",
+    tone: colors.primary,
+  },
+  {
+    key: "budget",
+    label: "Budget",
+    hint: "Monthly limit",
+    icon: "pie-chart-outline",
+    tone: colors.muted,
+  },
+  {
+    key: "account",
+    label: "Wallet",
+    hint: "New wallet",
+    icon: "wallet-outline",
+    tone: colors.muted,
+  },
 ];
 
 const WALLET_TYPES: WalletType[] = ["bank", "cash", "savings"];
@@ -78,10 +114,20 @@ export default function QuickAddModal({ open, onClose, initial = "expense" }: Pr
   };
 
   const txForm = useForm<TxForm>({
-    defaultValues: { bankAccountId: "", toBankAccountId: "", amount: "", category: "", description: "" },
+    defaultValues: {
+      bankAccountId: "",
+      toBankAccountId: "",
+      amount: "",
+      category: "",
+      description: "",
+    },
   });
-  const budgetForm = useForm<BudgetFormValues>({ defaultValues: { category: "", monthlyLimit: "" } });
-  const accountForm = useForm<AccountFormValues>({ defaultValues: { name: "", balance: "0", type: "bank" } });
+  const budgetForm = useForm<BudgetFormValues>({
+    defaultValues: { category: "", monthlyLimit: "" },
+  });
+  const accountForm = useForm<AccountFormValues>({
+    defaultValues: { name: "", balance: "0", type: "bank" },
+  });
 
   useEffect(() => {
     if (!open) return;
@@ -157,14 +203,21 @@ export default function QuickAddModal({ open, onClose, initial = "expense" }: Pr
 
   return (
     <Modal visible={open} animationType="slide" transparent onRequestClose={onClose}>
-      <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : undefined} style={styles.flex}>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : undefined}
+        style={styles.flex}
+      >
         <Pressable style={styles.backdrop} onPress={onClose} />
         <View style={styles.sheet}>
           <View style={styles.handle} />
           <Text style={styles.title}>Quick add</Text>
           <Text style={styles.sub}>One place to log everything that moved your money.</Text>
 
-          <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.tiles}>
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={styles.tiles}
+          >
             {TILES.map((t) => {
               const on = active === t.key;
               return (
@@ -174,7 +227,10 @@ export default function QuickAddModal({ open, onClose, initial = "expense" }: Pr
                     setActive(t.key);
                     setError(null);
                   }}
-                  style={[styles.tile, on && { borderColor: t.tone, backgroundColor: `${t.tone}22` }]}
+                  style={[
+                    styles.tile,
+                    on && { borderColor: t.tone, backgroundColor: `${t.tone}22` },
+                  ]}
                 >
                   <Ionicons name={t.icon} size={18} color={on ? t.tone : colors.faint} />
                   <Text style={[styles.tileLabel, on && { color: t.tone }]}>{t.label}</Text>
@@ -189,7 +245,9 @@ export default function QuickAddModal({ open, onClose, initial = "expense" }: Pr
 
             {(active === "expense" || active === "income" || active === "transfer") && (
               <View style={styles.form}>
-                <Text style={styles.fieldLabel}>{active === "transfer" ? "From wallet" : "Wallet"}</Text>
+                <Text style={styles.fieldLabel}>
+                  {active === "transfer" ? "From wallet" : "Wallet"}
+                </Text>
                 <View style={styles.chipRow}>
                   {wallets.map((w) => (
                     <Pressable
@@ -197,7 +255,9 @@ export default function QuickAddModal({ open, onClose, initial = "expense" }: Pr
                       style={[styles.chip, selectedFrom === w.id && styles.chipOn]}
                       onPress={() => txForm.setValue("bankAccountId", w.id)}
                     >
-                      <Text style={[styles.chipText, selectedFrom === w.id && styles.chipTextOn]}>{w.name}</Text>
+                      <Text style={[styles.chipText, selectedFrom === w.id && styles.chipTextOn]}>
+                        {w.name}
+                      </Text>
                     </Pressable>
                   ))}
                 </View>
@@ -212,7 +272,9 @@ export default function QuickAddModal({ open, onClose, initial = "expense" }: Pr
                           style={[styles.chip, selectedTo === w.id && styles.chipOn]}
                           onPress={() => txForm.setValue("toBankAccountId", w.id)}
                         >
-                          <Text style={[styles.chipText, selectedTo === w.id && styles.chipTextOn]}>{w.name}</Text>
+                          <Text style={[styles.chipText, selectedTo === w.id && styles.chipTextOn]}>
+                            {w.name}
+                          </Text>
                         </Pressable>
                       ))}
                     </View>
@@ -252,7 +314,12 @@ export default function QuickAddModal({ open, onClose, initial = "expense" }: Pr
                   control={txForm.control}
                   name="description"
                   render={({ field }) => (
-                    <TextField label="Note" placeholder="Optional" value={field.value} onChangeText={field.onChange} />
+                    <TextField
+                      label="Note"
+                      placeholder="Optional"
+                      value={field.value}
+                      onChangeText={field.onChange}
+                    />
                   )}
                 />
                 <Button
@@ -264,14 +331,21 @@ export default function QuickAddModal({ open, onClose, initial = "expense" }: Pr
                       setError("Select a wallet first.");
                       return;
                     }
-                    if (active === "transfer" && (!v.toBankAccountId || v.toBankAccountId === v.bankAccountId)) {
+                    if (
+                      active === "transfer" &&
+                      (!v.toBankAccountId || v.toBankAccountId === v.bankAccountId)
+                    ) {
                       setError("Pick two different wallets for transfer.");
                       return;
                     }
                     txMut.mutate(v);
                   })}
                 >
-                  {active === "transfer" ? "Transfer" : active === "income" ? "Add income" : "Add expense"}
+                  {active === "transfer"
+                    ? "Transfer"
+                    : active === "income"
+                      ? "Add income"
+                      : "Add expense"}
                 </Button>
               </View>
             )}
@@ -357,7 +431,11 @@ export default function QuickAddModal({ open, onClose, initial = "expense" }: Pr
                       style={[styles.chip, selectedWalletType === t && styles.chipOn]}
                       onPress={() => accountForm.setValue("type", t)}
                     >
-                      <Text style={[styles.chipText, selectedWalletType === t && styles.chipTextOn]}>{t}</Text>
+                      <Text
+                        style={[styles.chipText, selectedWalletType === t && styles.chipTextOn]}
+                      >
+                        {t}
+                      </Text>
                     </Pressable>
                   ))}
                 </View>
@@ -374,7 +452,8 @@ export default function QuickAddModal({ open, onClose, initial = "expense" }: Pr
               </View>
             )}
 
-            {wallets.length === 0 && (active === "expense" || active === "income" || active === "transfer") ? (
+            {wallets.length === 0 &&
+            (active === "expense" || active === "income" || active === "transfer") ? (
               <Banner variant="error">Add a wallet first (Quick add → Wallet).</Banner>
             ) : null}
           </ScrollView>
@@ -407,8 +486,17 @@ const styles = StyleSheet.create({
     backgroundColor: colors.lineStrong,
     marginBottom: spacing.xs,
   },
-  title: { fontFamily: typography.family.sansBold, fontSize: typography.size.xl, color: colors.ink },
-  sub: { fontFamily: typography.family.sans, fontSize: typography.size.sm, color: colors.faint, marginBottom: spacing.sm },
+  title: {
+    fontFamily: typography.family.sansBold,
+    fontSize: typography.size.xl,
+    color: colors.ink,
+  },
+  sub: {
+    fontFamily: typography.family.sans,
+    fontSize: typography.size.sm,
+    color: colors.faint,
+    marginBottom: spacing.sm,
+  },
   tiles: { gap: spacing.sm, paddingBottom: spacing.sm },
   tile: {
     width: 108,
@@ -418,7 +506,11 @@ const styles = StyleSheet.create({
     padding: spacing.md,
     gap: 4,
   },
-  tileLabel: { fontFamily: typography.family.sansSemiBold, fontSize: typography.size.sm, color: colors.ink },
+  tileLabel: {
+    fontFamily: typography.family.sansSemiBold,
+    fontSize: typography.size.sm,
+    color: colors.ink,
+  },
   tileHint: {
     fontFamily: typography.family.mono,
     fontSize: 9,
@@ -443,7 +535,11 @@ const styles = StyleSheet.create({
     borderColor: colors.line,
   },
   chipOn: { borderColor: colors.primary, backgroundColor: "rgba(252,213,53,0.12)" },
-  chipText: { color: colors.muted, fontFamily: typography.family.sansSemiBold, fontSize: typography.size.sm },
+  chipText: {
+    color: colors.muted,
+    fontFamily: typography.family.sansSemiBold,
+    fontSize: typography.size.sm,
+  },
   chipTextOn: { color: colors.primary },
   cancel: { marginTop: spacing.xs },
 });

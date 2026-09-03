@@ -1,6 +1,14 @@
 import { useState } from "react";
 import { Link, useLocalSearchParams } from "expo-router";
-import { KeyboardAvoidingView, Platform, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
+import {
+  KeyboardAvoidingView,
+  Platform,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -48,7 +56,10 @@ export default function ResetPasswordScreen() {
 
   return (
     <SafeAreaView style={styles.safe} edges={["bottom", "left", "right"]}>
-      <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : undefined} style={styles.flex}>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : undefined}
+        style={styles.flex}
+      >
         <ScrollView contentContainerStyle={styles.scroll} keyboardShouldPersistTaps="handled">
           <Logo variant="wordmark" size={36} />
 
@@ -64,7 +75,9 @@ export default function ResetPasswordScreen() {
 
           {done ? (
             <>
-              <Banner variant="success">Password reset successfully. Sign in with your new password.</Banner>
+              <Banner variant="success">
+                Password reset successfully. Sign in with your new password.
+              </Banner>
               <Link href="/login" asChild>
                 <Button variant="primary" size="lg" style={styles.submit}>
                   Back to sign in
@@ -181,5 +194,9 @@ const styles = StyleSheet.create({
   },
   submit: { marginTop: spacing.sm },
   switchRow: { flexDirection: "row", justifyContent: "center", marginTop: spacing.sm },
-  switchLink: { fontFamily: typography.family.sansSemiBold, fontSize: typography.size.sm, color: colors.primary },
+  switchLink: {
+    fontFamily: typography.family.sansSemiBold,
+    fontSize: typography.size.sm,
+    color: colors.primary,
+  },
 });

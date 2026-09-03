@@ -67,7 +67,12 @@ export function mapApiTransactionToUi(raw: ApiTransaction): Transaction {
   const pairTag = tags.find((x) => x.startsWith("ff-pair:"));
   const pairId = pairTag?.slice("ff-pair:".length);
   const walletMini = raw.account
-    ? { id: raw.account.id, name: raw.account.bankName, color: raw.account.color, icon: raw.account.icon }
+    ? {
+        id: raw.account.id,
+        name: raw.account.bankName,
+        color: raw.account.color,
+        icon: raw.account.icon,
+      }
     : undefined;
   let isoDay = new Date().toISOString().slice(0, 10);
   if (typeof raw.date === "string" && raw.date) {

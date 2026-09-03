@@ -15,11 +15,41 @@ import { colors, radii, spacing, typography } from "@/constants/theme";
 type IconName = ComponentProps<typeof Ionicons>["name"];
 
 const QUICK: { kind: QuickAddKind; label: string; hint: string; icon: IconName; tone: string }[] = [
-  { kind: "expense", label: "Expense", hint: "Money out", icon: "arrow-up-outline", tone: colors.terra },
-  { kind: "income", label: "Income", hint: "Money in", icon: "arrow-down-outline", tone: colors.emerald },
-  { kind: "transfer", label: "Transfer", hint: "Between wallets", icon: "swap-horizontal-outline", tone: colors.primary },
-  { kind: "budget", label: "Budget", hint: "Monthly limit", icon: "pie-chart-outline", tone: colors.muted },
-  { kind: "account", label: "Wallet", hint: "New wallet", icon: "wallet-outline", tone: colors.muted },
+  {
+    kind: "expense",
+    label: "Expense",
+    hint: "Money out",
+    icon: "arrow-up-outline",
+    tone: colors.terra,
+  },
+  {
+    kind: "income",
+    label: "Income",
+    hint: "Money in",
+    icon: "arrow-down-outline",
+    tone: colors.emerald,
+  },
+  {
+    kind: "transfer",
+    label: "Transfer",
+    hint: "Between wallets",
+    icon: "swap-horizontal-outline",
+    tone: colors.primary,
+  },
+  {
+    kind: "budget",
+    label: "Budget",
+    hint: "Monthly limit",
+    icon: "pie-chart-outline",
+    tone: colors.muted,
+  },
+  {
+    kind: "account",
+    label: "Wallet",
+    hint: "New wallet",
+    icon: "wallet-outline",
+    tone: colors.muted,
+  },
 ];
 
 const LINKS: {
@@ -31,7 +61,12 @@ const LINKS: {
   { href: "/reports", label: "Reports", hint: "Trends & categories", icon: "bar-chart-outline" },
   { href: "/goals", label: "Goals", hint: "Savings targets", icon: "flag-outline" },
   { href: "/expenses", label: "Expenses", hint: "Expense view", icon: "receipt-outline" },
-  { href: "/subscriptions", label: "Subscriptions", hint: "Recurring bills", icon: "repeat-outline" },
+  {
+    href: "/subscriptions",
+    label: "Subscriptions",
+    hint: "Recurring bills",
+    icon: "repeat-outline",
+  },
   { href: "/loans", label: "Loans", hint: "Borrow & lend", icon: "cash-outline" },
   { href: "/settings", label: "Settings", hint: "Account preferences", icon: "settings-outline" },
 ];
@@ -76,7 +111,9 @@ export default function MoreScreen() {
     <SafeAreaView style={styles.safe} edges={["top", "left", "right"]}>
       <ScrollView contentContainerStyle={styles.scroll} showsVerticalScrollIndicator={false}>
         <Text style={styles.title}>More</Text>
-        <Text style={styles.sub}>Quick add money moves, or open tools that don&apos;t fit the tab bar.</Text>
+        <Text style={styles.sub}>
+          Quick add money moves, or open tools that don&apos;t fit the tab bar.
+        </Text>
 
         {user ? (
           <View style={styles.userCard}>
@@ -156,8 +193,17 @@ export default function MoreScreen() {
 const styles = StyleSheet.create({
   safe: { flex: 1, backgroundColor: colors.canvas },
   scroll: { padding: spacing.lg, paddingBottom: spacing.xl * 2, gap: spacing.md },
-  title: { fontFamily: typography.family.sansBold, fontSize: typography.size.xxl, color: colors.ink },
-  sub: { fontFamily: typography.family.sans, fontSize: typography.size.sm, color: colors.faint, marginBottom: spacing.sm },
+  title: {
+    fontFamily: typography.family.sansBold,
+    fontSize: typography.size.xxl,
+    color: colors.ink,
+  },
+  sub: {
+    fontFamily: typography.family.sans,
+    fontSize: typography.size.sm,
+    color: colors.faint,
+    marginBottom: spacing.sm,
+  },
   userCard: {
     flexDirection: "row",
     alignItems: "center",
@@ -176,9 +222,22 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  avatarText: { fontFamily: typography.family.sansBold, fontSize: typography.size.lg, color: colors.onPrimary },
-  userName: { fontFamily: typography.family.sansSemiBold, fontSize: typography.size.base, color: colors.ink },
-  userEmail: { fontFamily: typography.family.sans, fontSize: typography.size.xs, color: colors.faint, marginTop: 2 },
+  avatarText: {
+    fontFamily: typography.family.sansBold,
+    fontSize: typography.size.lg,
+    color: colors.onPrimary,
+  },
+  userName: {
+    fontFamily: typography.family.sansSemiBold,
+    fontSize: typography.size.base,
+    color: colors.ink,
+  },
+  userEmail: {
+    fontFamily: typography.family.sans,
+    fontSize: typography.size.xs,
+    color: colors.faint,
+    marginTop: 2,
+  },
   section: {
     marginTop: spacing.sm,
     color: colors.faint,
@@ -208,7 +267,11 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     marginBottom: 4,
   },
-  quickLabel: { fontFamily: typography.family.sansSemiBold, fontSize: typography.size.sm, color: colors.ink },
+  quickLabel: {
+    fontFamily: typography.family.sansSemiBold,
+    fontSize: typography.size.sm,
+    color: colors.ink,
+  },
   quickHint: {
     fontFamily: typography.family.mono,
     fontSize: 9,
@@ -227,8 +290,17 @@ const styles = StyleSheet.create({
     borderRadius: radii.xl,
     padding: spacing.md,
   },
-  linkLabel: { fontFamily: typography.family.sansSemiBold, fontSize: typography.size.base, color: colors.ink },
-  linkHint: { fontFamily: typography.family.sans, fontSize: typography.size.xs, color: colors.faint, marginTop: 2 },
+  linkLabel: {
+    fontFamily: typography.family.sansSemiBold,
+    fontSize: typography.size.base,
+    color: colors.ink,
+  },
+  linkHint: {
+    fontFamily: typography.family.sans,
+    fontSize: typography.size.xs,
+    color: colors.faint,
+    marginTop: 2,
+  },
   logoutRow: {
     flexDirection: "row",
     alignItems: "center",
@@ -241,5 +313,9 @@ const styles = StyleSheet.create({
   },
   logoutDisabled: { opacity: 0.6 },
   logoutIcon: { backgroundColor: "rgba(246,70,93,0.15)", marginBottom: 0 },
-  logoutLabel: { fontFamily: typography.family.sansSemiBold, fontSize: typography.size.base, color: colors.terra },
+  logoutLabel: {
+    fontFamily: typography.family.sansSemiBold,
+    fontSize: typography.size.base,
+    color: colors.terra,
+  },
 });

@@ -16,7 +16,9 @@ export default function FeaturePlaceholderScreen({ title, subtitle }: Props) {
         <Logo size={36} />
         <Text style={styles.title}>{title}</Text>
         {subtitle ? <Text style={styles.subtitle}>{subtitle}</Text> : null}
-        <Text style={styles.hint}>Coming soon — this screen is scaffolded, feature UI ports from the web app next.</Text>
+        <Text style={styles.hint}>
+          Coming soon — this screen is scaffolded, feature UI ports from the web app next.
+        </Text>
 
         <View style={styles.skeletonGroup}>
           <Skeleton width="60%" height={16} />

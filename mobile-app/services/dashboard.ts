@@ -1,7 +1,17 @@
 import axios from "@/lib/axios";
-import { mapApiAccountToWallet, mapApiTransactionToUi, type ApiBankAccount, type ApiTransaction } from "@/lib/finance-api-mappers";
+import {
+  mapApiAccountToWallet,
+  mapApiTransactionToUi,
+  type ApiBankAccount,
+  type ApiTransaction,
+} from "@/lib/finance-api-mappers";
 import { parseMoney } from "@/utils/currency";
-import type { BudgetStatus, ChartPoint, DashboardSummary, ExpenseByCategoryPoint } from "@/utils/types";
+import type {
+  BudgetStatus,
+  ChartPoint,
+  DashboardSummary,
+  ExpenseByCategoryPoint,
+} from "@/utils/types";
 
 type DashboardApiPayload = {
   totalBalance: number;
@@ -30,7 +40,8 @@ export async function fetchDashboardSummary(): Promise<DashboardSummary> {
   const income = parseMoney(raw.monthlyIncome);
   const expense = parseMoney(raw.monthlyExpense);
   const savings = raw.monthlySavings ?? income - expense;
-  const savingsRate = raw.savingsRate ?? (income > 0 ? Math.round((savings / income) * 1000) / 10 : 0);
+  const savingsRate =
+    raw.savingsRate ?? (income > 0 ? Math.round((savings / income) * 1000) / 10 : 0);
   const wallets = (raw.accounts ?? []).map((a) => mapApiAccountToWallet(a));
 
   const budgets = (budgetsRes.data.status ?? []).map((s) => ({

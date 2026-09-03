@@ -1,4 +1,11 @@
-import { ActivityIndicator, RefreshControl, ScrollView, StyleSheet, Text, View } from "react-native";
+import {
+  ActivityIndicator,
+  RefreshControl,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useQuery } from "@tanstack/react-query";
 import Banner from "@/components/ui/Banner";
@@ -9,7 +16,10 @@ import { formatPKR } from "@/utils/currency";
 import { colors, radii, spacing, typography } from "@/constants/theme";
 
 export default function ReportsScreen() {
-  const summaryQuery = useQuery({ queryKey: ["dashboard", "summary"], queryFn: fetchDashboardSummary });
+  const summaryQuery = useQuery({
+    queryKey: ["dashboard", "summary"],
+    queryFn: fetchDashboardSummary,
+  });
   const chartQuery = useQuery({ queryKey: ["dashboard", "chart"], queryFn: fetchChartData });
 
   const data = summaryQuery.data;
@@ -64,7 +74,9 @@ export default function ReportsScreen() {
             <Text style={styles.section}>Categories this month</Text>
             <View style={styles.list}>
               {(data.expenseByCategory ?? []).length === 0 ? (
-                <Text style={styles.empty}>No expense categories yet. Add expenses from Home or More → Quick add.</Text>
+                <Text style={styles.empty}>
+                  No expense categories yet. Add expenses from Home or More → Quick add.
+                </Text>
               ) : (
                 data.expenseByCategory.map((c) => (
                   <View key={c.category} style={styles.row}>
@@ -88,7 +100,11 @@ export default function ReportsScreen() {
 const styles = StyleSheet.create({
   safe: { flex: 1, backgroundColor: colors.canvas },
   scroll: { padding: spacing.lg, gap: spacing.md, paddingBottom: spacing.xl },
-  title: { fontFamily: typography.family.sansBold, fontSize: typography.size.xxl, color: colors.ink },
+  title: {
+    fontFamily: typography.family.sansBold,
+    fontSize: typography.size.xxl,
+    color: colors.ink,
+  },
   sub: { fontFamily: typography.family.sans, fontSize: typography.size.sm, color: colors.faint },
   stats: { flexDirection: "row", flexWrap: "wrap", gap: spacing.sm },
   section: {
@@ -109,7 +125,11 @@ const styles = StyleSheet.create({
     borderRadius: radii.lg,
     padding: spacing.md,
   },
-  name: { fontFamily: typography.family.sansSemiBold, color: colors.ink, fontSize: typography.size.sm },
+  name: {
+    fontFamily: typography.family.sansSemiBold,
+    color: colors.ink,
+    fontSize: typography.size.sm,
+  },
   amt: { fontFamily: typography.family.sans, color: colors.muted, fontSize: typography.size.sm },
   empty: { color: colors.faint, fontFamily: typography.family.sans },
 });

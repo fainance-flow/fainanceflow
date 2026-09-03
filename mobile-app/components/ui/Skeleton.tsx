@@ -1,6 +1,12 @@
 import { useEffect } from "react";
 import type { DimensionValue, StyleProp, ViewStyle } from "react-native";
-import Animated, { Easing, useAnimatedStyle, useSharedValue, withRepeat, withTiming } from "react-native-reanimated";
+import Animated, {
+  Easing,
+  useAnimatedStyle,
+  useSharedValue,
+  withRepeat,
+  withTiming,
+} from "react-native-reanimated";
 import { colors, radii } from "@/constants/theme";
 
 type Props = {
@@ -15,14 +21,22 @@ export default function Skeleton({ width = "100%", height = 14, radius = radii.s
   const opacity = useSharedValue(0.35);
 
   useEffect(() => {
-    opacity.value = withRepeat(withTiming(1, { duration: 900, easing: Easing.inOut(Easing.ease) }), -1, true);
+    opacity.value = withRepeat(
+      withTiming(1, { duration: 900, easing: Easing.inOut(Easing.ease) }),
+      -1,
+      true
+    );
   }, [opacity]);
 
   const animatedStyle = useAnimatedStyle(() => ({ opacity: opacity.value }));
 
   return (
     <Animated.View
-      style={[{ width, height, borderRadius: radius, backgroundColor: colors.surface2 }, animatedStyle, style]}
+      style={[
+        { width, height, borderRadius: radius, backgroundColor: colors.surface2 },
+        animatedStyle,
+        style,
+      ]}
     />
   );
 }

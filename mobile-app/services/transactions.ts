@@ -30,7 +30,9 @@ export type TransferPayload = {
   date: string;
 };
 
-export async function fetchTransactions(filters: TransactionListFilters = {}): Promise<Transaction[]> {
+export async function fetchTransactions(
+  filters: TransactionListFilters = {}
+): Promise<Transaction[]> {
   const { data } = await axios.get<{ transactions: ApiTransaction[] }>("/transactions", {
     params: {
       limit: filters.limit ?? 50,

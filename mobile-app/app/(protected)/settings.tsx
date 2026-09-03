@@ -51,7 +51,13 @@ export default function SettingsStackScreen() {
 
         {error ? <Banner variant="error">{error}</Banner> : null}
 
-        <Button variant="outline" size="lg" loading={busy} onPress={handleLogout} style={styles.logout}>
+        <Button
+          variant="outline"
+          size="lg"
+          loading={busy}
+          onPress={handleLogout}
+          style={styles.logout}
+        >
           Log out
         </Button>
       </View>
@@ -69,7 +75,11 @@ const styles = StyleSheet.create({
     letterSpacing: -0.5,
     marginTop: spacing.sm,
   },
-  subtitle: { color: colors.muted, fontFamily: typography.family.sans, fontSize: typography.size.sm },
+  subtitle: {
+    color: colors.muted,
+    fontFamily: typography.family.sans,
+    fontSize: typography.size.sm,
+  },
   hint: {
     color: colors.faint,
     fontFamily: typography.family.sans,

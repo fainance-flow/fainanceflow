@@ -48,7 +48,11 @@ export default function TransactionsScreen() {
 
       <View style={styles.filters}>
         {(["all", "income", "expense"] as const).map((f) => (
-          <Pressable key={f} style={[styles.filterChip, filter === f && styles.filterActive]} onPress={() => setFilter(f)}>
+          <Pressable
+            key={f}
+            style={[styles.filterChip, filter === f && styles.filterActive]}
+            onPress={() => setFilter(f)}
+          >
             <Text style={[styles.filterText, filter === f && styles.filterTextActive]}>{f}</Text>
           </Pressable>
         ))}
@@ -64,9 +68,15 @@ export default function TransactionsScreen() {
           keyExtractor={(i) => i.id}
           contentContainerStyle={styles.list}
           refreshControl={
-            <RefreshControl refreshing={txQuery.isRefetching} onRefresh={() => txQuery.refetch()} tintColor={colors.primary} />
+            <RefreshControl
+              refreshing={txQuery.isRefetching}
+              onRefresh={() => txQuery.refetch()}
+              tintColor={colors.primary}
+            />
           }
-          ListEmptyComponent={<Text style={styles.empty}>No transactions yet. Tap Add to log income or expense.</Text>}
+          ListEmptyComponent={
+            <Text style={styles.empty}>No transactions yet. Tap Add to log income or expense.</Text>
+          }
           renderItem={({ item }: { item: Transaction }) => (
             <View style={styles.row}>
               <View style={{ flex: 1 }}>
@@ -102,8 +112,17 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
   },
-  title: { fontFamily: typography.family.sansBold, fontSize: typography.size.xxl, color: colors.ink },
-  filters: { flexDirection: "row", gap: spacing.sm, paddingHorizontal: spacing.lg, paddingVertical: spacing.md },
+  title: {
+    fontFamily: typography.family.sansBold,
+    fontSize: typography.size.xxl,
+    color: colors.ink,
+  },
+  filters: {
+    flexDirection: "row",
+    gap: spacing.sm,
+    paddingHorizontal: spacing.lg,
+    paddingVertical: spacing.md,
+  },
   filterChip: {
     paddingHorizontal: spacing.md,
     paddingVertical: spacing.xs,
@@ -130,8 +149,22 @@ const styles = StyleSheet.create({
     padding: spacing.md,
     marginBottom: spacing.sm,
   },
-  cat: { fontFamily: typography.family.sansSemiBold, color: colors.ink, fontSize: typography.size.sm },
-  meta: { fontFamily: typography.family.sans, color: colors.faint, fontSize: typography.size.xs, marginTop: 2 },
+  cat: {
+    fontFamily: typography.family.sansSemiBold,
+    color: colors.ink,
+    fontSize: typography.size.sm,
+  },
+  meta: {
+    fontFamily: typography.family.sans,
+    color: colors.faint,
+    fontSize: typography.size.xs,
+    marginTop: 2,
+  },
   amt: { fontFamily: typography.family.sansBold, fontSize: typography.size.sm },
-  empty: { textAlign: "center", color: colors.faint, marginTop: spacing.xl, paddingHorizontal: spacing.lg },
+  empty: {
+    textAlign: "center",
+    color: colors.faint,
+    marginTop: spacing.xl,
+    paddingHorizontal: spacing.lg,
+  },
 });

@@ -15,8 +15,7 @@ import Banner from "@/components/ui/Banner";
 import Button from "@/components/ui/Button";
 import TextField from "@/components/ui/TextField";
 import { contributeToGoal, createGoal, fetchGoals } from "@/services/goals";
-import { parseMoney } from "@/utils/currency";
-import { formatPKR } from "@/utils/currency";
+import { parseMoney, formatPKR } from "@/utils/currency";
 import type { Goal } from "@/utils/types";
 import { colors, radii, spacing, typography } from "@/constants/theme";
 
@@ -80,7 +79,11 @@ export default function GoalsScreen() {
           keyExtractor={(i) => i.id}
           contentContainerStyle={styles.list}
           refreshControl={
-            <RefreshControl refreshing={query.isRefetching} onRefresh={() => query.refetch()} tintColor={colors.primary} />
+            <RefreshControl
+              refreshing={query.isRefetching}
+              onRefresh={() => query.refetch()}
+              tintColor={colors.primary}
+            />
           }
           ListEmptyComponent={<Text style={styles.empty}>No savings goals yet.</Text>}
           renderItem={({ item }) => (
@@ -103,7 +106,12 @@ export default function GoalsScreen() {
         />
       )}
 
-      <Modal visible={createOpen} animationType="slide" transparent onRequestClose={() => setCreateOpen(false)}>
+      <Modal
+        visible={createOpen}
+        animationType="slide"
+        transparent
+        onRequestClose={() => setCreateOpen(false)}
+      >
         <View style={styles.modalBackdrop}>
           <View style={styles.modalCard}>
             <Text style={styles.modalTitle}>New goal</Text>
@@ -153,7 +161,12 @@ export default function GoalsScreen() {
         </View>
       </Modal>
 
-      <Modal visible={!!contributeId} animationType="slide" transparent onRequestClose={() => setContributeId(null)}>
+      <Modal
+        visible={!!contributeId}
+        animationType="slide"
+        transparent
+        onRequestClose={() => setContributeId(null)}
+      >
         <View style={styles.modalBackdrop}>
           <View style={styles.modalCard}>
             <Text style={styles.modalTitle}>Contribute</Text>
@@ -172,7 +185,9 @@ export default function GoalsScreen() {
                 />
               )}
             />
-            {contributeMut.isError ? <Banner variant="error">Couldn&apos;t contribute.</Banner> : null}
+            {contributeMut.isError ? (
+              <Banner variant="error">Couldn&apos;t contribute.</Banner>
+            ) : null}
             <View style={styles.modalActions}>
               <Button variant="outline" size="md" onPress={() => setContributeId(null)}>
                 Cancel
@@ -201,7 +216,11 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
   },
-  title: { fontFamily: typography.family.sansBold, fontSize: typography.size.xxl, color: colors.ink },
+  title: {
+    fontFamily: typography.family.sansBold,
+    fontSize: typography.size.xxl,
+    color: colors.ink,
+  },
   list: { padding: spacing.lg },
   card: {
     backgroundColor: colors.surface,
@@ -213,7 +232,11 @@ const styles = StyleSheet.create({
     gap: spacing.sm,
   },
   head: { flexDirection: "row", justifyContent: "space-between" },
-  name: { fontFamily: typography.family.sansSemiBold, color: colors.ink, fontSize: typography.size.base },
+  name: {
+    fontFamily: typography.family.sansSemiBold,
+    color: colors.ink,
+    fontSize: typography.size.base,
+  },
   status: {
     fontFamily: typography.family.mono,
     fontSize: typography.size.xs,
@@ -221,7 +244,12 @@ const styles = StyleSheet.create({
     textTransform: "uppercase",
   },
   meta: { fontFamily: typography.family.sans, color: colors.muted, fontSize: typography.size.sm },
-  track: { height: 6, backgroundColor: colors.surface2, borderRadius: radii.pill, overflow: "hidden" },
+  track: {
+    height: 6,
+    backgroundColor: colors.surface2,
+    borderRadius: radii.pill,
+    overflow: "hidden",
+  },
   fill: { height: 6, borderRadius: radii.pill, backgroundColor: colors.primary },
   empty: { textAlign: "center", color: colors.faint, marginTop: spacing.xl },
   modalBackdrop: { flex: 1, backgroundColor: "rgba(0,0,0,0.6)", justifyContent: "flex-end" },
@@ -232,6 +260,10 @@ const styles = StyleSheet.create({
     padding: spacing.xl,
     gap: spacing.md,
   },
-  modalTitle: { fontFamily: typography.family.sansBold, fontSize: typography.size.xl, color: colors.ink },
+  modalTitle: {
+    fontFamily: typography.family.sansBold,
+    fontSize: typography.size.xl,
+    color: colors.ink,
+  },
   modalActions: { flexDirection: "row", justifyContent: "flex-end", gap: spacing.sm },
 });

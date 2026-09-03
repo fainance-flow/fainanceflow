@@ -1,6 +1,14 @@
 import { useState } from "react";
 import { Link, useRouter } from "expo-router";
-import { KeyboardAvoidingView, Platform, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
+import {
+  KeyboardAvoidingView,
+  Platform,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -44,7 +52,8 @@ export default function RegisterScreen() {
       dispatch(authSuccess(res.data.user));
       router.replace("/dashboard");
     } catch (err) {
-      const message = (err as ApiError)?.response?.data?.message ?? "Couldn't create your account. Try again.";
+      const message =
+        (err as ApiError)?.response?.data?.message ?? "Couldn't create your account. Try again.";
       setServerError(message);
     } finally {
       setBusy(false);
@@ -53,7 +62,10 @@ export default function RegisterScreen() {
 
   return (
     <SafeAreaView style={styles.safe} edges={["bottom", "left", "right"]}>
-      <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : undefined} style={styles.flex}>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : undefined}
+        style={styles.flex}
+      >
         <ScrollView contentContainerStyle={styles.scroll} keyboardShouldPersistTaps="handled">
           <Logo variant="wordmark" size={36} />
 
@@ -135,7 +147,13 @@ export default function RegisterScreen() {
             )}
           />
 
-          <Button variant="primary" size="lg" loading={busy} onPress={handleSubmit(onSubmit)} style={styles.submit}>
+          <Button
+            variant="primary"
+            size="lg"
+            loading={busy}
+            onPress={handleSubmit(onSubmit)}
+            style={styles.submit}
+          >
             Create account
           </Button>
 
@@ -180,6 +198,14 @@ const styles = StyleSheet.create({
   },
   submit: { marginTop: spacing.sm },
   switchRow: { flexDirection: "row", justifyContent: "center", marginTop: spacing.sm },
-  switchText: { fontFamily: typography.family.sans, fontSize: typography.size.sm, color: colors.muted },
-  switchLink: { fontFamily: typography.family.sansSemiBold, fontSize: typography.size.sm, color: colors.primary },
+  switchText: {
+    fontFamily: typography.family.sans,
+    fontSize: typography.size.sm,
+    color: colors.muted,
+  },
+  switchLink: {
+    fontFamily: typography.family.sansSemiBold,
+    fontSize: typography.size.sm,
+    color: colors.primary,
+  },
 });

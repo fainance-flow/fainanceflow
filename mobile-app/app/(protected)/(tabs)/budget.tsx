@@ -80,7 +80,11 @@ export default function BudgetScreen() {
           keyExtractor={(i) => i.id}
           contentContainerStyle={styles.list}
           refreshControl={
-            <RefreshControl refreshing={query.isRefetching} onRefresh={() => query.refetch()} tintColor={colors.primary} />
+            <RefreshControl
+              refreshing={query.isRefetching}
+              onRefresh={() => query.refetch()}
+              tintColor={colors.primary}
+            />
           }
           ListEmptyComponent={<Text style={styles.empty}>No budgets this month.</Text>}
           renderItem={({ item }) => (
@@ -96,7 +100,10 @@ export default function BudgetScreen() {
                 <View
                   style={[
                     styles.fill,
-                    { width: `${Math.min(item.pct, 100)}%`, backgroundColor: stateColor(item.state) },
+                    {
+                      width: `${Math.min(item.pct, 100)}%`,
+                      backgroundColor: stateColor(item.state),
+                    },
                   ]}
                 />
               </View>
@@ -138,12 +145,18 @@ export default function BudgetScreen() {
                 />
               )}
             />
-            {createMut.isError ? <Banner variant="error">Couldn&apos;t create budget.</Banner> : null}
+            {createMut.isError ? (
+              <Banner variant="error">Couldn&apos;t create budget.</Banner>
+            ) : null}
             <View style={styles.modalActions}>
               <Button variant="outline" size="md" onPress={() => setOpen(false)}>
                 Cancel
               </Button>
-              <Button size="md" loading={createMut.isPending} onPress={handleSubmit((v) => createMut.mutate(v))}>
+              <Button
+                size="md"
+                loading={createMut.isPending}
+                onPress={handleSubmit((v) => createMut.mutate(v))}
+              >
                 Save
               </Button>
             </View>
@@ -163,7 +176,11 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
   },
-  title: { fontFamily: typography.family.sansBold, fontSize: typography.size.xxl, color: colors.ink },
+  title: {
+    fontFamily: typography.family.sansBold,
+    fontSize: typography.size.xxl,
+    color: colors.ink,
+  },
   sub: { fontFamily: typography.family.sans, fontSize: typography.size.sm, color: colors.faint },
   list: { padding: spacing.lg },
   card: {
@@ -176,10 +193,23 @@ const styles = StyleSheet.create({
     gap: spacing.sm,
   },
   head: { flexDirection: "row", justifyContent: "space-between" },
-  name: { fontFamily: typography.family.sansSemiBold, color: colors.ink, fontSize: typography.size.base },
-  state: { fontFamily: typography.family.mono, fontSize: typography.size.xs, textTransform: "uppercase" },
+  name: {
+    fontFamily: typography.family.sansSemiBold,
+    color: colors.ink,
+    fontSize: typography.size.base,
+  },
+  state: {
+    fontFamily: typography.family.mono,
+    fontSize: typography.size.xs,
+    textTransform: "uppercase",
+  },
   meta: { fontFamily: typography.family.sans, color: colors.muted, fontSize: typography.size.sm },
-  track: { height: 6, backgroundColor: colors.surface2, borderRadius: radii.pill, overflow: "hidden" },
+  track: {
+    height: 6,
+    backgroundColor: colors.surface2,
+    borderRadius: radii.pill,
+    overflow: "hidden",
+  },
   fill: { height: 6, borderRadius: radii.pill },
   empty: { textAlign: "center", color: colors.faint, marginTop: spacing.xl },
   modalBackdrop: { flex: 1, backgroundColor: "rgba(0,0,0,0.6)", justifyContent: "flex-end" },
@@ -190,6 +220,10 @@ const styles = StyleSheet.create({
     padding: spacing.xl,
     gap: spacing.md,
   },
-  modalTitle: { fontFamily: typography.family.sansBold, fontSize: typography.size.xl, color: colors.ink },
+  modalTitle: {
+    fontFamily: typography.family.sansBold,
+    fontSize: typography.size.xl,
+    color: colors.ink,
+  },
   modalActions: { flexDirection: "row", justifyContent: "flex-end", gap: spacing.sm },
 });

@@ -1,6 +1,14 @@
 import { useState } from "react";
 import { Link, useRouter } from "expo-router";
-import { KeyboardAvoidingView, Platform, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
+import {
+  KeyboardAvoidingView,
+  Platform,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -45,7 +53,9 @@ export default function ForgotPasswordScreen() {
       if (res.data.resetToken) {
         setResetToken(res.data.resetToken);
       } else {
-        setInfoMessage(res.data.message ?? "If that email is registered, a reset token has been issued.");
+        setInfoMessage(
+          res.data.message ?? "If that email is registered, a reset token has been issued."
+        );
       }
     } catch {
       setServerError("Couldn't process that request. Try again.");
@@ -56,7 +66,10 @@ export default function ForgotPasswordScreen() {
 
   return (
     <SafeAreaView style={styles.safe} edges={["bottom", "left", "right"]}>
-      <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : undefined} style={styles.flex}>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : undefined}
+        style={styles.flex}
+      >
         <ScrollView contentContainerStyle={styles.scroll} keyboardShouldPersistTaps="handled">
           <Logo variant="wordmark" size={36} />
 
@@ -122,7 +135,9 @@ export default function ForgotPasswordScreen() {
                 variant="primary"
                 size="lg"
                 style={styles.submit}
-                onPress={() => router.push({ pathname: "/reset-password", params: { token: resetToken } })}
+                onPress={() =>
+                  router.push({ pathname: "/reset-password", params: { token: resetToken } })
+                }
               >
                 Continue to reset password
               </Button>
@@ -196,10 +211,26 @@ const styles = StyleSheet.create({
     padding: spacing.md,
     lineHeight: 20,
   },
-  tokenHint: { fontFamily: typography.family.sans, fontSize: typography.size.xs, color: colors.faint },
-  tokenExpiry: { fontFamily: typography.family.sans, fontSize: typography.size.xs, color: colors.muted },
+  tokenHint: {
+    fontFamily: typography.family.sans,
+    fontSize: typography.size.xs,
+    color: colors.faint,
+  },
+  tokenExpiry: {
+    fontFamily: typography.family.sans,
+    fontSize: typography.size.xs,
+    color: colors.muted,
+  },
   tokenExpiryStrong: { fontFamily: typography.family.sansSemiBold, color: colors.ink },
   switchRow: { flexDirection: "row", justifyContent: "center", marginTop: spacing.sm },
-  switchText: { fontFamily: typography.family.sans, fontSize: typography.size.sm, color: colors.muted },
-  switchLink: { fontFamily: typography.family.sansSemiBold, fontSize: typography.size.sm, color: colors.primary },
+  switchText: {
+    fontFamily: typography.family.sans,
+    fontSize: typography.size.sm,
+    color: colors.muted,
+  },
+  switchLink: {
+    fontFamily: typography.family.sansSemiBold,
+    fontSize: typography.size.sm,
+    color: colors.primary,
+  },
 });

@@ -100,9 +100,15 @@ export default function AccountsScreen() {
           renderItem={renderItem}
           contentContainerStyle={styles.list}
           refreshControl={
-            <RefreshControl refreshing={query.isRefetching} onRefresh={() => query.refetch()} tintColor={colors.primary} />
+            <RefreshControl
+              refreshing={query.isRefetching}
+              onRefresh={() => query.refetch()}
+              tintColor={colors.primary}
+            />
           }
-          ListEmptyComponent={<Text style={styles.empty}>No wallets yet — add your first one.</Text>}
+          ListEmptyComponent={
+            <Text style={styles.empty}>No wallets yet — add your first one.</Text>
+          }
         />
       )}
 
@@ -115,7 +121,13 @@ export default function AccountsScreen() {
               name="name"
               rules={{ required: "Name required" }}
               render={({ field, fieldState }) => (
-                <TextField label="Name" placeholder="HBL Current" value={field.value} onChangeText={field.onChange} error={fieldState.error?.message} />
+                <TextField
+                  label="Name"
+                  placeholder="HBL Current"
+                  value={field.value}
+                  onChangeText={field.onChange}
+                  error={fieldState.error?.message}
+                />
               )}
             />
             <Controller
@@ -139,11 +151,15 @@ export default function AccountsScreen() {
                   style={[styles.typeChip, selectedType === t && styles.typeChipActive]}
                   onPress={() => setValue("type", t)}
                 >
-                  <Text style={[styles.typeText, selectedType === t && styles.typeTextActive]}>{t}</Text>
+                  <Text style={[styles.typeText, selectedType === t && styles.typeTextActive]}>
+                    {t}
+                  </Text>
                 </Pressable>
               ))}
             </View>
-            {createMut.isError ? <Banner variant="error">Couldn&apos;t create wallet.</Banner> : null}
+            {createMut.isError ? (
+              <Banner variant="error">Couldn&apos;t create wallet.</Banner>
+            ) : null}
             <View style={styles.modalActions}>
               <Button variant="outline" size="md" onPress={() => setOpen(false)}>
                 Cancel
@@ -173,8 +189,17 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
   },
-  title: { fontFamily: typography.family.sansBold, fontSize: typography.size.xxl, color: colors.ink },
-  sub: { fontFamily: typography.family.sans, fontSize: typography.size.sm, color: colors.faint, marginTop: 2 },
+  title: {
+    fontFamily: typography.family.sansBold,
+    fontSize: typography.size.xxl,
+    color: colors.ink,
+  },
+  sub: {
+    fontFamily: typography.family.sans,
+    fontSize: typography.size.sm,
+    color: colors.faint,
+    marginTop: 2,
+  },
   list: { padding: spacing.lg, gap: spacing.sm },
   card: {
     flexDirection: "row",
@@ -188,10 +213,28 @@ const styles = StyleSheet.create({
     marginBottom: spacing.sm,
   },
   dot: { width: 12, height: 12, borderRadius: 6 },
-  name: { fontFamily: typography.family.sansSemiBold, fontSize: typography.size.base, color: colors.ink },
-  meta: { fontFamily: typography.family.mono, fontSize: typography.size.xs, color: colors.faint, textTransform: "uppercase" },
-  balance: { fontFamily: typography.family.sansBold, fontSize: typography.size.sm, color: colors.ink },
-  empty: { textAlign: "center", color: colors.faint, marginTop: spacing.xl, fontFamily: typography.family.sans },
+  name: {
+    fontFamily: typography.family.sansSemiBold,
+    fontSize: typography.size.base,
+    color: colors.ink,
+  },
+  meta: {
+    fontFamily: typography.family.mono,
+    fontSize: typography.size.xs,
+    color: colors.faint,
+    textTransform: "uppercase",
+  },
+  balance: {
+    fontFamily: typography.family.sansBold,
+    fontSize: typography.size.sm,
+    color: colors.ink,
+  },
+  empty: {
+    textAlign: "center",
+    color: colors.faint,
+    marginTop: spacing.xl,
+    fontFamily: typography.family.sans,
+  },
   modalBackdrop: { flex: 1, backgroundColor: "rgba(0,0,0,0.6)", justifyContent: "flex-end" },
   modalCard: {
     backgroundColor: colors.surface,
@@ -200,7 +243,11 @@ const styles = StyleSheet.create({
     padding: spacing.xl,
     gap: spacing.md,
   },
-  modalTitle: { fontFamily: typography.family.sansBold, fontSize: typography.size.xl, color: colors.ink },
+  modalTitle: {
+    fontFamily: typography.family.sansBold,
+    fontSize: typography.size.xl,
+    color: colors.ink,
+  },
   typeLabel: {
     fontFamily: typography.family.mono,
     fontSize: typography.size.xs,
@@ -216,7 +263,16 @@ const styles = StyleSheet.create({
     borderColor: colors.line,
   },
   typeChipActive: { borderColor: colors.primary, backgroundColor: "rgba(252,213,53,0.12)" },
-  typeText: { color: colors.muted, fontFamily: typography.family.sansSemiBold, fontSize: typography.size.sm },
+  typeText: {
+    color: colors.muted,
+    fontFamily: typography.family.sansSemiBold,
+    fontSize: typography.size.sm,
+  },
   typeTextActive: { color: colors.primary },
-  modalActions: { flexDirection: "row", justifyContent: "flex-end", gap: spacing.sm, marginTop: spacing.sm },
+  modalActions: {
+    flexDirection: "row",
+    justifyContent: "flex-end",
+    gap: spacing.sm,
+    marginTop: spacing.sm,
+  },
 });
