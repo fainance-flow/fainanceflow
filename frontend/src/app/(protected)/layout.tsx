@@ -14,6 +14,7 @@ import Menubar from "@components/layout/Menubar";
 import Topbar from "@components/layout/Topbar";
 import FinanceCloudMigration from "@components/providers/FinanceCloudMigration";
 import OfflineSyncManager from "@components/providers/OfflineSyncManager";
+import PWAInstallBanner from "@components/providers/PWAInstallBanner";
 import { useRequireAuth } from "@hooks/useAuth";
 
 const MOBILE_NAV = [
@@ -53,6 +54,7 @@ const ProtectedLayout = ({ children }: Props) => {
       </a>
       <FinanceCloudMigration />
       <OfflineSyncManager />
+      <PWAInstallBanner />
       {/* Desktop sidebar — sticky, self-scrolling */}
       <Menubar />
 
