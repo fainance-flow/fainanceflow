@@ -31,7 +31,10 @@ const Select = React.forwardRef<HTMLSelectElement, SelectProps>(
           ref={ref}
           id={selectId}
           className={cn(
-            "h-10 rounded-md border border-line-strong bg-surface px-3 text-sm text-ink",
+            // 16px, not a rem-based text-base/text-sm token — the app's root font-size is
+            // rebased to 14px (see global.scss), so those tokens land under 16px and trigger
+            // iOS Safari's auto-zoom-on-focus for any font-size below that threshold.
+            "h-10 rounded-md border border-line-strong bg-surface px-3 text-[16px] sm:text-sm text-ink",
             "focus:outline-none focus:border-ink focus:ring-2 focus:ring-info/35 transition-colors",
             "[&>option]:bg-surface [&>option]:text-ink",
             className
