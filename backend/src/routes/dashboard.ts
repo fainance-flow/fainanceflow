@@ -4,7 +4,7 @@ import { prisma } from "../lib/prisma";
 import { INTERNAL_TRANSFER_TAG } from "../lib/transferTags";
 import { asyncHandler } from "../utils/asyncHandler";
 import { requireAuth, type AuthedRequest } from "../middleware/auth";
-import { redis, dashboardKey, DASHBOARD_CACHE_TTL_SECONDS } from "../lib/redis";
+import { dashboardKey, DASHBOARD_CACHE_TTL_SECONDS, safeGet, safeSet } from "../lib/redis";
 
 const router = Router();
 router.use(requireAuth);
@@ -14,7 +14,7 @@ router.get(
   asyncHandler(async (req, res) => {
     const userId = (req as AuthedRequest).userId;
     const key = dashboardKey(userId);
-    const cached = await redis.get(key);
+    const cached = await safeGet(key);
     if (cached) {
       res.setHeader("X-Cache", "HIT");
       res.json(JSON.parse(cached));
@@ -118,7 +118,7 @@ router.get(
       }),
     };
 
-    await redis.set(key, JSON.stringify(payload), "EX", DASHBOARD_CACHE_TTL_SECONDS);
+    await safeSet(key, JSON.stringify(payload), DASHBOARD_CACHE_TTL_SECONDS);
     res.setHeader("X-Cache", "MISS");
     res.json(payload);
   })

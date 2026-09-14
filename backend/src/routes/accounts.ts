@@ -5,7 +5,7 @@ import { prisma } from "../lib/prisma";
 import { asyncHandler } from "../utils/asyncHandler";
 import { requireAuth, type AuthedRequest } from "../middleware/auth";
 import { notFound, badRequest } from "../utils/httpError";
-import { redis, dashboardKey } from "../lib/redis";
+import { dashboardKey, safeDel } from "../lib/redis";
 
 const router = Router();
 router.use(requireAuth);
@@ -50,7 +50,7 @@ router.post(
         icon: data.icon ?? "wallet",
       },
     });
-    await redis.del(dashboardKey(userId));
+    await safeDel(dashboardKey(userId));
     res.status(201).json({ account });
   })
 );
@@ -76,7 +76,7 @@ router.put(
         ...(data.icon !== undefined && { icon: data.icon }),
       },
     });
-    await redis.del(dashboardKey(userId));
+    await safeDel(dashboardKey(userId));
     res.json({ account });
   })
 );
@@ -92,7 +92,7 @@ router.delete(
     if (!owned) throw notFound("Account not found");
 
     await prisma.bankAccount.delete({ where: { id } });
-    await redis.del(dashboardKey(userId));
+    await safeDel(dashboardKey(userId));
     res.json({ ok: true });
   })
 );

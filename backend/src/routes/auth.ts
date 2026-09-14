@@ -5,11 +5,14 @@ import { z } from "zod";
 import { Role } from "@prisma/client";
 import { prisma } from "../lib/prisma";
 import {
-  redis,
   REFRESH_TOKEN_TTL_SECONDS,
   RESET_TOKEN_TTL_SECONDS,
   refreshKey,
   resetKey,
+  safeDel,
+  safeGet,
+  safeScanKeys,
+  safeSet,
 } from "../lib/redis";
 import { signAccess, signRefresh, verifyRefresh } from "../utils/jwt";
 import { asyncHandler } from "../utils/asyncHandler";
@@ -47,7 +50,9 @@ const resetPasswordSchema = z.object({
 async function issueTokens(userId: string) {
   const accessToken = signAccess(userId);
   const { token: refreshToken, jti } = signRefresh(userId);
-  await redis.set(refreshKey(userId, jti), "1", "EX", REFRESH_TOKEN_TTL_SECONDS);
+  // Best-effort: if Redis is unavailable, login/register still succeed — the
+  // refresh token just won't be revocable/rotatable until Redis comes back.
+  await safeSet(refreshKey(userId, jti), "1", REFRESH_TOKEN_TTL_SECONDS);
   return { accessToken, refreshToken };
 }
 
@@ -118,11 +123,13 @@ router.post(
     }
 
     const key = refreshKey(payload.sub, payload.jti);
-    const exists = await redis.get(key);
+    // Fails closed: if Redis is unreachable this returns null, same as an
+    // expired/revoked token, so the caller must log in again.
+    const exists = await safeGet(key);
     if (!exists) throw unauthorized("Refresh token revoked or expired");
 
     // Rotate: drop the old, issue a fresh pair
-    await redis.del(key);
+    await safeDel(key);
     const tokens = await issueTokens(payload.sub);
     res.json(tokens);
   })
@@ -133,15 +140,9 @@ router.post(
   requireAuth,
   asyncHandler(async (req, res) => {
     const userId = (req as AuthedRequest).userId;
-    // Delete all refresh tokens for this user
-    const stream = redis.scanStream({ match: `refresh:${userId}:*`, count: 100 });
-    const keys: string[] = [];
-    await new Promise<void>((resolve, reject) => {
-      stream.on("data", (chunk: string[]) => keys.push(...chunk));
-      stream.on("end", () => resolve());
-      stream.on("error", reject);
-    });
-    if (keys.length > 0) await redis.del(...keys);
+    // Delete all refresh tokens for this user (best-effort if Redis is down)
+    const keys = await safeScanKeys(`refresh:${userId}:*`);
+    await safeDel(...keys);
     res.json({ ok: true });
   })
 );
@@ -175,7 +176,7 @@ router.post(
     }
 
     const token = crypto.randomBytes(32).toString("hex");
-    await redis.set(resetKey(token), user.id, "EX", RESET_TOKEN_TTL_SECONDS);
+    await safeSet(resetKey(token), user.id, RESET_TOKEN_TTL_SECONDS);
 
     res.json({
       message: "Reset token generated. Copy the token and use it on the reset-password screen.",
@@ -191,24 +192,20 @@ router.post(
     const { token, newPassword } = resetPasswordSchema.parse(req.body);
 
     const key = resetKey(token);
-    const userId = await redis.get(key);
+    // Fails closed: if Redis is unreachable this returns null, same as an
+    // invalid/expired token — the reset simply can't be completed without it.
+    const userId = await safeGet(key);
     if (!userId) throw badRequest("Reset token is invalid or has expired.");
 
     const passwordHash = await bcrypt.hash(newPassword, 10);
     await prisma.user.update({ where: { id: userId }, data: { passwordHash } });
 
     // Consume the reset token so it cannot be reused.
-    await redis.del(key);
+    await safeDel(key);
 
     // Revoke all active refresh tokens so every session must re-login.
-    const stream = redis.scanStream({ match: `refresh:${userId}:*`, count: 100 });
-    const keys: string[] = [];
-    await new Promise<void>((resolve, reject) => {
-      stream.on("data", (chunk: string[]) => keys.push(...chunk));
-      stream.on("end", () => resolve());
-      stream.on("error", reject);
-    });
-    if (keys.length > 0) await redis.del(...keys);
+    const keys = await safeScanKeys(`refresh:${userId}:*`);
+    await safeDel(...keys);
 
     res.json({ message: "Password reset successfully. Please sign in with your new password." });
   })

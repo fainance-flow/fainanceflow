@@ -7,7 +7,7 @@ import { INTERNAL_TRANSFER_TAG, transferPairTag } from "../lib/transferTags";
 import { asyncHandler } from "../utils/asyncHandler";
 import { requireAuth, type AuthedRequest } from "../middleware/auth";
 import { badRequest, notFound } from "../utils/httpError";
-import { redis, dashboardKey } from "../lib/redis";
+import { dashboardKey, safeDel } from "../lib/redis";
 
 const router = Router();
 router.use(requireAuth);
@@ -114,7 +114,7 @@ router.post(
       return created;
     });
 
-    await redis.del(dashboardKey(userId));
+    await safeDel(dashboardKey(userId));
     res.status(201).json({ transaction: tx });
   })
 );
@@ -182,7 +182,7 @@ router.post(
       return { outLeg, inLeg };
     });
 
-    await redis.del(dashboardKey(userId));
+    await safeDel(dashboardKey(userId));
     res.status(201).json({ ok: true, out: outLeg, in: inLeg });
   })
 );
@@ -238,7 +238,7 @@ router.put(
       });
     });
 
-    await redis.del(dashboardKey(userId));
+    await safeDel(dashboardKey(userId));
     res.json({ transaction: tx });
   })
 );
@@ -271,7 +271,7 @@ router.delete(
       }
     });
 
-    await redis.del(dashboardKey(userId));
+    await safeDel(dashboardKey(userId));
     res.json({ ok: true });
   })
 );
