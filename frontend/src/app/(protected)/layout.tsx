@@ -2,16 +2,25 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, Wallet, ArrowLeftRight, PieChart, BarChart3 } from "lucide-react";
+import {
+  LayoutDashboard,
+  Wallet,
+  ArrowLeftRight,
+  ShoppingCart,
+  PieChart,
+  BarChart3,
+} from "lucide-react";
 import Menubar from "@components/layout/Menubar";
 import Topbar from "@components/layout/Topbar";
 import FinanceCloudMigration from "@components/providers/FinanceCloudMigration";
+import OfflineSyncManager from "@components/providers/OfflineSyncManager";
 import { useRequireAuth } from "@hooks/useAuth";
 
 const MOBILE_NAV = [
   { href: "/dashboard", label: "Home", icon: LayoutDashboard },
   { href: "/accounts", label: "Wallets", icon: Wallet },
   { href: "/transactions", label: "Txns", icon: ArrowLeftRight },
+  { href: "/expenses", label: "Expenses", icon: ShoppingCart },
   { href: "/budget", label: "Budget", icon: PieChart },
   { href: "/reports", label: "Reports", icon: BarChart3 },
 ];
@@ -43,6 +52,7 @@ const ProtectedLayout = ({ children }: Props) => {
         Skip to content
       </a>
       <FinanceCloudMigration />
+      <OfflineSyncManager />
       {/* Desktop sidebar — sticky, self-scrolling */}
       <Menubar />
 
