@@ -4,6 +4,7 @@ import { ThemeProvider } from "next-themes";
 import { Toaster } from "sonner";
 import StoreProvider from "@provider/StoreProvider";
 import QueryProvider from "@provider/QueryProvider";
+import ServiceWorkerRegister from "@components/providers/ServiceWorkerRegister";
 
 type Props = {
   children: React.ReactNode;
@@ -14,6 +15,7 @@ const AppProviders = ({ children }: Props) => {
     <StoreProvider>
       <QueryProvider>
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
+          <ServiceWorkerRegister />
           {children}
           <Toaster
             position="bottom-right"
