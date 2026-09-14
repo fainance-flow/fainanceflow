@@ -1,4 +1,6 @@
+import { isAxiosError } from "axios";
 import axios from "@libs/axios";
+import { toast } from "sonner";
 import {
   createTransaction as storeCreateTx,
   deleteTransaction as storeDeleteTx,
@@ -9,7 +11,10 @@ import {
 } from "@/lib/finance-store";
 import { mapApiTransactionToUi, type ApiTransaction } from "@/lib/finance-api-mappers";
 import { shouldUseCloudFinance } from "@/lib/finance-backend-mode";
-import type { Transaction, TransactionType } from "@utils/types";
+import { enqueueTransaction, listQueuedTransactions } from "@lib/offline-queue";
+import { queryClient } from "@lib/query-client";
+import { queryKeys } from "@hooks/queryKeys";
+import type { Transaction, TransactionType, Wallet } from "@utils/types";
 
 export type TransactionFilters = TransactionListFilters;
 
@@ -28,6 +33,55 @@ export type CreateTransactionPayload = {
 
 function calendarKey(iso: string): string {
   return iso.slice(0, 10);
+}
+
+/** No response at all reached us — offline, DNS failure, timeout — as opposed to a real 4xx/5xx. */
+function isOfflineError(err: unknown): boolean {
+  return isAxiosError(err) && !err.response;
+}
+
+function walletSnapshot(walletId: string): Transaction["wallet"] {
+  const wallets = queryClient.getQueryData<Wallet[]>(queryKeys.accounts.all);
+  const w = wallets?.find((x) => x.id === walletId);
+  return w ? { id: w.id, name: w.name, color: w.color, icon: w.icon } : undefined;
+}
+
+async function queueOfflineTransaction(
+  walletId: string,
+  payload: CreateTransactionPayload
+): Promise<Transaction> {
+  const id = `pending-${crypto.randomUUID()}`;
+  const wallet = walletSnapshot(walletId);
+  const type = payload.type as "income" | "expense";
+
+  await enqueueTransaction({
+    id,
+    payload: {
+      bankAccountId: walletId,
+      type,
+      amount: payload.amount,
+      category: payload.category,
+      description: payload.description,
+      date: payload.date,
+      tags: payload.tags,
+    },
+    wallet,
+    createdAt: new Date().toISOString(),
+  });
+
+  toast("Offline — entry save ho gayi, net anay par khud sync ho jayegi.");
+
+  return {
+    id,
+    type,
+    amount: payload.amount,
+    category: payload.category,
+    description: payload.description ?? null,
+    date: payload.date,
+    tags: payload.tags,
+    wallet,
+    pending: true,
+  };
 }
 
 function applyTxFilters(rows: Transaction[], filters?: TransactionListFilters): Transaction[] {
@@ -81,11 +135,34 @@ export const fetchTransactions = async (
   if (params?.type) query.type = params.type;
   if (params?.q) query.q = params.q;
 
-  const { data } = await axios.get<{ transactions: ApiTransaction[] }>("/transactions", {
-    params: query,
-  });
-  const mapped = data.transactions.map(mapApiTransactionToUi);
-  return { data: { transactions: applyTxFilters(mapped, params) } };
+  let mapped: Transaction[];
+  try {
+    const { data } = await axios.get<{ transactions: ApiTransaction[] }>("/transactions", {
+      params: query,
+    });
+    mapped = data.transactions.map(mapApiTransactionToUi);
+  } catch (err) {
+    if (!isOfflineError(err)) throw err;
+    // Offline with nothing fresh to show — fall back to whatever this list last held,
+    // so a transaction queued moments ago (see queueOfflineTransaction) doesn't vanish.
+    const cached = queryClient.getQueryData<Transaction[]>(queryKeys.transactions.list(params));
+    mapped = (cached ?? []).filter((t) => !t.pending);
+  }
+
+  const queued = await listQueuedTransactions();
+  const pending: Transaction[] = queued.map((q) => ({
+    id: q.id,
+    type: q.payload.type,
+    amount: q.payload.amount,
+    category: q.payload.category,
+    description: q.payload.description ?? null,
+    date: q.payload.date,
+    tags: q.payload.tags,
+    wallet: q.wallet,
+    pending: true,
+  }));
+
+  return { data: { transactions: applyTxFilters([...pending, ...mapped], params) } };
 };
 
 export const createTransaction = async (
@@ -139,16 +216,21 @@ export const createTransaction = async (
   }
 
   if (payload.type === "income" || payload.type === "expense") {
-    const { data } = await axios.post<{ transaction: ApiTransaction }>("/transactions", {
-      bankAccountId: walletId,
-      type: payload.type,
-      amount: payload.amount,
-      category: payload.category,
-      description: payload.description ?? undefined,
-      date: new Date(`${payload.date.slice(0, 10)}T12:00:00`),
-      tags: payload.tags ?? [],
-    });
-    return { data: { transaction: mapApiTransactionToUi(data.transaction) } };
+    try {
+      const { data } = await axios.post<{ transaction: ApiTransaction }>("/transactions", {
+        bankAccountId: walletId,
+        type: payload.type,
+        amount: payload.amount,
+        category: payload.category,
+        description: payload.description ?? undefined,
+        date: new Date(`${payload.date.slice(0, 10)}T12:00:00`),
+        tags: payload.tags ?? [],
+      });
+      return { data: { transaction: mapApiTransactionToUi(data.transaction) } };
+    } catch (err) {
+      if (!isOfflineError(err)) throw err;
+      return { data: { transaction: await queueOfflineTransaction(walletId, payload) } };
+    }
   }
 
   throw new Error("Unsupported transaction type");
