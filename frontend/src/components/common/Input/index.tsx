@@ -38,7 +38,9 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
             ref={ref}
             id={inputId}
             className={cn(
-              "flex-1 bg-transparent px-3 py-2.5 text-sm text-ink placeholder:text-muted/60",
+              // 16px, not text-base — the app's root font-size is rebased to 14px (global.scss),
+              // so text-base lands at 14px and still triggers iOS Safari's zoom-on-focus.
+              "flex-1 bg-transparent px-3 py-2.5 text-[16px] sm:text-sm text-ink placeholder:text-muted/60",
               "focus:outline-none disabled:opacity-50",
               leading && "pl-2",
               trailing && "pr-2",
