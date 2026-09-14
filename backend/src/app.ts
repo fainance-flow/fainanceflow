@@ -19,7 +19,7 @@ export function createApp() {
   app.use(helmet());
   const allowedOrigins = (process.env.CORS_ORIGIN ?? "http://localhost:3000")
     .split(",")
-    .map((o) => o.trim())
+    .map((o) => o.trim().replace(/\/+$/, ""))
     .filter(Boolean);
   const isDev = process.env.NODE_ENV !== "production";
   app.use(
