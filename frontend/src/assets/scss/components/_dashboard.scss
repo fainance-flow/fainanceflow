@@ -116,6 +116,13 @@
     }
 
     .total {
+      .label-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: $space-3;
+      }
+
       .label {
         font-family: var(--font-mono);
         font-size: 0.5625rem;
@@ -131,6 +138,28 @@
           width: 20px;
           height: 1px;
           background: rgb(var(--c-primary));
+        }
+      }
+
+      .visibility-toggle {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 26px;
+        height: 26px;
+        border-radius: $radius-pill;
+        border: 1px solid rgb(var(--c-line));
+        background: rgb(var(--c-surface-2));
+        color: rgb(var(--c-faint));
+        cursor: pointer;
+        transition:
+          color 150ms $ease-out-soft,
+          border-color 150ms $ease-out-soft,
+          background-color 150ms $ease-out-soft;
+
+        &:hover {
+          color: rgb(var(--c-primary));
+          border-color: rgb(var(--c-line-strong));
         }
       }
 

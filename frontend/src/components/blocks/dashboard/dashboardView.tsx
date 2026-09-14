@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   ArrowDownRight,
   ArrowUpRight,
@@ -11,6 +11,8 @@ import {
   Calendar,
   TrendingUp,
   TrendingDown,
+  Eye,
+  EyeOff,
 } from "lucide-react";
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from "recharts";
 import CountUp from "@components/common/CountUp";
@@ -28,15 +30,18 @@ import { formatPKR, formatPKRCompact } from "@utils/currency";
 import { relativeDate, monthName } from "@utils/date";
 import { categoryFor } from "@utils/categories";
 
+const BALANCE_MASK = "***";
+
 type StatCardProps = {
   label: string;
   value: number;
   icon: React.ReactNode;
   tone: "income" | "expense" | "savings" | "neutral";
   footer?: React.ReactNode;
+  visible: boolean;
 };
 
-const StatCard = ({ label, value, icon, tone, footer }: StatCardProps) => {
+const StatCard = ({ label, value, icon, tone, footer, visible }: StatCardProps) => {
   const colors = {
     income: { bg: "bg-emerald/10", text: "text-emerald", border: "border-emerald/15" },
     expense: { bg: "bg-terra/10", text: "text-terra", border: "border-terra/15" },
@@ -52,7 +57,11 @@ const StatCard = ({ label, value, icon, tone, footer }: StatCardProps) => {
       </div>
       <div className="stat-value">
         <span className="currency">₨</span>
-        <CountUp to={Math.abs(value)} format={(v) => formatPKR(v, { showSymbol: false })} />
+        {visible ? (
+          <CountUp to={Math.abs(value)} format={(v) => formatPKR(v, { showSymbol: false })} />
+        ) : (
+          BALANCE_MASK
+        )}
       </div>
       {footer && <div className="stat-trend mt-2">{footer}</div>}
     </div>
@@ -76,6 +85,8 @@ const DashboardSkeleton = () => (
   </div>
 );
 
+const BALANCE_VISIBILITY_KEY = "ff:balance-visible";
+
 const DashboardView = () => {
   const cloudBacked = shouldUseCloudFinance();
 
@@ -88,6 +99,20 @@ const DashboardView = () => {
     kind: "expense",
   });
   const openQuickAdd = (kind: QuickAddKind): void => setQuickAdd({ open: true, kind });
+
+  const [balanceVisible, setBalanceVisible] = useState(false);
+  useEffect(() => {
+    if (window.localStorage.getItem(BALANCE_VISIBILITY_KEY) === "true") {
+      setBalanceVisible(true);
+    }
+  }, []);
+  const toggleBalanceVisible = (): void => {
+    setBalanceVisible((prev) => {
+      const next = !prev;
+      window.localStorage.setItem(BALANCE_VISIBILITY_KEY, String(next));
+      return next;
+    });
+  };
 
   const summary = summaryQuery.data;
   const chart = chartQuery.data ?? [];
@@ -140,21 +165,40 @@ const DashboardView = () => {
       {/* ── Hero: total balance + stat cards ────────────── */}
       <section className="ff-dashboard__hero">
         <div className="total">
-          <span className="label">Total balance · all wallets</span>
+          <div className="label-row">
+            <span className="label">Total balance · all wallets</span>
+            <button
+              type="button"
+              className="visibility-toggle"
+              onClick={toggleBalanceVisible}
+              aria-label={balanceVisible ? "Hide balance" : "Show balance"}
+              aria-pressed={balanceVisible}
+            >
+              {balanceVisible ? (
+                <Eye className="h-3.5 w-3.5" />
+              ) : (
+                <EyeOff className="h-3.5 w-3.5" />
+              )}
+            </button>
+          </div>
           <div className="figure">
             <span className="currency">₨</span>
             <span className="amount">
-              <CountUp
-                to={summary.totalBalance}
-                format={(v) => formatPKR(v, { showSymbol: false })}
-              />
+              {balanceVisible ? (
+                <CountUp
+                  to={summary.totalBalance}
+                  format={(v) => formatPKR(v, { showSymbol: false })}
+                />
+              ) : (
+                BALANCE_MASK
+              )}
             </span>
           </div>
           <div className="accounts-strip">
             {summary.wallets.map((a) => (
               <span key={a.id} className="pill">
                 <span className="swatch" style={{ background: a.color }} />
-                {a.name} · {formatPKRCompact(a.balance)}
+                {a.name} · {balanceVisible ? formatPKRCompact(a.balance) : BALANCE_MASK}
               </span>
             ))}
           </div>
@@ -172,6 +216,7 @@ const DashboardView = () => {
             icon={<ArrowDownRight className="h-3.5 w-3.5" />}
             value={summary.monthlyIncome}
             tone="income"
+            visible={balanceVisible}
             footer={
               <span className="flex items-center gap-1">
                 <TrendingUp className="h-3 w-3 up" />
@@ -184,6 +229,7 @@ const DashboardView = () => {
             icon={<ArrowUpRight className="h-3.5 w-3.5" />}
             value={summary.monthlyExpense}
             tone="expense"
+            visible={balanceVisible}
             footer={
               <span className="flex items-center gap-1">
                 <TrendingDown className="h-3 w-3 down" />
@@ -196,6 +242,7 @@ const DashboardView = () => {
             icon={<Sparkles className="h-3.5 w-3.5" />}
             value={summary.monthlySavings}
             tone={summary.monthlySavings >= 0 ? "savings" : "expense"}
+            visible={balanceVisible}
             footer={
               <span>
                 Savings rate ·{" "}
