@@ -252,7 +252,16 @@ const TransactionsView = () => {
             {
               key: "description",
               header: "Description",
-              cell: (r) => r.description ?? <span className="text-muted">—</span>,
+              cell: (r) => (
+                <span className="inline-flex items-center gap-2">
+                  {r.description ?? <span className="text-muted">—</span>}
+                  {r.pending && (
+                    <Badge tone="gold" className="text-[10px]">
+                      Syncing…
+                    </Badge>
+                  )}
+                </span>
+              ),
             },
             {
               key: "wallet",
