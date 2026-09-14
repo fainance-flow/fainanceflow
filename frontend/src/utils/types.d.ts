@@ -40,6 +40,8 @@ export type Transaction = {
   wallet?: Pick<Wallet, "id" | "name" | "color" | "icon">;
   transferGroupId?: string;
   transferDirection?: "out" | "in";
+  /** True for an expense/income saved locally while offline, awaiting sync. */
+  pending?: boolean;
 };
 
 export type Budget = {
