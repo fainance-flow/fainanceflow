@@ -5,6 +5,7 @@ import { Toaster } from "sonner";
 import StoreProvider from "@provider/StoreProvider";
 import QueryProvider from "@provider/QueryProvider";
 import ServiceWorkerRegister from "@components/providers/ServiceWorkerRegister";
+import PWAInstallBanner from "@components/providers/PWAInstallBanner";
 
 type Props = {
   children: React.ReactNode;
@@ -16,6 +17,7 @@ const AppProviders = ({ children }: Props) => {
       <QueryProvider>
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
           <ServiceWorkerRegister />
+          <PWAInstallBanner />
           {children}
           <Toaster
             position="bottom-right"

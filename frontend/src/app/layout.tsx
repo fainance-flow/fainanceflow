@@ -48,7 +48,9 @@ export const metadata: Metadata = {
   icons: {
     icon: [{ url: "/icon.svg", type: "image/svg+xml" }],
     shortcut: [{ url: "/icon.svg", type: "image/svg+xml" }],
-    apple: [{ url: "/icon.svg", type: "image/svg+xml" }],
+    // iOS doesn't render SVG (or transparency) well for the home-screen icon —
+    // needs a real flattened PNG, unlike the manifest icons above.
+    apple: [{ url: "/apple-icon.png", sizes: "180x180", type: "image/png" }],
   },
   appleWebApp: {
     capable: true,

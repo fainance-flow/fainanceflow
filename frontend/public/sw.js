@@ -1,4 +1,4 @@
-const CACHE_VERSION = "v2";
+const CACHE_VERSION = "v3";
 const PRECACHE = `financeflow-precache-${CACHE_VERSION}`;
 const RUNTIME = `financeflow-runtime-${CACHE_VERSION}`;
 const OFFLINE_URL = "/offline.html";
