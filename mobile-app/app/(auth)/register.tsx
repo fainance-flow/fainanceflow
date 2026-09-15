@@ -88,7 +88,7 @@ export default function RegisterScreen() {
             render={({ field }) => (
               <TextField
                 label="Name"
-                placeholder="User name"
+                placeholder="Enter your User Name"
                 autoComplete="name"
                 leading={<Ionicons name="person-outline" size={16} color={colors.faint} />}
                 error={errors.name?.message}
@@ -105,7 +105,7 @@ export default function RegisterScreen() {
             render={({ field }) => (
               <TextField
                 label="Email"
-                placeholder="you@example.pk"
+                placeholder="Enter your email"
                 autoCapitalize="none"
                 autoCorrect={false}
                 keyboardType="email-address"

@@ -93,7 +93,7 @@ const AuthForm = ({ mode = "login", demoEmail, demoPassword }: Props) => {
       {mode === "register" && (
         <Input
           label="Name"
-          placeholder="User name"
+          placeholder="Enter your User Name"
           autoComplete="name"
           leading={<UserIcon className="h-3.5 w-3.5" />}
           error={errors.name?.message}
@@ -103,7 +103,7 @@ const AuthForm = ({ mode = "login", demoEmail, demoPassword }: Props) => {
       <Input
         label="Email"
         type="email"
-        placeholder="you@example.pk"
+        placeholder="Enter your email"
         autoComplete="email"
         leading={<Mail className="h-3.5 w-3.5" />}
         error={errors.email?.message}

@@ -96,7 +96,7 @@ export default function LoginScreen() {
             render={({ field }) => (
               <TextField
                 label="Email"
-                placeholder="you@example.pk"
+                placeholder="Enter your email"
                 autoCapitalize="none"
                 autoCorrect={false}
                 keyboardType="email-address"

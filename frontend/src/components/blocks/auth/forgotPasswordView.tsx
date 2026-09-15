@@ -78,7 +78,7 @@ const ForgotPasswordView = () => {
               <Input
                 label="Email"
                 type="email"
-                placeholder="you@example.pk"
+                placeholder="Enter your email"
                 autoComplete="email"
                 leading={<Mail className="h-3.5 w-3.5" />}
                 error={errors.email?.message}
