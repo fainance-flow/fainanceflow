@@ -23,7 +23,7 @@ export default function ServiceWorkerRegister(): null {
 
         newWorker.addEventListener("statechange", () => {
           if (newWorker.state === "installed" && navigator.serviceWorker.controller) {
-            toast("Naya version available hai.", {
+            toast("A new version is available.", {
               duration: Infinity,
               action: {
                 label: "Reload",

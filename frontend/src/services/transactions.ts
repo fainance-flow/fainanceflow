@@ -73,7 +73,7 @@ async function queueOfflineTransaction(
     createdAt: new Date().toISOString(),
   });
 
-  toast("Offline — entry save ho gayi, net anay par khud sync ho jayegi.");
+  toast("Saved offline — will sync automatically once you're back online.");
 
   return {
     id,

@@ -55,7 +55,7 @@ export async function flushOfflineQueue(): Promise<void> {
     if (synced > 0) {
       invalidateFinanceQueries();
       toast.success(
-        synced === 1 ? "1 offline entry sync ho gayi." : `${synced} offline entries sync ho gayi.`
+        synced === 1 ? "1 offline entry synced." : `${synced} offline entries synced.`
       );
     }
   }

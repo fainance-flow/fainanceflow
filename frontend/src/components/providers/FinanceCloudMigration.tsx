@@ -21,7 +21,7 @@ export default function FinanceCloudMigration(): null {
     void migrateLocalFinanceToApi(user.email).then((did) => {
       if (did) {
         void qc.invalidateQueries();
-        toast.success("Purana browser data ab database mein save ho chuka hai.");
+        toast.success("Your old browser data has been saved to the database.");
       }
     });
   }, [user, qc]);
