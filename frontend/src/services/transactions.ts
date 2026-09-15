@@ -12,6 +12,7 @@ import {
 import { mapApiTransactionToUi, type ApiTransaction } from "@/lib/finance-api-mappers";
 import { shouldUseCloudFinance } from "@/lib/finance-backend-mode";
 import { enqueueTransaction, listQueuedTransactions } from "@lib/offline-queue";
+import { readOfflineCache, writeOfflineCache } from "@lib/offline-read-cache";
 import { queryClient } from "@lib/query-client";
 import { queryKeys } from "@hooks/queryKeys";
 import type { Transaction, TransactionType, Wallet } from "@utils/types";
@@ -34,6 +35,8 @@ export type CreateTransactionPayload = {
 function calendarKey(iso: string): string {
   return iso.slice(0, 10);
 }
+
+const TRANSACTIONS_CACHE_KEY = "transactions";
 
 /** No response at all reached us — offline, DNS failure, timeout — as opposed to a real 4xx/5xx. */
 function isOfflineError(err: unknown): boolean {
@@ -141,12 +144,16 @@ export const fetchTransactions = async (
       params: query,
     });
     mapped = data.transactions.map(mapApiTransactionToUi);
+    writeOfflineCache(TRANSACTIONS_CACHE_KEY, mapped);
   } catch (err) {
     if (!isOfflineError(err)) throw err;
-    // Offline with nothing fresh to show — fall back to whatever this list last held,
-    // so a transaction queued moments ago (see queueOfflineTransaction) doesn't vanish.
-    const cached = queryClient.getQueryData<Transaction[]>(queryKeys.transactions.list(params));
-    mapped = (cached ?? []).filter((t) => !t.pending);
+    // Offline with nothing fresh to show. Try the in-memory cache for this exact
+    // filter combo first (covers "went offline mid-session"); a cold reload wipes
+    // that, so fall further back to the last successfully fetched snapshot on disk
+    // (covers "reopened the app while already offline").
+    const inMemory = queryClient.getQueryData<Transaction[]>(queryKeys.transactions.list(params));
+    const fallback = inMemory ?? readOfflineCache<Transaction[]>(TRANSACTIONS_CACHE_KEY) ?? [];
+    mapped = fallback.filter((t) => !t.pending);
   }
 
   const queued = await listQueuedTransactions();

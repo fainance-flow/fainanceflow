@@ -1,3 +1,4 @@
+import { isAxiosError } from "axios";
 import axios from "@libs/axios";
 import {
   mapApiAccountToWallet,
@@ -6,6 +7,7 @@ import {
 } from "@/lib/finance-api-mappers";
 import { shouldUseCloudFinance } from "@/lib/finance-backend-mode";
 import { createWallet, deleteWallet, listWallets, updateWallet } from "@/lib/finance-store";
+import { readOfflineCache, writeOfflineCache } from "@lib/offline-read-cache";
 import type { Wallet, WalletType } from "@utils/types";
 
 export type CreateAccountPayload = {
@@ -19,12 +21,32 @@ export type CreateAccountPayload = {
 
 export type UpdateAccountPayload = Partial<CreateAccountPayload & { pin: string }>;
 
+const ACCOUNTS_CACHE_KEY = "accounts";
+
+/** No response at all reached us — offline, DNS failure, timeout — as opposed to a real 4xx/5xx. */
+function isOfflineError(err: unknown): boolean {
+  return isAxiosError(err) && !err.response;
+}
+
 export const fetchAccounts = async (): Promise<{ data: { accounts: Wallet[] } }> => {
   if (!shouldUseCloudFinance()) {
     return { data: { accounts: listWallets() } };
   }
-  const { data } = await axios.get<{ accounts: ApiBankAccount[] }>("/accounts");
-  return { data: { accounts: data.accounts.map((a) => mapApiAccountToWallet(a)) } };
+
+  try {
+    const { data } = await axios.get<{ accounts: ApiBankAccount[] }>("/accounts");
+    const accounts = data.accounts.map((a) => mapApiAccountToWallet(a));
+    writeOfflineCache(ACCOUNTS_CACHE_KEY, accounts);
+    return { data: { accounts } };
+  } catch (err) {
+    if (!isOfflineError(err)) throw err;
+    // Offline on a cold load — react-query's in-memory cache is gone too, so fall back
+    // to the last successfully fetched wallet list instead of an empty "no wallets" state
+    // that would otherwise block logging a transaction entirely.
+    const cached = readOfflineCache<Wallet[]>(ACCOUNTS_CACHE_KEY);
+    if (!cached) throw err;
+    return { data: { accounts: cached } };
+  }
 };
 
 export const createAccount = async (

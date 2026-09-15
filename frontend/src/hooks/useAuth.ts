@@ -3,16 +3,25 @@
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useQueryClient } from "@tanstack/react-query";
+import { isAxiosError } from "axios";
 import { me, logout as logoutRequest } from "@services/auth";
 import { tokenStore } from "@libs/axios";
 import { useAppDispatch, useAppSelector } from "@hooks/useTypedRedux";
 import { authClear, authStart, authSuccess } from "@store/slices/authSlice";
 import {
+  cacheUser,
+  clearCachedUser,
   clearLocalSession,
+  getCachedUser,
   isLocalSession,
   LOCAL_OFFLINE_USER,
   setLocalSession,
 } from "@/lib/local-session";
+
+/** No response at all reached us — offline, DNS failure, timeout — as opposed to a real 401. */
+function isOfflineError(err: unknown): boolean {
+  return isAxiosError(err) && !err.response;
+}
 
 export const useHydrateUser = (): void => {
   const dispatch = useAppDispatch();
@@ -31,9 +40,23 @@ export const useHydrateUser = (): void => {
     }
     dispatch(authStart());
     me()
-      .then((res) => dispatch(authSuccess(res.data.user)))
-      .catch(() => {
+      .then((res) => {
+        dispatch(authSuccess(res.data.user));
+        cacheUser(res.data.user);
+      })
+      .catch((err) => {
+        // Can't reach the server to verify the token — that's not the same as the
+        // token being invalid. Trust the last known user instead of logging out a
+        // real session just because the phone happens to be offline right now.
+        if (isOfflineError(err)) {
+          const cached = getCachedUser();
+          if (cached) {
+            dispatch(authSuccess(cached));
+            return;
+          }
+        }
         tokenStore.clear();
+        clearCachedUser();
         dispatch(authClear());
       });
   }, [dispatch, status]);
@@ -65,6 +88,7 @@ export const useLogout = (): (() => Promise<void>) => {
     }
     tokenStore.clear();
     clearLocalSession();
+    clearCachedUser();
     dispatch(authClear());
     qc.clear();
     router.replace("/login");

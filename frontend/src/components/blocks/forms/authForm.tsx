@@ -28,6 +28,7 @@ import { tokenStore } from "@libs/axios";
 import { useAppDispatch } from "@hooks/useTypedRedux";
 import { authSuccess } from "@store/slices/authSlice";
 import { useContinueOffline } from "@hooks/useAuth";
+import { cacheUser } from "@/lib/local-session";
 
 type Mode = "login" | "register";
 
@@ -74,6 +75,7 @@ const AuthForm = ({ mode = "login", demoEmail, demoPassword }: Props) => {
             });
       tokenStore.set(res.data.accessToken, res.data.refreshToken);
       dispatch(authSuccess(res.data.user));
+      cacheUser(res.data.user);
       toast.success(`Welcome back, ${res.data.user.name.split(" ")[0]}.`);
       router.replace("/dashboard");
     } catch (err) {
