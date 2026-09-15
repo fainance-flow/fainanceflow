@@ -8,6 +8,7 @@ import {
 import { shouldUseCloudFinance } from "@/lib/finance-backend-mode";
 import { createWallet, deleteWallet, listWallets, updateWallet } from "@/lib/finance-store";
 import { readOfflineCache, writeOfflineCache } from "@lib/offline-read-cache";
+import { isBrowserOffline } from "@lib/is-offline";
 import type { Wallet, WalletType } from "@utils/types";
 
 export type CreateAccountPayload = {
@@ -31,6 +32,12 @@ function isOfflineError(err: unknown): boolean {
 export const fetchAccounts = async (): Promise<{ data: { accounts: Wallet[] } }> => {
   if (!shouldUseCloudFinance()) {
     return { data: { accounts: listWallets() } };
+  }
+
+  if (isBrowserOffline()) {
+    // No network interface at all — don't wait out a doomed request's timeout.
+    const cached = readOfflineCache<Wallet[]>(ACCOUNTS_CACHE_KEY);
+    if (cached) return { data: { accounts: cached } };
   }
 
   try {

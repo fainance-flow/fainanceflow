@@ -13,6 +13,7 @@ import { mapApiTransactionToUi, type ApiTransaction } from "@/lib/finance-api-ma
 import { shouldUseCloudFinance } from "@/lib/finance-backend-mode";
 import { enqueueTransaction, listQueuedTransactions } from "@lib/offline-queue";
 import { readOfflineCache, writeOfflineCache } from "@lib/offline-read-cache";
+import { isBrowserOffline } from "@lib/is-offline";
 import { queryClient } from "@lib/query-client";
 import { queryKeys } from "@hooks/queryKeys";
 import type { Transaction, TransactionType, Wallet } from "@utils/types";
@@ -138,22 +139,30 @@ export const fetchTransactions = async (
   if (params?.type) query.type = params.type;
   if (params?.q) query.q = params.q;
 
-  let mapped: Transaction[];
-  try {
-    const { data } = await axios.get<{ transactions: ApiTransaction[] }>("/transactions", {
-      params: query,
-    });
-    mapped = data.transactions.map(mapApiTransactionToUi);
-    writeOfflineCache(TRANSACTIONS_CACHE_KEY, mapped);
-  } catch (err) {
-    if (!isOfflineError(err)) throw err;
-    // Offline with nothing fresh to show. Try the in-memory cache for this exact
-    // filter combo first (covers "went offline mid-session"); a cold reload wipes
-    // that, so fall further back to the last successfully fetched snapshot on disk
-    // (covers "reopened the app while already offline").
+  const cachedFallback = (): Transaction[] => {
+    // Try the in-memory cache for this exact filter combo first (covers "went
+    // offline mid-session"); a cold reload wipes that, so fall further back to
+    // the last successfully fetched snapshot on disk ("reopened while already offline").
     const inMemory = queryClient.getQueryData<Transaction[]>(queryKeys.transactions.list(params));
     const fallback = inMemory ?? readOfflineCache<Transaction[]>(TRANSACTIONS_CACHE_KEY) ?? [];
-    mapped = fallback.filter((t) => !t.pending);
+    return fallback.filter((t) => !t.pending);
+  };
+
+  let mapped: Transaction[];
+  if (isBrowserOffline()) {
+    // No network interface at all — don't wait out a doomed request's timeout.
+    mapped = cachedFallback();
+  } else {
+    try {
+      const { data } = await axios.get<{ transactions: ApiTransaction[] }>("/transactions", {
+        params: query,
+      });
+      mapped = data.transactions.map(mapApiTransactionToUi);
+      writeOfflineCache(TRANSACTIONS_CACHE_KEY, mapped);
+    } catch (err) {
+      if (!isOfflineError(err)) throw err;
+      mapped = cachedFallback();
+    }
   }
 
   const queued = await listQueuedTransactions();
@@ -223,6 +232,11 @@ export const createTransaction = async (
   }
 
   if (payload.type === "income" || payload.type === "expense") {
+    if (isBrowserOffline()) {
+      // No network interface at all — queue immediately instead of waiting out
+      // a request that's guaranteed to time out first.
+      return { data: { transaction: await queueOfflineTransaction(walletId, payload) } };
+    }
     try {
       const { data } = await axios.post<{ transaction: ApiTransaction }>("/transactions", {
         bankAccountId: walletId,

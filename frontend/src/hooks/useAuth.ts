@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useQueryClient } from "@tanstack/react-query";
 import { isAxiosError } from "axios";
 import { me, logout as logoutRequest } from "@services/auth";
+import { isBrowserOffline } from "@lib/is-offline";
 import { tokenStore } from "@libs/axios";
 import { useAppDispatch, useAppSelector } from "@hooks/useTypedRedux";
 import { authClear, authStart, authSuccess } from "@store/slices/authSlice";
@@ -37,6 +38,14 @@ export const useHydrateUser = (): void => {
     if (!token) {
       dispatch(authClear());
       return;
+    }
+    if (isBrowserOffline()) {
+      // No network interface at all — don't wait out a doomed /auth/me call.
+      const cached = getCachedUser();
+      if (cached) {
+        dispatch(authSuccess(cached));
+        return;
+      }
     }
     dispatch(authStart());
     me()
