@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useEffect } from "react";
+import { useMemo, useEffect, useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
@@ -13,6 +13,7 @@ import FallBackState from "@components/common/FallBackState";
 import { useAccounts } from "@hooks/useAccounts";
 import { useCreateTransaction, useUpdateTransaction } from "@hooks/useTransactions";
 import { transactionSchema, type TransactionFormValues } from "@schemas/transaction";
+import { withTimeout } from "@lib/promise-timeout";
 import { CATEGORIES, EXPENSE_CATEGORIES, INCOME_CATEGORIES } from "@utils/categories";
 import { formatPKR } from "@utils/currency";
 import { cn } from "@utils/cn";
@@ -46,6 +47,7 @@ const TransactionForm = ({ defaultType = "expense", lockType = false, editing, o
   const wallets = accountsQuery.data ?? [];
   const create = useCreateTransaction();
   const update = useUpdateTransaction();
+  const [timedOut, setTimedOut] = useState(false);
 
   const {
     register,
@@ -132,43 +134,58 @@ const TransactionForm = ({ defaultType = "expense", lockType = false, editing, o
       .map((s) => s.trim())
       .filter(Boolean);
 
+    setTimedOut(false);
     try {
       if (editing && editing.type !== "transfer") {
-        await update.mutateAsync({
-          id: editing.id,
-          payload: {
+        await withTimeout(
+          update.mutateAsync({
+            id: editing.id,
+            payload: {
+              walletId: values.walletId,
+              type: values.type,
+              amount: values.amount,
+              category: values.category,
+              description: values.description?.trim() ? values.description.trim() : undefined,
+              date: dateIso,
+              tags,
+            },
+          }),
+          20_000,
+          "Saving the transaction"
+        );
+        toast.success("Transaction updated");
+      } else {
+        await withTimeout(
+          create.mutateAsync({
             walletId: values.walletId,
+            toWalletId: values.type === "transfer" ? values.toWalletId : undefined,
             type: values.type,
             amount: values.amount,
             category: values.category,
             description: values.description?.trim() ? values.description.trim() : undefined,
             date: dateIso,
             tags,
-          },
-        });
-        toast.success("Transaction updated");
-      } else {
-        await create.mutateAsync({
-          walletId: values.walletId,
-          toWalletId: values.type === "transfer" ? values.toWalletId : undefined,
-          type: values.type,
-          amount: values.amount,
-          category: values.category,
-          description: values.description?.trim() ? values.description.trim() : undefined,
-          date: dateIso,
-          tags,
-        });
+          }),
+          20_000,
+          "Saving the transaction"
+        );
         const meta = TYPE_META[values.type];
         toast.success(`Logged ${meta.label.toLowerCase()} · ${formatPKR(values.amount)}`);
       }
       onDone?.();
     } catch (err) {
+      // A timeout here still leaves the underlying mutation running in the
+      // background — flip timedOut so the button stops waiting on it and tells
+      // the user something's wrong instead of spinning forever unexplained.
+      if (err instanceof Error && err.message.includes("timed out")) {
+        setTimedOut(true);
+      }
       const msg = err instanceof Error ? err.message : "Couldn't save the transaction.";
       toast.error(msg);
     }
   };
 
-  const busy = create.isPending || update.isPending;
+  const busy = (create.isPending || update.isPending) && !timedOut;
   const hideTypeToggle = lockType || !!editing;
 
   return (
