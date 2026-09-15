@@ -88,7 +88,7 @@ export default function RegisterScreen() {
             render={({ field }) => (
               <TextField
                 label="Name"
-                placeholder="Aisha Khan"
+                placeholder="User name"
                 autoComplete="name"
                 leading={<Ionicons name="person-outline" size={16} color={colors.faint} />}
                 error={errors.name?.message}

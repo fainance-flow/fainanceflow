@@ -93,7 +93,7 @@ const AuthForm = ({ mode = "login", demoEmail, demoPassword }: Props) => {
       {mode === "register" && (
         <Input
           label="Name"
-          placeholder="Aisha Khan"
+          placeholder="User name"
           autoComplete="name"
           leading={<UserIcon className="h-3.5 w-3.5" />}
           error={errors.name?.message}
