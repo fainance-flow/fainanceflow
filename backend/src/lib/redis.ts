@@ -25,7 +25,7 @@ redis.on("connect", () => {
   console.log("[redis] connected");
 });
 
-export const REFRESH_TOKEN_TTL_SECONDS = 60 * 60 * 24 * 14; // 14 days
+export const REFRESH_TOKEN_TTL_SECONDS = 60 * 60 * 24 * 30; // 30 days — matches signRefresh's JWT expiry
 export const DASHBOARD_CACHE_TTL_SECONDS = 60 * 5; // 5 minutes
 export const RESET_TOKEN_TTL_SECONDS = 60 * 60; // 1 hour
 

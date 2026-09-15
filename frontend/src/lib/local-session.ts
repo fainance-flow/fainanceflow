@@ -1,3 +1,4 @@
+import { clearOfflineCache, readOfflineCache, writeOfflineCache } from "@lib/offline-read-cache";
 import type { User } from "@utils/types";
 
 export const LOCAL_SESSION_KEY = "ff-local-session";
@@ -26,26 +27,22 @@ export function clearLocalSession(): void {
   localStorage.removeItem(LOCAL_SESSION_KEY);
 }
 
-const CACHED_USER_KEY = "ff-cached-user";
+const CACHED_USER_KEY = "cached-user";
 
-/** Last known-good user, so a cold reload while offline can't verify /auth/me but can still trust who was logged in. */
+/**
+ * Last known-good user, so a cold reload while offline (which can't verify /auth/me)
+ * can still trust who was logged in. Expires after 30 days, same as the wallets/
+ * transactions read cache in offline-read-cache.ts — by then the refresh token itself
+ * would also be expired server-side, so there'd be nothing left to sync back to anyway.
+ */
 export function cacheUser(user: User): void {
-  if (typeof window === "undefined") return;
-  localStorage.setItem(CACHED_USER_KEY, JSON.stringify(user));
+  writeOfflineCache(CACHED_USER_KEY, user);
 }
 
 export function getCachedUser(): User | null {
-  if (typeof window === "undefined") return null;
-  const raw = localStorage.getItem(CACHED_USER_KEY);
-  if (!raw) return null;
-  try {
-    return JSON.parse(raw) as User;
-  } catch {
-    return null;
-  }
+  return readOfflineCache<User>(CACHED_USER_KEY) ?? null;
 }
 
 export function clearCachedUser(): void {
-  if (typeof window === "undefined") return;
-  localStorage.removeItem(CACHED_USER_KEY);
+  clearOfflineCache(CACHED_USER_KEY);
 }

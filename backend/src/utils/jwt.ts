@@ -20,7 +20,7 @@ export function signAccess(userId: string): string {
 
 export function signRefresh(userId: string): { token: string; jti: string } {
   const jti = crypto.randomUUID();
-  const opts: SignOptions = { expiresIn: "14d" };
+  const opts: SignOptions = { expiresIn: "30d" };
   const token = jwt.sign({ sub: userId, jti } satisfies RefreshPayload, REFRESH_SECRET, opts);
   return { token, jti };
 }
